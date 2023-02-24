@@ -1,3 +1,3 @@
 package ru.blays.timetable
 
-class cellModel(val disc: String, val auditory: String, val prepod: String)
+class cellModel(val subject: String, val auditory: String, val lecturer: String)

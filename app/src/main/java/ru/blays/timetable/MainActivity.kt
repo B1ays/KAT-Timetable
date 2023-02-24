@@ -1,85 +1,70 @@
 package ru.blays.timetable
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.FrameLayout
-import android.widget.FrameLayout.LayoutParams
+import android.util.Log
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.select.Elements
+import ru.blays.timetable.SQL.DbManager
 import java.io.IOException
 
+lateinit var dbManager: DbManager
 lateinit var doc: Document
 lateinit var tr: Elements
 var newDay: Boolean = false
-/*lateinit var resultView: TextView*/
-var timeTable: ArrayList<String> = ArrayList()
+var day: Int? = null
+/*var days: ArrayList<String> = ArrayList()
+var dates: ArrayList<String> = ArrayList()*/
+var subjectInfo: ArrayList<cellModel> = ArrayList()
+
+lateinit var resultView: TextView
 lateinit var scroll: LinearLayout
-lateinit var frame: FrameLayout
-lateinit var list: TextView
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         getWeb()
-        /*resultView = findViewById(R.id.text)*/
-        scroll = findViewById(R.id.scroll)
-
-        frame = FrameLayout(this)
-        list = TextView(this)
-
-        frame.setBackgroundResource(R.drawable.card_background)
-        frame.setPadding(12, 12, 12, 12)
-        frame.layoutParams = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
+        resultView = findViewById(R.id.resultView)
+        dbManager = DbManager(this)
 
         /*list.setTextColor(R.color.white)*/
 
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        dbManager.closeDB()
+    }
+
     private fun parseHTML() {
         tr = doc.select("table.inf").select("tr")
+        dbManager.openDB()
+        day = 1
 
         for (cell in tr) {
-            if (cell.select(".hd0").toString() != "") {
-                /*Log.d("parseLog", "\n" + "new line")*/
-                /*resultView.append("\n")*/
-            } else if (cell.select(".hd").select("[rowspan=7]").toString() != "") {
-                /*val cl = cell.text()*/
-                /*Log.d("parseLog", cl)*/
-                /*resultView.append(cl + "\n")*/
-            } else if (cell.select(".ur").toString() != "") {
-                val cl = cell.select(".z1").text() + " | " + cell.select(".z2").text() + " | " + cell.select(".z3").text()
-                /*Log.d("parsLog", cl)*/
-                timeTable.add(cl)
-                /*resultView.append(cl + "\n")*/
+            if (cell.select(".hd").select("[rowspan=7]").toString() != "") {
+                val dt = cell.select(".hd").select("[rowspan=7]").text()
+                dbManager.insertToDB(dt, day!!)
+                Log.d("parsLog", dt)
+                day = day!! + 1
+            } else if ((cell.select(".ur").toString() != "") && (newDay)) {
+                val si = cellModel(cell.select(".z1").text(), cell.select(".z2").text(), cell.select(".z3").text())
+                val position = cell.select(".hd").text()
+                subjectInfo.add(si)
+                Log.d("parsLog", position + ") " + si.subject + "\n" + si.lecturer + " | " + si.auditory)
             }
+
         }
 
-        try {
-            for (i in timeTable.indices) {
-                val ls = list
-                ls.text = timeTable[i]
-                scroll.addView(ls, i)
-            }
-        } catch (_: java.lang.IllegalStateException) { }
-
-
-        /*list.text = timeTable[1].toString()
-        val list1 = list
-        scroll.addView(list1, 0)*/
-
-        /* tr.forEach {
-            if ((it.select(".hd0") != null) && (it.select(".hd0").toString() != "")) {
-                Log.d("parseLog", "\n" + "new line")
-                resultView.append("\n")
-            } else if ((it.select(".ur") != null) && (it.select(".ur").toString() != "")) {
-                val cell = it.select(".z1").text() + " | " + it.select(".z2").text() + " | " + it.select(".z3").text()
-                Log.d("parsLog", cell)
-                resultView.append(cell + "\n")
-            }*/
+        val data = dbManager.readDBCell()
+        data.forEach {
+            resultView.append(it)
+            resultView.append("\n")
+        }
     }
 
     private fun getWeb() {
