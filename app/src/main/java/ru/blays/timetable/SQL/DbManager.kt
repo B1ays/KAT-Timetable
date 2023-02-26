@@ -3,6 +3,7 @@ package ru.blays.timetable.SQL
 import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
+import ru.blays.timetable.cellModel
 
 public class DbManager(context: Context) {
     val dbHelper = DbHelper(context)
@@ -12,20 +13,31 @@ public class DbManager(context: Context) {
         db = dbHelper.writableDatabase
     }
 
-    fun insertToDB(day: String, link: Int) {
+    fun insertToMainTable(day: String, link: Int) {
         val values = ContentValues().apply() {
-            put(DbNameClass.COLUMN_NAME_DAY, day)
-            put(DbNameClass.COLUMN_SUBJECT_LINK, link)
+            put(DBNameMainTableClass.COLUMN_NAME_DAY, day)
+            put(DBNameMainTableClass.COLUMN_SUBJECT_LINK, link)
         }
-        db?.insert(DbNameClass.TABLE_NAME, null, values)
+        db?.insert(DBNameMainTableClass.TABLE_NAME, null, values)
     }
 
-    fun readDBCell(): ArrayList<String> {
+    fun insertToSecondaryTable(cellModel: cellModel) {
+        val values = ContentValues().apply() {
+            put(DBNameSecondaryTableClass.COLUMN_SUBJECT_POSITION, cellModel.position)
+            put(DBNameSecondaryTableClass.COLUMN_SUBJECT_NAME, cellModel.subjectName)
+            put(DBNameSecondaryTableClass.COLUMN_SUBJECT_LECTURER, cellModel.lecturer)
+            put(DBNameSecondaryTableClass.COLUMN_SUBJECT_AUDITORY, cellModel.auditory)
+            put("key", cellModel.foreignKey)
+        }
+        db?.insert(DBNameSecondaryTableClass.TABLE_NAME, null, values)
+    }
+
+    fun readDBCell(table : String, columnName: String): ArrayList<String> {
         val list = ArrayList<String>()
-            val cursor = db?.query(DbNameClass.TABLE_NAME, null, null, null, null, null, null)
+            val cursor = db?.query(table, null, null, null, null, null, null)
 
         while (cursor?.moveToNext()!!) {
-            val cellContent = cursor.getString(cursor.getColumnIndexOrThrow(DbNameClass.COLUMN_NAME_DAY))
+            val cellContent = cursor.getString(cursor.getColumnIndexOrThrow(columnName))
             list.add(cellContent)
         }
         cursor?.close()
@@ -35,6 +47,13 @@ public class DbManager(context: Context) {
 
     fun closeDB() {
         dbHelper.close()
+    }
+
+    fun reCreateDB() {
+        db?.execSQL(DBNameSecondaryTableClass.DELETE_TABLE)
+        db?.execSQL((DBNameSecondaryTableClass.CREATE_TABLE))
+        db?.execSQL(DBNameMainTableClass.DELETE_TABLE)
+        db?.execSQL(DBNameMainTableClass.CREATE_TABLE)
     }
 
 }
