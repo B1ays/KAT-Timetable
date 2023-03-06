@@ -40,7 +40,7 @@ public class DbManager(context: Context) {
             val cellContent = cursor.getString(cursor.getColumnIndexOrThrow(columnName))
             list.add(cellContent)
         }
-        cursor?.close()
+        cursor.close()
 
         return list
     }
@@ -55,5 +55,30 @@ public class DbManager(context: Context) {
         db?.execSQL(DBNameMainTableClass.DELETE_TABLE)
         db?.execSQL(DBNameMainTableClass.CREATE_TABLE)
     }
+
+    /*fun rowCount(): Int {
+        Log.d("dbLog", "get count")
+        return 14
+
+    }*/
+
+    /*fun readFromTableUsingKey(currentKey: Int, table : String): ArrayList<cellModel> {
+        val list = ArrayList<cellModel>()
+        val cursor = db?.query(table, null, "key = $currentKey", null, null, null, null)
+
+        while (cursor?.moveToNext()!!) {
+            val positionIndex = cursor.getColumnIndexOrThrow(DBNameSecondaryTableClass.COLUMN_SUBJECT_POSITION)
+            val nameIndex = cursor.getColumnIndexOrThrow(DBNameSecondaryTableClass.COLUMN_SUBJECT_NAME)
+            val lecturerIndex = cursor.getColumnIndexOrThrow(DBNameSecondaryTableClass.COLUMN_SUBJECT_LECTURER)
+            val auditoryIndex = cursor.getColumnIndexOrThrow(DBNameSecondaryTableClass.COLUMN_SUBJECT_AUDITORY)
+
+            val cellContent = cellModel(cursor.getString(positionIndex), cursor.getString(nameIndex), cursor.getString(lecturerIndex), cursor.getString(auditoryIndex), 0)
+            list.add(cellContent)
+            Log.d("dbLog", cellContent.toString())
+        }
+        cursor?.close()
+
+        return list
+    }*/
 
 }

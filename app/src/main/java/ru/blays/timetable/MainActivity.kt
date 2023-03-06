@@ -1,36 +1,37 @@
 package ru.blays.timetable
 
 import android.os.Bundle
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.select.Elements
-import ru.blays.timetable.SQL.DBNameMainTableClass
+import ru.blays.timetable.RecyclerClasses.TimeTableRecyclerAdapter
 import ru.blays.timetable.SQL.DBNameSecondaryTableClass
 import ru.blays.timetable.SQL.DbManager
+import ru.blays.timetable.databinding.ActivityMainBinding
 import java.io.IOException
 
 lateinit var dbManager: DbManager
 lateinit var doc: Document
 lateinit var tr: Elements
-/*var days: ArrayList<String> = ArrayList()
-var dates: ArrayList<String> = ArrayList()*/
-var subjectInfo: ArrayList<cellModel> = ArrayList()
 
-lateinit var resultView: TextView
-lateinit var scroll: LinearLayout
+lateinit var adapter: TimeTableRecyclerAdapter
+lateinit var binding: ActivityMainBinding
+
+private var cellList: MutableList<String> = mutableListOf()
+
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         getWeb()
-        resultView = findViewById(R.id.resultView)
+
         dbManager = DbManager(this)
 
-        /*list.setTextColor(R.color.white)*/
 
     }
 
@@ -57,20 +58,10 @@ class MainActivity : AppCompatActivity() {
                 dbManager.insertToSecondaryTable(si)
                 /*Log.d("parsLog", si.position + ") " + si.subjectName + "\n" + si.lecturer + " | " + si.auditory)*/
             }
-
         }
+        Log.d("dbLog", "Initialize Recycler")
 
-        var data = dbManager.readDBCell(DBNameMainTableClass.TABLE_NAME, DBNameMainTableClass.COLUMN_NAME_DAY)
-        data.forEach {
-            resultView.append(it)
-            resultView.append("\n")
-        }
-
-        data = dbManager.readDBCell(DBNameSecondaryTableClass.TABLE_NAME, DBNameSecondaryTableClass.COLUMN_SUBJECT_NAME)
-        data.forEach {
-            resultView.append(it)
-            resultView.append("\n")
-        }
+        setUpAdapter()
     }
 
     private fun getWeb() {
@@ -79,9 +70,21 @@ class MainActivity : AppCompatActivity() {
                 doc = Jsoup.connect("http://service.aviakat.ru:4256/cg60.htm").get()
             } catch (_: IOException) {
             }
+            Log.d("dbLog", "HTML parsed")
             runOnUiThread {
                 parseHTML()
             }
         }.start()
     }
+    private fun setUpAdapter() {
+
+        cellList = dbManager.readDBCell(DBNameSecondaryTableClass.TABLE_NAME, DBNameSecondaryTableClass.COLUMN_SUBJECT_NAME)
+
+        adapter = TimeTableRecyclerAdapter(this, cellList)
+
+        binding.timetableRV.adapter = adapter
+        binding.timetableRV.layoutManager = LinearLayoutManager(this)
+    }
+
+
 }

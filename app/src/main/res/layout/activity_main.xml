@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,15 +9,9 @@
     android:padding="12dp"
     tools:context=".MainActivity">
 
-    <LinearLayout
-        android:id="@+id/scroll"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/timetableRV"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/resultView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </LinearLayout>
-</ScrollView>
+        android:layout_height="match_parent"
+        tools:listitem="@layout/recycler_item" />
+</FrameLayout>
