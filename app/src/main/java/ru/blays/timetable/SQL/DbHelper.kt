@@ -7,7 +7,8 @@ import android.database.sqlite.SQLiteOpenHelper
 class DbHelper(context: Context) : SQLiteOpenHelper(context, DBNameMainTableClass.DATABASE_NAME, null, DBNameMainTableClass.DB_VERSION) {
 
     override fun onCreate(db: SQLiteDatabase?) {
-        /*db?.execSQL(DBNameMainTableClass.CREATE_TABLE)*/
+        db?.execSQL(DBNameMainTableClass.CREATE_TABLE)
+        db?.execSQL(DBNameSecondaryTableClass.CREATE_TABLE)
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
