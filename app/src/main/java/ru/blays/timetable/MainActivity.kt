@@ -77,16 +77,31 @@ class MainActivity : AppCompatActivity() {
                 day += 1
                 val dt = cell.select(".hd").select("[rowspan=7]").text()
                 dbManager.insertToMainTable(dt, day)
-                if (cell.select(".ur").toString() != "") {
-                    val si = SecTableModel(cell.select(".hd")[1].text() ,cell.select(".z1").text(), cell.select(".z2").text(), cell.select(".z3").text(), day)
 
-                    dbManager.insertToSecondaryTable(si)
+                val cl = cell.select(".ur")
+                if (cl.toString() != "") {
+                    if (cl.count() > 1) {
+                        val si1 = SecTableModel(cell.select(".hd")[1].text() + "\n1 п/г" ,cl[0].select(".z1").text(), cl[0].select(".z2").text(), cl[0].select(".z3").text(), day)
+                        val si2 = SecTableModel(cell.select(".hd")[1].text() + "\n2 п/г" ,cl[1].select(".z1").text(), cl[1].select(".z2").text(), cl[1].select(".z3").text(), day)
+                        dbManager.insertToSecondaryTable(si1)
+                        dbManager.insertToSecondaryTable(si2)
+                    } else {
+                        val si = SecTableModel(cell.select(".hd")[1].text() + "\n" ,cell.select(".z1").text(), cell.select(".z2").text(), cell.select(".z3").text(), day)
+                        dbManager.insertToSecondaryTable(si)
+                    }
                 }
 
             } else if (cell.select(".ur").toString() != "") {
-                val si = SecTableModel(cell.select(".hd").text() ,cell.select(".z1").text(), cell.select(".z2").text(), cell.select(".z3").text(), day)
-
+                val cl = cell.select(".ur")
+                if (cl.count() > 1) {
+                    val si1 = SecTableModel(cell.select(".hd").text() + "\n1 п/г" ,cl[0].select(".z1").text(), cl[0].select(".z2").text(), cl[0].select(".z3").text(), day)
+                    val si2 = SecTableModel(cell.select(".hd").text() + "\n2 п/г" ,cl[1].select(".z1").text(), cl[1].select(".z2").text(), cl[1].select(".z3").text(), day)
+                    dbManager.insertToSecondaryTable(si1)
+                    dbManager.insertToSecondaryTable(si2)
+                } else {
+                val si = SecTableModel(cell.select(".hd").text() + "\n" ,cell.select(".z1").text(), cell.select(".z2").text(), cell.select(".z3").text(), day)
                 dbManager.insertToSecondaryTable(si)
+                    }
             }
         }
         initRV()
@@ -94,7 +109,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun getWeb() {
 
-        Thread {
+        Thread {1
             try {
                 val doc = Jsoup.connect("http://service.aviakat.ru:4256/cg60.htm").get()
                 runOnUiThread {parseHTML(doc)}
