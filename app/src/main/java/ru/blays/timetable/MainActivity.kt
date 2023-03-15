@@ -7,34 +7,42 @@ import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.xwray.groupie.GroupieAdapter
-import org.jsoup.Jsoup
-import org.jsoup.nodes.Document
-import org.jsoup.select.Elements
+import io.objectbox.Box
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import ru.blays.timetable.ObjectBox.DaysInTimeTableBox
+import ru.blays.timetable.ObjectBox.GroupListBox
+import ru.blays.timetable.ObjectBox.ObjectBox
+import ru.blays.timetable.ParseUtils.HTMLParser
 import ru.blays.timetable.SQL.DbManager
+import ru.blays.timetable.WebUtils.HTMLClient
 import ru.blays.timetable.databinding.ActivityMainBinding
-import java.io.IOException
 
 lateinit var dbManager: DbManager
-lateinit var tr: Elements
-
+lateinit var htmlClient: HTMLClient
+lateinit var htmlParser: HTMLParser
 lateinit var binding: ActivityMainBinding
+
+private val objectBox = ObjectBox
+
+lateinit var groupListBox: Box<GroupListBox>
+lateinit var daysListBox: Box<DaysInTimeTableBox>
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        dbManager = DbManager(this)
         setContentView(binding.root)
+        objectBox.init(this)
+        groupListBox = objectBox.store.boxFor(GroupListBox::class.java)
+        daysListBox = objectBox.store.boxFor(DaysInTimeTableBox::class.java)
+        htmlClient = HTMLClient()
+        htmlParser = HTMLParser()
         val toolbar = binding.toolbar
         setSupportActionBar(toolbar)
 
-        dbManager.openDB()
-
-        if (dbManager.tableExists()) {
-            initRV()
-        } else {
-            dbManager.reCreateDB()
-            getWeb()
+        GlobalScope.launch {
+            htmlParser.createMainDB()
         }
     }
 
@@ -44,15 +52,23 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        dbManager.reCreateDB()
-        getWeb()
+        /*dbManager.reCreateDB()*/
+        /*getHTTP("cg60.htm")*/
         return true
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        dbManager.closeDB()
+        /*dbManager.closeDB()*/
+    }
+
+
+    suspend fun parseHTTP() {
+        val doc = htmlClient.getHTTP("cg60.htm")
+        htmlParser.parseHTML(this@MainActivity, doc)
+        runOnUiThread { initRV() }
     }
 
     private fun initRV() {
@@ -66,56 +82,5 @@ class MainActivity : AppCompatActivity() {
         }
         val alertCreate = alertBuilder.create()
         alertCreate.show()
-    }
-
-    private fun parseHTML(doc: Document) {
-        tr = doc.select("table.inf").select("tr")
-        var day = 0
-
-        for (cell in tr) {
-            if (cell.select(".hd").select("[rowspan=7]").toString() != "") {
-                day += 1
-                val dt = cell.select(".hd").select("[rowspan=7]").text()
-                dbManager.insertToMainTable(dt, day)
-
-                val cl = cell.select(".ur")
-                if (cl.toString() != "") {
-                    if (cl.count() > 1) {
-                        val si1 = SecTableModel(cell.select(".hd")[1].text() + "\n1 п/г" ,cl[0].select(".z1").text(), cl[0].select(".z2").text(), cl[0].select(".z3").text(), day)
-                        val si2 = SecTableModel(cell.select(".hd")[1].text() + "\n2 п/г" ,cl[1].select(".z1").text(), cl[1].select(".z2").text(), cl[1].select(".z3").text(), day)
-                        dbManager.insertToSecondaryTable(si1)
-                        dbManager.insertToSecondaryTable(si2)
-                    } else {
-                        val si = SecTableModel(cell.select(".hd")[1].text() + "\n" ,cell.select(".z1").text(), cell.select(".z2").text(), cell.select(".z3").text(), day)
-                        dbManager.insertToSecondaryTable(si)
-                    }
-                }
-
-            } else if (cell.select(".ur").toString() != "") {
-                val cl = cell.select(".ur")
-                if (cl.count() > 1) {
-                    val si1 = SecTableModel(cell.select(".hd").text() + "\n1 п/г" ,cl[0].select(".z1").text(), cl[0].select(".z2").text(), cl[0].select(".z3").text(), day)
-                    val si2 = SecTableModel(cell.select(".hd").text() + "\n2 п/г" ,cl[1].select(".z1").text(), cl[1].select(".z2").text(), cl[1].select(".z3").text(), day)
-                    dbManager.insertToSecondaryTable(si1)
-                    dbManager.insertToSecondaryTable(si2)
-                } else {
-                val si = SecTableModel(cell.select(".hd").text() + "\n" ,cell.select(".z1").text(), cell.select(".z2").text(), cell.select(".z3").text(), day)
-                dbManager.insertToSecondaryTable(si)
-                    }
-            }
-        }
-        initRV()
-    }
-
-    private fun getWeb() {
-
-        Thread {1
-            try {
-                val doc = Jsoup.connect("http://service.aviakat.ru:4256/cg60.htm").get()
-                runOnUiThread {parseHTML(doc)}
-            } catch (_: IOException) {
-                runOnUiThread {showAlertDialog()}
-            }
-        }.start()
     }
 }

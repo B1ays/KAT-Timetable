@@ -5,9 +5,9 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.util.Log
 import com.xwray.groupie.viewbinding.BindableItem
-import ru.blays.timetable.Items.MainCardContainer
-import ru.blays.timetable.Items.RowItem
-import ru.blays.timetable.SecTableModel
+import ru.blays.timetable.Models.SecTableModel
+import ru.blays.timetable.RecyclerViewItems.MainCardContainer
+import ru.blays.timetable.RecyclerViewItems.RowItem
 class DbManager(context: Context) {
     private val dbHelper = DbHelper(context)
     private var db: SQLiteDatabase? = null

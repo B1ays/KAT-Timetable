@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id("io.objectbox")
 }
 
 android {
@@ -36,6 +37,10 @@ android {
     buildFeatures {
         viewBinding true
     }
+
+    packagingOptions {
+        exclude 'MMETA-INF/versions/9/previous-compilation-data.bin'
+    }
 }
 
 dependencies {
@@ -45,15 +50,31 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'org.jsoup:jsoup:1.15.4'
     implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
     testImplementation 'junit:junit:4.13.2'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.0'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.0'
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
-    implementation "com.github.lisawray.groupie:groupie:+"
-    implementation "com.github.lisawray.groupie:groupie-viewbinding:+"
+    // Jsoup
+    implementation 'org.jsoup:jsoup:1.15.4'
+
+    // Groupie
+    implementation "com.github.lisawray.groupie:groupie:2.10.1"
+    implementation "com.github.lisawray.groupie:groupie-viewbinding:2.10.1"
+
+    // OkHTTP
+    implementation 'com.squareup.okhttp3:okhttp:4.10.0'
+
+    // EventBus
+    implementation 'org.greenrobot:eventbus:3.3.1'
+
+    //ObjectBox
+    implementation 'io.objectbox:objectbox-kotlin:3.5.1'
+    implementation 'io.objectbox:objectbox-android:3.5.1'
+
 }
