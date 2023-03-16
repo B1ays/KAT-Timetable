@@ -8,7 +8,7 @@ import io.objectbox.relation.ToOne
 data class DaysInTimeTableBox(
     @Id var id: Long = 0,
     var day: String = "",
-    var href: String = "",
+    var href: String = ""
     ) {
-    lateinit var groupListBox: ToOne<GroupListBox>
-}
+    lateinit var group: ToOne<GroupListBox>
+    }

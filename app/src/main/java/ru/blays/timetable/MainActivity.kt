@@ -41,8 +41,25 @@ class MainActivity : AppCompatActivity() {
         val toolbar = binding.toolbar
         setSupportActionBar(toolbar)
 
+        val daysInTimeTableBox = DaysInTimeTableBox()
+
         GlobalScope.launch {
             htmlParser.createMainDB()
+
+
+            /*val g = groupListBox.get(2)
+
+            for (d in g.days) {
+                Log.d("getLog", d.toString())
+            }*/
+
+
+
+
+            /*val days = daysInTimeTableBox.groupListBox.target
+
+            Log.d("getLog", days.groupCode)*/
+
         }
     }
 
@@ -65,11 +82,11 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    suspend fun parseHTTP() {
+    /*suspend fun parseHTTP() {
         val doc = htmlClient.getHTTP("cg60.htm")
         htmlParser.parseHTML(this@MainActivity, doc)
         runOnUiThread { initRV() }
-    }
+    }*/
 
     private fun initRV() {
         binding.mainRV.adapter = GroupieAdapter().apply { addAll(dbManager.readDBCell()) }

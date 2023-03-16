@@ -1,0 +1,78 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:3763128646629004180",
+      "lastPropertyId": "5:5784136717887245451",
+      "name": "DaysInTimeTableBox",
+      "properties": [
+        {
+          "id": "1:4817081038381190334",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:3411343781944776466",
+          "name": "day",
+          "type": 9
+        },
+        {
+          "id": "3:6142186444371599054",
+          "name": "href",
+          "type": 9
+        },
+        {
+          "id": "5:5784136717887245451",
+          "name": "groupId",
+          "indexId": "2:912449943218062691",
+          "type": 11,
+          "flags": 520,
+          "relationTarget": "GroupListBox"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "2:8911913254179407102",
+      "lastPropertyId": "3:1071818763775861943",
+      "name": "GroupListBox",
+      "properties": [
+        {
+          "id": "1:2024465096366045025",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:648071929266864473",
+          "name": "groupCode",
+          "type": 9
+        },
+        {
+          "id": "3:1071818763775861943",
+          "name": "href",
+          "type": 9
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "2:8911913254179407102",
+  "lastIndexId": "2:912449943218062691",
+  "lastRelationId": "0:0",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [
+    3570378513034223823
+  ],
+  "retiredPropertyUids": [
+    2528631414749110670
+  ],
+  "retiredRelationUids": [],
+  "version": 1
+}
