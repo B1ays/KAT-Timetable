@@ -5,7 +5,7 @@ import kotlinx.coroutines.coroutineScope
 import org.jsoup.select.Elements
 import ru.blays.timetable.ObjectBox.Boxes.DaysInTimeTableBox
 import ru.blays.timetable.ObjectBox.Boxes.GroupListBox
-import ru.blays.timetable.ObjectBox.GroupListBox_
+import ru.blays.timetable.ObjectBox.Boxes.GroupListBox_
 import ru.blays.timetable.daysListBox
 import ru.blays.timetable.groupListBox
 import ru.blays.timetable.htmlClient

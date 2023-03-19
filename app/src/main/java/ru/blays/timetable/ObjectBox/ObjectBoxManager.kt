@@ -6,9 +6,11 @@ import io.objectbox.Box
 import io.objectbox.BoxStore
 import ru.blays.timetable.ObjectBox.Boxes.DaysInTimeTableBox
 import ru.blays.timetable.ObjectBox.Boxes.GroupListBox
+import ru.blays.timetable.ObjectBox.Boxes.GroupListBox_
+import ru.blays.timetable.ObjectBox.Boxes.MyObjectBox
 import ru.blays.timetable.groupListBox
 
-object ObjectBoxManager {
+class ObjectBoxManager {
     lateinit var store: BoxStore
         private set
 
