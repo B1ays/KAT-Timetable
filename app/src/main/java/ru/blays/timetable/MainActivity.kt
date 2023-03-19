@@ -10,9 +10,9 @@ import com.xwray.groupie.GroupieAdapter
 import io.objectbox.Box
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import ru.blays.timetable.ObjectBox.DaysInTimeTableBox
-import ru.blays.timetable.ObjectBox.GroupListBox
-import ru.blays.timetable.ObjectBox.ObjectBox
+import ru.blays.timetable.ObjectBox.Boxes.DaysInTimeTableBox
+import ru.blays.timetable.ObjectBox.Boxes.GroupListBox
+import ru.blays.timetable.ObjectBox.ObjectBoxManager
 import ru.blays.timetable.ParseUtils.HTMLParser
 import ru.blays.timetable.SQL.DbManager
 import ru.blays.timetable.WebUtils.HTMLClient
@@ -23,8 +23,7 @@ lateinit var htmlClient: HTMLClient
 lateinit var htmlParser: HTMLParser
 lateinit var binding: ActivityMainBinding
 
-private val objectBox = ObjectBox
-
+lateinit var objectBoxManager: ObjectBoxManager
 lateinit var groupListBox: Box<GroupListBox>
 lateinit var daysListBox: Box<DaysInTimeTableBox>
 
@@ -33,9 +32,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        objectBox.init(this)
-        groupListBox = objectBox.store.boxFor(GroupListBox::class.java)
-        daysListBox = objectBox.store.boxFor(DaysInTimeTableBox::class.java)
+        objectBoxManager = ObjectBoxManager
+        objectBoxManager.init(this)
+        groupListBox = objectBoxManager.store.boxFor(GroupListBox::class.java)
+        daysListBox = objectBoxManager.store.boxFor(DaysInTimeTableBox::class.java)
         htmlClient = HTMLClient()
         htmlParser = HTMLParser()
         val toolbar = binding.toolbar
@@ -45,21 +45,6 @@ class MainActivity : AppCompatActivity() {
 
         GlobalScope.launch {
             htmlParser.createMainDB()
-
-
-            /*val g = groupListBox.get(2)
-
-            for (d in g.days) {
-                Log.d("getLog", d.toString())
-            }*/
-
-
-
-
-            /*val days = daysInTimeTableBox.groupListBox.target
-
-            Log.d("getLog", days.groupCode)*/
-
         }
     }
 
@@ -71,22 +56,14 @@ class MainActivity : AppCompatActivity() {
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        /*dbManager.reCreateDB()*/
-        /*getHTTP("cg60.htm")*/
+
         return true
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        /*dbManager.closeDB()*/
     }
 
-
-    /*suspend fun parseHTTP() {
-        val doc = htmlClient.getHTTP("cg60.htm")
-        htmlParser.parseHTML(this@MainActivity, doc)
-        runOnUiThread { initRV() }
-    }*/
 
     private fun initRV() {
         binding.mainRV.adapter = GroupieAdapter().apply { addAll(dbManager.readDBCell()) }

@@ -1,4 +1,4 @@
-package ru.blays.timetable.ObjectBox
+package ru.blays.timetable.ObjectBox.Boxes
 
 import io.objectbox.annotation.Entity
 import io.objectbox.annotation.Id

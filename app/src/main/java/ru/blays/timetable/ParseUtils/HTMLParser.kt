@@ -3,12 +3,13 @@ package ru.blays.timetable.ParseUtils
 import android.util.Log
 import kotlinx.coroutines.coroutineScope
 import org.jsoup.select.Elements
-import ru.blays.timetable.ObjectBox.DaysInTimeTableBox
-import ru.blays.timetable.ObjectBox.GroupListBox
+import ru.blays.timetable.ObjectBox.Boxes.DaysInTimeTableBox
+import ru.blays.timetable.ObjectBox.Boxes.GroupListBox
 import ru.blays.timetable.ObjectBox.GroupListBox_
 import ru.blays.timetable.daysListBox
 import ru.blays.timetable.groupListBox
 import ru.blays.timetable.htmlClient
+import ru.blays.timetable.objectBoxManager
 
 lateinit var tr: Elements
 /*lateinit var dbManager: DbManager*/
@@ -23,8 +24,7 @@ class HTMLParser {
             return@coroutineScope
         }
 
-        groupListBox.removeAll()
-        daysListBox.removeAll()
+        objectBoxManager.deleteBox(arrayListOf(daysListBox, groupListBox))
 
         tr.forEach { it1 ->
             if (it1.select(".ur").toString() != "") {
@@ -32,32 +32,36 @@ class HTMLParser {
                 val href = gr.attr("href")
                 val groupResult = GroupListBox(groupCode = gr.text(), href = href)
                 //groupListBox.put(groupResult)
-                //Log.d("pasreLog", group.text() + " | " + href)
-                val groupTimeTable = htmlClient.getHTTP(href)
-                val rows = groupTimeTable.select("table.inf").select("tr")
-                rows.forEach { it2 ->
-                    if (it2.select(".hd").select("[rowspan=7]").toString() != "") {
-                        // Log.d("pasreLog", it2.select(".hd").select("[rowspan=7]").text() + " | " + href)
-                        val d = DaysInTimeTableBox(
-                            day = it2.select(".hd").select("[rowspan=7]").text(),
-                            href = href
-                        )/*.apply { group.target = groupResult }
-                        daysListBox.put(d)*/
-                        groupResult.days.add(d)
-                    }
-                }
-                Log.d("addLog", groupResult.toString())
+                Log.d("pasreLog", gr.text() + " | " + href)
                 groupListBox.put(groupResult)
             }
         }
-        /*Log.d("getLog", groupListBox.all.toString())
-        Log.d("getLog", daysListBox.all.toString())*/
+//        Log.d("getLog", groupListBox.all.toString())
+        getDaysFromHTML("cg60.htm")
+    }
+
+    private suspend fun getDaysFromHTML(href: String) {
+        val groupTimeTable = htmlClient.getHTTP(href)
+        val htmlRows = groupTimeTable.select("table.inf").select("tr")
+        htmlRows.forEach {
+            if (it.select(".hd").select("[rowspan=7]").toString() != "") {
+                // Log.d("pasreLog", it2.select(".hd").select("[rowspan=7]").text() + " | " + href)
+                val d = DaysInTimeTableBox(
+                    day = it.select(".hd").select("[rowspan=7]").text(),
+                    href = href
+                )
+                objectBoxManager.insertToDaysBox(href, d)
+            }
+        }
+        Log.d("getLog", groupListBox.all.toString())
+        Log.d("getLog", daysListBox.all.toString())
         val builder = groupListBox.query(GroupListBox_.href.equal("cg60.htm")).build().find()
         for (i in builder[0].days.indices) {
             Log.d("getLog", builder[0].days[i].day)
         }
 
-//        Log.d("getLog", groupListBox.all.toString())
+//        Log.d("addLog", groupResult.toString())
+//        groupListBox.put(groupResult)
     }
 }
 
