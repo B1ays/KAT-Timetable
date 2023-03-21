@@ -18,7 +18,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="ТЭ-31" />
+        app:title="Главная" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/content"

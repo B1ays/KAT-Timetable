@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:3763128646629004180",
-      "lastPropertyId": "4:2528631414749110670",
+      "lastPropertyId": "5:5784136717887245451",
       "name": "DaysInTimeTableBox",
       "properties": [
         {
@@ -25,9 +25,9 @@
           "type": 9
         },
         {
-          "id": "4:2528631414749110670",
-          "name": "groupListBoxId",
-          "indexId": "1:3570378513034223823",
+          "id": "5:5784136717887245451",
+          "name": "groupId",
+          "indexId": "2:912449943218062691",
           "type": 11,
           "flags": 520,
           "relationTarget": "GroupListBox"
@@ -61,14 +61,18 @@
     }
   ],
   "lastEntityId": "2:8911913254179407102",
-  "lastIndexId": "1:3570378513034223823",
+  "lastIndexId": "2:912449943218062691",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
   "modelVersion": 5,
   "modelVersionParserMinimum": 5,
   "retiredEntityUids": [],
-  "retiredIndexUids": [],
-  "retiredPropertyUids": [],
+  "retiredIndexUids": [
+    3570378513034223823
+  ],
+  "retiredPropertyUids": [
+    2528631414749110670
+  ],
   "retiredRelationUids": [],
   "version": 1
 }

@@ -8,6 +8,7 @@ import ru.blays.timetable.ObjectBox.Boxes.DaysInTimeTableBox
 import ru.blays.timetable.ObjectBox.Boxes.GroupListBox
 import ru.blays.timetable.ObjectBox.Boxes.GroupListBox_
 import ru.blays.timetable.ObjectBox.Boxes.MyObjectBox
+import ru.blays.timetable.RecyclerViewItems.SimpleListItem
 import ru.blays.timetable.groupListBox
 
 class ObjectBoxManager {
@@ -20,7 +21,7 @@ class ObjectBoxManager {
             .build()
     }
 
-    fun deleteBox(listOfBox: ArrayList<Box<*>>) {
+    fun deleteBox(listOfBox: List<Box<*>>) {
         listOfBox.forEach {
             it.removeAll()
         }
@@ -38,8 +39,11 @@ class ObjectBoxManager {
         groupListBox.put(groupRow)
     }
 
-    fun getGroupListFromBox(): MutableList<GroupListBox>? {
-        return groupListBox.all
+    fun getGroupListFromBox(): MutableList<SimpleListItem> {
+        val groupList = mutableListOf<SimpleListItem>()
+        val get = groupListBox.all
+        for (i in get.indices) { groupList.add(SimpleListItem(groupCode = get[i].groupCode)) }
+        return groupList
     }
 
 

@@ -5,17 +5,17 @@
         android:id="@+id/item_1"
         android:enabled="true"
         android:icon="@drawable/baseline_home_24"
-        android:title="item 1" />
+        android:title="Главная" />
     <item
         android:id="@+id/item_2"
         android:enabled="true"
         android:icon="@drawable/baseline_star_border_24"
-        android:title="item 2" />
+        android:title="Избранное" />
 
     <item
         android:id="@+id/item_3"
         android:enabled="true"
         android:icon="@drawable/baseline_settings_24"
-        android:title="item 3" />
+        android:title="Настройки" />
 
 </menu>
