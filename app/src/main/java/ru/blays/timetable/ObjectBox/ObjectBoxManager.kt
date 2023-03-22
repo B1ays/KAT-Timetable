@@ -9,7 +9,7 @@ import ru.blays.timetable.ObjectBox.Boxes.GroupListBox
 import ru.blays.timetable.ObjectBox.Boxes.GroupListBox_
 import ru.blays.timetable.ObjectBox.Boxes.MyObjectBox
 import ru.blays.timetable.RecyclerViewItems.SimpleListItem
-import ru.blays.timetable.groupListBox
+import ru.blays.timetable.UI.groupListBox
 
 class ObjectBoxManager {
     lateinit var store: BoxStore
@@ -42,7 +42,8 @@ class ObjectBoxManager {
     fun getGroupListFromBox(): MutableList<SimpleListItem> {
         val groupList = mutableListOf<SimpleListItem>()
         val get = groupListBox.all
-        for (i in get.indices) { groupList.add(SimpleListItem(groupCode = get[i].groupCode)) }
+        for (i in get.indices) { groupList.add(SimpleListItem(groupCode = get[i].groupCode, onClick = {
+        })) }
         return groupList
     }
 

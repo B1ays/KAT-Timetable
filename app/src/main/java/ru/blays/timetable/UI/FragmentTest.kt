@@ -1,10 +1,12 @@
-package ru.blays.timetable
+package ru.blays.timetable.UI
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import ru.blays.timetable.databinding.FragmentTestBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -13,10 +15,10 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [week_timetable.newInstance] factory method to
+ * Use the [FragmentTest.newInstance] factory method to
  * create an instance of this fragment.
  */
-class week_timetable : Fragment() {
+class FragmentTest : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -33,9 +35,13 @@ class week_timetable : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_week_timetable, container, false)
+        val binding = FragmentTestBinding.inflate(inflater, container, false)
+        binding.testText.text = getParam()
+        Log.d("addLog", getParam()!!)
+        return binding.root
     }
+
+    private fun getParam(): String? = requireArguments().getString(ARG_PARAM1)
 
     companion object {
         /**
@@ -44,16 +50,18 @@ class week_timetable : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment week_timetable.
+         * @return A new instance of fragment FragmentTest.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            week_timetable().apply {
+            FragmentTest().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)
                 }
+                /*val testFragment = FragmentTest()
+                testFragment.arguments = arguments*/
             }
     }
 }

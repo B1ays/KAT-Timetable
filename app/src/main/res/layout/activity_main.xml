@@ -5,20 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#000000"
+    android:background="@color/background"
     android:fitsSystemWindows="false"
-    tools:context=".MainActivity">
+    tools:context=".UI.MainActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/Toolbar"
-        android:titleTextColor="@color/white"
+        android:titleTextColor="@color/textColorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="Главная" />
+        app:title="@string/Toolbar_MainScreen_title" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/content"
@@ -34,9 +34,9 @@
         android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#2B2B2B"
+        android:background="@color/foreground"
         app:itemIconTint="@color/white"
-        app:itemTextColor="@color/white"
+        app:itemTextColor="@color/textColorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

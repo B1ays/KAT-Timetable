@@ -12,12 +12,14 @@
         <!--Status bar color.-->
         <!--<item name="android:statusBarColor">@android:color/transparent</item>-->
         <!-- Customize your theme here. -->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
 
     <style name="Toolbar">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <!--<item name="theme">@style/Theme.AviakatTimetable</item>-->
-        <item name="android:background">#2B2B2B</item>
+        <item name="android:background">@color/foreground</item>
     </style>
 </resources>

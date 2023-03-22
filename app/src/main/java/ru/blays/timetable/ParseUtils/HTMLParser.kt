@@ -6,10 +6,10 @@ import org.jsoup.select.Elements
 import ru.blays.timetable.ObjectBox.Boxes.DaysInTimeTableBox
 import ru.blays.timetable.ObjectBox.Boxes.GroupListBox
 import ru.blays.timetable.ObjectBox.Boxes.SubjectsListBox
-import ru.blays.timetable.daysListBox
-import ru.blays.timetable.groupListBox
-import ru.blays.timetable.htmlClient
-import ru.blays.timetable.objectBoxManager
+import ru.blays.timetable.UI.daysListBox
+import ru.blays.timetable.UI.groupListBox
+import ru.blays.timetable.UI.htmlClient
+import ru.blays.timetable.UI.objectBoxManager
 
 lateinit var tr: Elements
 /*lateinit var dbManager: DbManager*/
@@ -53,13 +53,6 @@ class HTMLParser {
                 objectBoxManager.insertToDaysBox(href, d)
             }
         }
-        /*val builder = groupListBox.query(GroupListBox_.href.equal("cg60.htm")).build().find()
-        for (i in builder[0].days.indices) {
-            Log.d("getLog", builder[0].days[i].day)
-        }*/
-
-//        Log.d("addLog", groupResult.toString())
-//        groupListBox.put(groupResult)
     }
 
     data class Range(
@@ -67,7 +60,7 @@ class HTMLParser {
     val rangeEnd: Int
     )
 
-    suspend fun getTimeTable(href: String) {
+    suspend fun getTimeTable(href: String): Boolean {
         val doc = htmlClient.getHTTP(href)
         val daysIndices = mutableListOf<Int>()
         val rowRange = mutableListOf<Range>()
@@ -75,7 +68,7 @@ class HTMLParser {
         try {
             tr = doc.select("table.inf").select("tr")
         } catch (_: NullPointerException) {
-            return
+            return false
         }
         objectBoxManager.deleteBox(listOf(daysListBox, daysListBox))
 
@@ -94,30 +87,39 @@ class HTMLParser {
         }
 
         rowRange.forEach {
-            Log.d("parseLog", "rangeStart: ${it.rangeStart} rangeEnd: ${it.rangeEnd}" )
+//            Log.d("parseLog", "rangeStart: ${it.rangeStart} rangeEnd: ${it.rangeEnd}" )
             val d = tr[it.rangeStart].select(".hd").select("[rowspan=7]").text()
             val days = DaysInTimeTableBox(
                 day = d,
                 href = href
             )
-            Log.d("parseLog", d )
+//            Log.d("parseLog", d )
             for (i in it.rangeStart..it.rangeEnd) {
                 val tri = tr[i]
                 if (tri.select(".ur").toString() != "") {
-                    val sid = SubjectsListBox(
-                        position = tri.select(".hd").text(),
-                        subject = tri.select(".z1").text(),
-                        lecturer = tri.select(".z3").text(),
-                        auditory = tri.select(".z2").text()
-                    )
-                    days.subjects.add(sid)
+                    if (i == it.rangeStart) {
+                        val sid = SubjectsListBox(
+                            position = tri.select(".hd")[1].text(),
+                            subject = tri.select(".z1").text(),
+                            lecturer = tri.select(".z3").text(),
+                            auditory = tri.select(".z2").text()
+                        )
+                        days.subjects.add(sid)
+                    } else {
+                        val sid = SubjectsListBox(
+                            position = tri.select(".hd").text(),
+                            subject = tri.select(".z1").text(),
+                            lecturer = tri.select(".z3").text(),
+                            auditory = tri.select(".z2").text()
+                        )
+                        days.subjects.add(sid)
+                    }
                 }
             }
             objectBoxManager.insertToDaysBox(href, days)
         }
+        return true
     }
-
-
 }
 
     /*suspend fun parseHTML(href: String) {

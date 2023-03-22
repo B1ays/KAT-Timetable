@@ -1,16 +1,22 @@
-package ru.blays.timetable
+package ru.blays.timetable.UI
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import io.objectbox.Box
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import ru.blays.timetable.ObjectBox.Boxes.DaysInTimeTableBox
 import ru.blays.timetable.ObjectBox.Boxes.GroupListBox
 import ru.blays.timetable.ObjectBox.Boxes.SubjectsListBox
 import ru.blays.timetable.ObjectBox.ObjectBoxManager
 import ru.blays.timetable.ParseUtils.HTMLParser
+import ru.blays.timetable.R
 import ru.blays.timetable.WebUtils.HTMLClient
 import ru.blays.timetable.databinding.ActivityMainBinding
 
@@ -39,15 +45,17 @@ class MainActivity : AppCompatActivity() {
         val toolbar = binding.toolbar
         setSupportActionBar(toolbar)
 
-        GlobalScope.launch {
-//            htmlParser.createMainDB()
-            htmlParser.getTimeTable("cg60.htm")
-        }
-
         if (savedInstanceState == null) {
-            initFragmentList("dfgdf")
+            runBlocking {
+                if (groupListBox.isEmpty) {
+                    val job = GlobalScope.launch { htmlParser.createMainDB() }
+                    job.join()
+                    initFragmentList("1")
+                } else {
+                    initFragmentList("2")
+                }
+            }
         }
-
 
         binding.bottomNavigationView.setOnItemSelectedListener {
             when(it.itemId) {
@@ -56,7 +64,7 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.item_2 -> {
-                    replaceFragmentTest("fragment 2", "test")
+                    replaceFragmentWeek("cg60.htm")
                     true
                 }
                 R.id.item_3 -> {
@@ -68,7 +76,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    /*override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater: MenuInflater = menuInflater
         inflater.inflate(R.menu.app_bar_menu, menu)
         return true
@@ -77,54 +85,58 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         Toast.makeText(this@MainActivity, "reset clicked", Toast.LENGTH_SHORT).show()
         return true
-    }*/
-
-    override fun onDestroy() {
-        super.onDestroy()
-    }
-
-    private fun initFragment(arg1: String, arg2: String) {
-            val fragment = TestFragment.newInstance(
-                arg1,
-                arg2
-            )
-            supportFragmentManager.beginTransaction()
-                .add(R.id.content, fragment).commit()
     }
 
     private fun replaceFragmentTest(arg1: String, arg2: String) {
-        val fragment = TestFragment.newInstance(
+        val fragment = FragmentTest.newInstance(
             arg1,
             arg2
         )
         supportFragmentManager.beginTransaction()
-            .replace(R.id.content, fragment).commit()
+            .addToBackStack(null)
+            .replace(R.id.content, fragment)
+            .commit()
     }
+
+    private fun replaceFragmentWeek(href: String) {
+        val fragment = FragmentWeekTimeTable.newInstance(
+            href
+        )
+        supportFragmentManager.beginTransaction()
+            .addToBackStack(null)
+            .replace(R.id.content, fragment)
+            .commit()
+    }
+
 
     private fun initFragmentList(arg1: String) {
-        val fragment = MainScreenList.newInstance(
+        val fragment = FragmentGroupsList.newInstance(
             arg1
         )
         supportFragmentManager.beginTransaction()
-            .add(R.id.content, fragment).commit()
-    }
-    private fun replaceFragmentList(arg1: String) {
-        val fragment = MainScreenList.newInstance(
-            arg1
-        )
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.content, fragment).commit()
+            .add(R.id.content, fragment)
+            .commit()
     }
 
-   /* private fun initRV() {
-        binding.mainRV.adapter = GroupieAdapter().apply { addAll(dbManager.readDBCell()) }
-    }*/
+    private fun replaceFragmentList(arg1: String) {
+        val fragment = FragmentGroupsList.newInstance(
+            arg1
+        )
+        supportFragmentManager.beginTransaction()
+            .addToBackStack(null)
+            .replace(R.id.content, fragment)
+            .commit()
+    }
+
+    fun changeTitle(title: String) {
+        binding.toolbar.title = title
+    }
+
     private fun showAlertDialog() {
         val alertBuilder = AlertDialog.Builder(this)
         alertBuilder.setTitle("Не удалось получить страницу!")
         alertBuilder.setMessage("Проверьте соединение с интернетом и попытайтесь обновить расписание ещё раз")
-        alertBuilder.setPositiveButton("Ок") { _, _ ->
-        }
+        alertBuilder.setPositiveButton("Ок") { _, _ -> }
         val alertCreate = alertBuilder.create()
         alertCreate.show()
     }
