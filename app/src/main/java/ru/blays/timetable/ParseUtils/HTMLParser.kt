@@ -3,13 +3,13 @@ package ru.blays.timetable.ParseUtils
 import android.util.Log
 import kotlinx.coroutines.coroutineScope
 import org.jsoup.select.Elements
+import ru.blays.timetable.daysListBox
+import ru.blays.timetable.groupListBox
+import ru.blays.timetable.htmlClient
+import ru.blays.timetable.objectBoxManager
 import ru.blays.timetable.ObjectBox.Boxes.DaysInTimeTableBox
 import ru.blays.timetable.ObjectBox.Boxes.GroupListBox
 import ru.blays.timetable.ObjectBox.Boxes.SubjectsListBox
-import ru.blays.timetable.UI.daysListBox
-import ru.blays.timetable.UI.groupListBox
-import ru.blays.timetable.UI.htmlClient
-import ru.blays.timetable.UI.objectBoxManager
 
 lateinit var tr: Elements
 /*lateinit var dbManager: DbManager*/
