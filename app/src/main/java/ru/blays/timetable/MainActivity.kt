@@ -32,6 +32,16 @@ class MainActivity : ComponentActivity() {
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (savedInstanceState == null) {
+            objectBoxManager = ObjectBoxManager()
+            objectBoxManager.init(this)
+            groupListBox = objectBoxManager.store.boxFor(GroupListBox::class.java)
+            daysListBox = objectBoxManager.store.boxFor(DaysInTimeTableBox::class.java)
+            subjectsListBox = objectBoxManager.store.boxFor(SubjectsListBox::class.java)
+            htmlClient = HTMLClient()
+            htmlParser = HTMLParser()
+            MainScope().launch { checkDBState() }
+        }
         setContent {
             AviakatTimetableTheme {
                 RootElements()
@@ -41,14 +51,11 @@ class MainActivity : ComponentActivity() {
 
     override fun onStart() {
         super.onStart()
-        objectBoxManager = ObjectBoxManager()
-        objectBoxManager.init(this)
-        groupListBox = objectBoxManager.store.boxFor(GroupListBox::class.java)
-        daysListBox = objectBoxManager.store.boxFor(DaysInTimeTableBox::class.java)
-        subjectsListBox = objectBoxManager.store.boxFor(SubjectsListBox::class.java)
-        htmlClient = HTMLClient()
-        htmlParser = HTMLParser()
-        MainScope().launch { checkDBState() }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        objectBoxManager
     }
 
     private suspend fun checkDBState(): Boolean {
