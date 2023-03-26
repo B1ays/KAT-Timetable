@@ -45,7 +45,6 @@ class HTMLParser {
         val htmlRows = groupTimeTable.select("table.inf").select("tr")
         htmlRows.forEach {
             if (it.select(".hd").select("[rowspan=7]").toString() != "") {
-                // Log.d("pasreLog", it2.select(".hd").select("[rowspan=7]").text() + " | " + href)
                 val d = DaysInTimeTableBox(
                     day = it.select(".hd").select("[rowspan=7]").text(),
                     href = href

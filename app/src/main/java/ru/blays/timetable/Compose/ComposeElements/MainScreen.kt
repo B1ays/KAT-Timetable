@@ -2,6 +2,7 @@
 
 package ru.blays.timetable.Compose
 
+import android.util.Log
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.OnBackPressedDispatcher
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
@@ -21,11 +22,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import ru.blays.timetable.ObjectBox.Boxes.DaysInTimeTableBox
 import ru.blays.timetable.ObjectBox.Boxes.GroupListBox
-import ru.blays.timetable.ObjectBox.Boxes.GroupListBox_
 import ru.blays.timetable.ObjectBox.Boxes.SubjectsListBox
-import ru.blays.timetable.groupListBox
+import ru.blays.timetable.htmlParser
 import ru.blays.timetable.objectBoxManager
 
 
@@ -43,10 +45,11 @@ fun RootElements() {
 
 @Composable
 fun Frame(paddingValues: PaddingValues) {
-    var currentScreen by remember { mutableStateOf(ScreenList.main_screen) }
+    var currentScreen by remember { mutableStateOf(ScreenData(ScreenList.main_screen, "")) }
     var groupList by remember { mutableStateOf(listOf<GroupListBox>()) }
-    val onBack = { if (currentScreen != ScreenList.main_screen) currentScreen = ScreenList.main_screen }
+    val onBack = { if (currentScreen.Screen != ScreenList.main_screen) currentScreen= ScreenData(ScreenList.main_screen, "") }
     groupList = objectBoxManager.getGroupListFromBox()!!
+
     Surface(
         modifier = Modifier
             .padding(paddingValues)
@@ -54,16 +57,19 @@ fun Frame(paddingValues: PaddingValues) {
         color = MaterialTheme.colorScheme.background
     ) {
         MaterialTheme {
-            when(currentScreen) {
+            when(currentScreen.Screen) {
                 ScreenList.main_screen -> {
                     BackPressHandler(onBackPressed = onBack)
                     SimpleList(list = groupList,
-                    Modifier.clickable { currentScreen = ScreenList.timetable_screen })
+                        onOpenTimeTable = {
+                            currentScreen = it
+                        }
+                    )
                 }
                 ScreenList.timetable_screen -> {
+                    Log.d("ScreenCall", "Selected: ${currentScreen.Key}")
                     BackPressHandler(onBackPressed = onBack)
-                    val daysList = groupListBox.query(GroupListBox_.href.equal("cg60.htm")).build().find()
-                    TimeTableView(daysList[0])
+                    TimeTableView(currentScreen.Key)
                 }
                 ScreenList.favoriteTimeTable_screen -> {
                     Text(text = "Test favorite")
@@ -74,16 +80,16 @@ fun Frame(paddingValues: PaddingValues) {
 }
 
 @Composable
-fun SimpleList(list: List<GroupListBox>, modifier: Modifier) {
+fun SimpleList(list: List<GroupListBox>, onOpenTimeTable: (ScreenData) -> Unit) {
     LazyColumn{
         itemsIndexed(list) {_, item ->
-            SimpleCard(title = item, modifier)
+            SimpleCard(title = item, onOpenTimeTable)
         }
     }
 }
 
 @Composable
-fun SimpleCard(title: GroupListBox, modifier: Modifier) {
+fun SimpleCard(title: GroupListBox, onOpenTimeTable: (ScreenData) -> Unit) {
     val visibilityState = remember {
         MutableTransitionState(false).apply {
             targetState = true
@@ -96,9 +102,17 @@ fun SimpleCard(title: GroupListBox, modifier: Modifier) {
         exit = slideOutHorizontally()
     ) {
         Card(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 10.dp, vertical = 5.dp),
+                .padding(horizontal = 10.dp, vertical = 5.dp)
+                .clickable {
+                    onOpenTimeTable(
+                        ScreenData(
+                            Screen = ScreenList.timetable_screen,
+                            Key = title.href
+                        )
+                    )
+                },
             shape = RoundedCornerShape(10.dp),
             elevation = CardDefaults.cardElevation(8.dp)
         ) {
@@ -116,9 +130,22 @@ fun SimpleCard(title: GroupListBox, modifier: Modifier) {
     }
 
 @Composable
-fun TimeTableView(list: GroupListBox) {
+fun TimeTableView(href: String) {
+
+    var daysList by remember { mutableStateOf(listOf<GroupListBox>()) }
+
+    daysList = objectBoxManager.getDaysFromTable(href)
+    if (daysList[0].days.isEmpty()) {
+        LaunchedEffect(key1 = true ) {
+            GlobalScope.launch {
+                htmlParser.getTimeTable(href)
+                daysList = objectBoxManager.getDaysFromTable(href)
+            }
+        }
+    }
+
     LazyColumn(modifier = Modifier.fillMaxWidth()) {
-        items(list.days) {
+        items(daysList.get(0).days) {
             TimeTableCard(list = it)
         }
     }
@@ -126,6 +153,7 @@ fun TimeTableView(list: GroupListBox) {
 
 @Composable
 fun TimeTableCard(list: DaysInTimeTableBox) {
+
     val visibilityState = remember {
         MutableTransitionState(false).apply {
             targetState = true

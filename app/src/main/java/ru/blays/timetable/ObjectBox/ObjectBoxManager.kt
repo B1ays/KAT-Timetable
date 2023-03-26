@@ -43,6 +43,10 @@ class ObjectBoxManager {
         return groupListBox.all
     }
 
+    fun getDaysFromTable(href: String): List<GroupListBox> {
+        return groupListBox.query(GroupListBox_.href.equal(href)).build().find()
+    }
+
 
     /*fun deleteFromBox(box: Box<*>) {
 

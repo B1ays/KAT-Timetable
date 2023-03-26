@@ -49,15 +49,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        objectBoxManager
-    }
-
     private suspend fun checkDBState(): Boolean {
         return if (groupListBox.isEmpty) {
             val job = MainScope().launch { htmlParser.createMainDB() }
