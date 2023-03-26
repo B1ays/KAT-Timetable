@@ -16,17 +16,19 @@ import ru.blays.timetable.R
 import ru.blays.timetable.objectBoxManager
 
 @Composable
-fun RootElements() {
+fun RootElements(mainDbState: Boolean) {
     val defaultTitle = stringResource(id = R.string.Toolbar_MainScreen_title)
     var titleText by remember { mutableStateOf(defaultTitle) }
-    Scaffold(topBar = {
-        TopAppBar(title = { Text(text = titleText) })
-    }
-    ) {
-        Frame(
-            it,
-            onTitleChange = { title -> titleText = title }
-        )
+    if (mainDbState) {
+        Scaffold(topBar = {
+            TopAppBar(title = { Text(text = titleText) })
+        }
+        ) {
+            Frame(
+                it,
+                onTitleChange = { title -> titleText = title }
+            )
+        }
     }
 }
 
@@ -48,7 +50,6 @@ fun Frame(paddingValues: PaddingValues, onTitleChange: (String) -> Unit) {
         MaterialTheme {
             when(currentScreen.Screen) {
                 ScreenList.main_screen -> {
-                    BackPressHandler(onBackPressed = onBack)
                     SimpleList(
                         list = groupList,
                         onOpenTimeTable = {
@@ -64,6 +65,7 @@ fun Frame(paddingValues: PaddingValues, onTitleChange: (String) -> Unit) {
                     TimeTableView(currentScreen.Key)
                 }
                 ScreenList.favoriteTimeTable_screen -> {
+                    BackPressHandler(onBackPressed = onBack)
                     Text(text = "Test favorite")
                 }
             }

@@ -3,8 +3,9 @@ package ru.blays.timetable
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.runtime.*
 import io.objectbox.Box
-import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import ru.blays.timetable.Compose.ComposeElements.RootElements
 import ru.blays.timetable.Compose.theme.AviakatTimetableTheme
@@ -37,21 +38,27 @@ class MainActivity : ComponentActivity() {
             subjectsListBox = objectBoxManager.store.boxFor(SubjectsListBox::class.java)
             htmlClient = HTMLClient()
             htmlParser = HTMLParser()
-            MainScope().launch { checkDBState() }
         }
         setContent {
             AviakatTimetableTheme {
-                RootElements()
+                var mainDbState by remember { mutableStateOf(false) }
+                LaunchedEffect(key1 = true ) {
+                    GlobalScope.launch {
+                        checkDBState(onChangeDbState = { mainDbState = it })
+                    }
+                }
+                    RootElements(mainDbState)
             }
         }
     }
 
-    private suspend fun checkDBState(): Boolean {
-        return if (groupListBox.isEmpty) {
-            val job = MainScope().launch { htmlParser.createMainDB() }
-            job.isCompleted
+    private suspend fun checkDBState(onChangeDbState: (Boolean) -> Unit){
+        if (groupListBox.isEmpty) {
+            val job = GlobalScope.launch { htmlParser.createMainDB() }
+            job.join()
+            onChangeDbState(true)
         } else {
-            true
+            onChangeDbState(true)
         }
     }
 }

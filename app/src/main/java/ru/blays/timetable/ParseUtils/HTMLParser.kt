@@ -1,6 +1,5 @@
 package ru.blays.timetable.ParseUtils
 
-import android.util.Log
 import kotlinx.coroutines.coroutineScope
 import org.jsoup.select.Elements
 import ru.blays.timetable.ObjectBox.Boxes.DaysInTimeTableBox
@@ -32,7 +31,7 @@ class HTMLParser {
                 val href = gr.attr("href")
                 val groupResult = GroupListBox(groupCode = gr.text(), href = href)
                 //groupListBox.put(groupResult)
-                Log.d("pasreLog", gr.text() + " | " + href)
+//                Log.d("pasreLog", gr.text() + " | " + href)
                 groupListBox.put(groupResult)
             }
         }

@@ -1,5 +1,6 @@
 package ru.blays.timetable.Compose.ComposeElements
 
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.scaleIn
@@ -23,7 +24,6 @@ import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import ru.blays.timetable.ObjectBox.Boxes.DaysInTimeTableBox
-import ru.blays.timetable.ObjectBox.Boxes.GroupListBox
 import ru.blays.timetable.ObjectBox.Boxes.SubjectsListBox
 import ru.blays.timetable.htmlParser
 import ru.blays.timetable.objectBoxManager
@@ -31,27 +31,33 @@ import ru.blays.timetable.objectBoxManager
 @Composable
 fun TimeTableView(href: String) {
 
-    var daysList by remember { mutableStateOf(GroupListBox(0, "", "")) }
+    Log.d("TimetableLog", "Intialize List: Start")
 
-    daysList = objectBoxManager.getDaysFromTable(href)[0]
-    if (daysList.days.isEmpty()) {
+    var daysList by remember { mutableStateOf(objectBoxManager.getDaysFromTable(href)[0].days) }
+
+    if (daysList.isEmpty()) {
+        Log.d("TimetableLog", "Intialize List: Get Days with href - $href - Start")
         LaunchedEffect(key1 = true ) {
             GlobalScope.launch {
                 htmlParser.getTimeTable(href)
-                daysList = objectBoxManager.getDaysFromTable(href)[0]
+                daysList = objectBoxManager.getDaysFromTable(href)[0].days
+                Log.d("TimetableLog", "Intialize List: Get Days with href - $href - End")
             }
         }
     }
 
     LazyColumn(modifier = Modifier.fillMaxWidth()) {
-        items(daysList.days) {
+        items(daysList) {
             TimeTableCard(list = it)
         }
     }
+    Log.d("TimetableLog", "Intialize List: End")
 }
 
 @Composable
 fun TimeTableCard(list: DaysInTimeTableBox) {
+
+    Log.d("TimetableLog", "Intialize Card: Start")
 
     val visibilityState = remember {
         MutableTransitionState(false).apply {
@@ -91,6 +97,7 @@ fun TimeTableCard(list: DaysInTimeTableBox) {
             }
         }
     }
+    Log.d("TimetableLog", "Intialize List: End")
 }
 
 @Composable
