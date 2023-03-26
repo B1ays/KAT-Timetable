@@ -1,53 +1,42 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 
-package ru.blays.timetable.Compose
+package ru.blays.timetable.Compose.ComposeElements
 
 import android.util.Log
-import androidx.activity.OnBackPressedCallback
-import androidx.activity.OnBackPressedDispatcher
-import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.animation.*
-import androidx.compose.animation.core.MutableTransitionState
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import ru.blays.timetable.ObjectBox.Boxes.DaysInTimeTableBox
+import androidx.compose.ui.res.stringResource
+import ru.blays.timetable.Compose.ScreenData
+import ru.blays.timetable.Compose.ScreenList
 import ru.blays.timetable.ObjectBox.Boxes.GroupListBox
-import ru.blays.timetable.ObjectBox.Boxes.SubjectsListBox
-import ru.blays.timetable.htmlParser
+import ru.blays.timetable.R
 import ru.blays.timetable.objectBoxManager
-
-
 
 @Composable
 fun RootElements() {
-    val titleText by remember { mutableStateOf("Главная") }
+    val defaultTitle = stringResource(id = R.string.Toolbar_MainScreen_title)
+    var titleText by remember { mutableStateOf(defaultTitle) }
     Scaffold(topBar = {
         TopAppBar(title = { Text(text = titleText) })
     }
     ) {
-        Frame(it)
+        Frame(
+            it,
+            onTitleChange = { title -> titleText = title }
+        )
     }
 }
 
 @Composable
-fun Frame(paddingValues: PaddingValues) {
+fun Frame(paddingValues: PaddingValues, onTitleChange: (String) -> Unit) {
     var currentScreen by remember { mutableStateOf(ScreenData(ScreenList.main_screen, "")) }
     var groupList by remember { mutableStateOf(listOf<GroupListBox>()) }
-    val onBack = { if (currentScreen.Screen != ScreenList.main_screen) currentScreen= ScreenData(ScreenList.main_screen, "") }
+    val onBack = { if (currentScreen.Screen != ScreenList.main_screen) currentScreen = ScreenData(
+        ScreenList.main_screen, "")
+    }
     groupList = objectBoxManager.getGroupListFromBox()!!
 
     Surface(
@@ -60,11 +49,14 @@ fun Frame(paddingValues: PaddingValues) {
             when(currentScreen.Screen) {
                 ScreenList.main_screen -> {
                     BackPressHandler(onBackPressed = onBack)
-                    SimpleList(list = groupList,
+                    SimpleList(
+                        list = groupList,
                         onOpenTimeTable = {
                             currentScreen = it
-                        }
+                        },
+                        onTitleChange
                     )
+                    onTitleChange(stringResource(id = R.string.Toolbar_MainScreen_title))
                 }
                 ScreenList.timetable_screen -> {
                     Log.d("ScreenCall", "Selected: ${currentScreen.Key}")
@@ -79,184 +71,4 @@ fun Frame(paddingValues: PaddingValues) {
     }
 }
 
-@Composable
-fun SimpleList(list: List<GroupListBox>, onOpenTimeTable: (ScreenData) -> Unit) {
-    LazyColumn{
-        itemsIndexed(list) {_, item ->
-            SimpleCard(title = item, onOpenTimeTable)
-        }
-    }
-}
 
-@Composable
-fun SimpleCard(title: GroupListBox, onOpenTimeTable: (ScreenData) -> Unit) {
-    val visibilityState = remember {
-        MutableTransitionState(false).apply {
-            targetState = true
-        }
-    }
-
-    AnimatedVisibility(
-        visibleState =  visibilityState,
-        enter = slideInHorizontally() + scaleIn(),
-        exit = slideOutHorizontally()
-    ) {
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 10.dp, vertical = 5.dp)
-                .clickable {
-                    onOpenTimeTable(
-                        ScreenData(
-                            Screen = ScreenList.timetable_screen,
-                            Key = title.href
-                        )
-                    )
-                },
-            shape = RoundedCornerShape(10.dp),
-            elevation = CardDefaults.cardElevation(8.dp)
-        ) {
-            Text(
-                modifier = Modifier
-                    .padding(8.dp)
-                    .fillMaxWidth(),
-                text = title.groupCode,
-                textAlign = TextAlign.Center,
-                color = MaterialTheme.colorScheme.secondary
-            )
-        }
-    }
-
-    }
-
-@Composable
-fun TimeTableView(href: String) {
-
-    var daysList by remember { mutableStateOf(listOf<GroupListBox>()) }
-
-    daysList = objectBoxManager.getDaysFromTable(href)
-    if (daysList[0].days.isEmpty()) {
-        LaunchedEffect(key1 = true ) {
-            GlobalScope.launch {
-                htmlParser.getTimeTable(href)
-                daysList = objectBoxManager.getDaysFromTable(href)
-            }
-        }
-    }
-
-    LazyColumn(modifier = Modifier.fillMaxWidth()) {
-        items(daysList.get(0).days) {
-            TimeTableCard(list = it)
-        }
-    }
-}
-
-@Composable
-fun TimeTableCard(list: DaysInTimeTableBox) {
-
-    val visibilityState = remember {
-        MutableTransitionState(false).apply {
-            targetState = true
-        }
-    }
-
-    AnimatedVisibility(
-        visibleState =  visibilityState,
-        enter = slideInHorizontally() + scaleIn(),
-        exit = slideOutHorizontally()
-    ) {
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 10.dp, vertical = 5.dp),
-            shape = RoundedCornerShape(10.dp),
-            elevation = CardDefaults.cardElevation(8.dp)
-        )
-        {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(5.dp)
-            )
-            {
-                Text(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    text = list.day,
-                    textAlign = TextAlign.Center,
-                    fontSize = 20.sp
-                )
-                for (subject in list.subjects) {
-                    SubjectItem(subject)
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun SubjectItem(subject: SubjectsListBox) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 6.dp),
-        shape = RoundedCornerShape(10.dp),
-        elevation = CardDefaults
-            .cardElevation(8.dp)
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(color = MaterialTheme.colorScheme.background)
-                .padding(10.dp),
-            verticalAlignment = Alignment.CenterVertically
-        )
-        {
-            Text(
-                modifier = Modifier
-                    .background(
-                        color = MaterialTheme.colorScheme.primary,
-                        shape = RoundedCornerShape(20.dp)
-                    )
-                    .padding(5.dp),
-                text = subject.position,
-                textAlign = TextAlign.Center,
-                color = MaterialTheme.colorScheme.background)
-            Column(modifier = Modifier
-                .fillMaxHeight()
-                .padding(start = 10.dp)) {
-                Text(text = subject.subject, textAlign = TextAlign.Center)
-                Row(modifier = Modifier.padding(horizontal = 4.dp)) {
-                    Text(modifier = Modifier.fillMaxWidth(0.5F), text = subject.lecturer, textAlign = TextAlign.Start)
-                    Text(modifier = Modifier.fillMaxWidth(), text = subject.auditory, textAlign = TextAlign.End)
-                }
-            }
-        }
-    }
-}
-
-
-@Composable
-fun BackPressHandler(
-    backPressedDispatcher: OnBackPressedDispatcher? =
-        LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher,
-    onBackPressed: () -> Unit
-) {
-    val currentOnBackPressed by rememberUpdatedState(newValue = onBackPressed)
-
-    val backCallback = remember {
-        object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                currentOnBackPressed()
-            }
-        }
-    }
-
-    DisposableEffect(key1 = backPressedDispatcher) {
-        backPressedDispatcher?.addCallback(backCallback)
-
-        onDispose {
-            backCallback.remove()
-        }
-    }
-}

@@ -1,15 +1,12 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
-
 package ru.blays.timetable
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material3.*
 import io.objectbox.Box
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
-import ru.blays.timetable.Compose.RootElements
+import ru.blays.timetable.Compose.ComposeElements.RootElements
 import ru.blays.timetable.Compose.theme.AviakatTimetableTheme
 import ru.blays.timetable.ObjectBox.Boxes.DaysInTimeTableBox
 import ru.blays.timetable.ObjectBox.Boxes.GroupListBox
