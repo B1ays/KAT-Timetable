@@ -10,13 +10,13 @@ import io.objectbox.Box
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import ru.blays.timetable.Compose.RootElements
+import ru.blays.timetable.Compose.theme.AviakatTimetableTheme
 import ru.blays.timetable.ObjectBox.Boxes.DaysInTimeTableBox
 import ru.blays.timetable.ObjectBox.Boxes.GroupListBox
 import ru.blays.timetable.ObjectBox.Boxes.SubjectsListBox
 import ru.blays.timetable.ObjectBox.ObjectBoxManager
 import ru.blays.timetable.ParseUtils.HTMLParser
 import ru.blays.timetable.WebUtils.HTMLClient
-import ru.blays.timetable.ui.theme.AviakatTimetableTheme
 
 lateinit var htmlClient: HTMLClient
 lateinit var htmlParser: HTMLParser

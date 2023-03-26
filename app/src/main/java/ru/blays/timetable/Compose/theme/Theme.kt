@@ -1,4 +1,4 @@
-package ru.blays.timetable.ui.theme
+package ru.blays.timetable.Compose.theme
 
 import android.app.Activity
 import android.os.Build
@@ -10,6 +10,8 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.ViewCompat
+import ru.blays.timetable.Compose.theme.Purple80
+import ru.blays.timetable.Compose.theme.PurpleGrey80
 
 private val DarkColorScheme = darkColorScheme(
     primary = Purple80,

@@ -1,4 +1,4 @@
-package ru.blays.timetable.ui.theme
+package ru.blays.timetable.Compose.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
