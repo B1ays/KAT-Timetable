@@ -5,6 +5,8 @@ package ru.blays.timetable.Compose
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.OnBackPressedDispatcher
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
+import androidx.compose.animation.*
+import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -82,17 +84,36 @@ fun SimpleList(list: List<GroupListBox>, modifier: Modifier) {
 
 @Composable
 fun SimpleCard(title: GroupListBox, modifier: Modifier) {
-    Card(modifier = modifier
-        .fillMaxWidth()
-        .padding(horizontal = 10.dp, vertical = 5.dp),
-        shape = RoundedCornerShape(10.dp),
-        elevation = CardDefaults.cardElevation(8.dp)
-    ) {
-        Text(modifier = Modifier
-            .padding(8.dp)
-            .fillMaxWidth(),text = title.groupCode, textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.secondary)
+    val visibilityState = remember {
+        MutableTransitionState(false).apply {
+            targetState = true
+        }
     }
-}
+
+    AnimatedVisibility(
+        visibleState =  visibilityState,
+        enter = slideInHorizontally() + scaleIn(),
+        exit = slideOutHorizontally()
+    ) {
+        Card(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(horizontal = 10.dp, vertical = 5.dp),
+            shape = RoundedCornerShape(10.dp),
+            elevation = CardDefaults.cardElevation(8.dp)
+        ) {
+            Text(
+                modifier = Modifier
+                    .padding(8.dp)
+                    .fillMaxWidth(),
+                text = title.groupCode,
+                textAlign = TextAlign.Center,
+                color = MaterialTheme.colorScheme.secondary
+            )
+        }
+    }
+
+    }
 
 @Composable
 fun TimeTableView(list: GroupListBox) {
@@ -105,24 +126,41 @@ fun TimeTableView(list: GroupListBox) {
 
 @Composable
 fun TimeTableCard(list: DaysInTimeTableBox) {
-    Card(modifier = Modifier
-        .fillMaxWidth()
-        .padding(horizontal = 10.dp, vertical = 5.dp),
-        shape = RoundedCornerShape(10.dp),
-        elevation = CardDefaults.cardElevation(8.dp)
-    )
-    {
-        Column(modifier = Modifier
-            .fillMaxWidth()
-            .padding(5.dp) )
+    val visibilityState = remember {
+        MutableTransitionState(false).apply {
+            targetState = true
+        }
+    }
+
+    AnimatedVisibility(
+        visibleState =  visibilityState,
+        enter = slideInHorizontally() + scaleIn(),
+        exit = slideOutHorizontally()
+    ) {
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 10.dp, vertical = 5.dp),
+            shape = RoundedCornerShape(10.dp),
+            elevation = CardDefaults.cardElevation(8.dp)
+        )
         {
-            Text(modifier = Modifier
-                .fillMaxWidth(),
-                text = list.day,
-                textAlign = TextAlign.Center,
-                fontSize = 20.sp)
-            for (subject in list.subjects) {
-                SubjectItem(subject)
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(5.dp)
+            )
+            {
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    text = list.day,
+                    textAlign = TextAlign.Center,
+                    fontSize = 20.sp
+                )
+                for (subject in list.subjects) {
+                    SubjectItem(subject)
+                }
             }
         }
     }
@@ -148,7 +186,10 @@ fun SubjectItem(subject: SubjectsListBox) {
         {
             Text(
                 modifier = Modifier
-                    .background(color = MaterialTheme.colorScheme.primary, shape = RoundedCornerShape(20.dp))
+                    .background(
+                        color = MaterialTheme.colorScheme.primary,
+                        shape = RoundedCornerShape(20.dp)
+                    )
                     .padding(5.dp),
                 text = subject.position,
                 textAlign = TextAlign.Center,
