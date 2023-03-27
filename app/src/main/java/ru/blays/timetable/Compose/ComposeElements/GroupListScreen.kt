@@ -27,12 +27,12 @@ import ru.blays.timetable.ObjectBox.Boxes.GroupListBox
 @Composable
 fun SimpleList(
     list: List<GroupListBox>,
-    onOpenTimeTable: (ScreenData) -> Unit,
+    onScreenChange: (ScreenData) -> Unit,
     onTitleChange: (String) -> Unit
 ) {
     LazyColumn{
         itemsIndexed(list) {_, item ->
-            SimpleCard(title = item, onOpenTimeTable, onTitleChange)
+            SimpleCard(title = item, onScreenChange, onTitleChange)
         }
     }
 }
@@ -40,7 +40,7 @@ fun SimpleList(
 @Composable
 fun SimpleCard(
     title: GroupListBox,
-    onOpenTimeTable: (ScreenData) -> Unit,
+    onScreenChange: (ScreenData) -> Unit,
     onTitleChange: (String) -> Unit
 ) {
     val visibilityState = remember {
@@ -48,7 +48,6 @@ fun SimpleCard(
             targetState = true
         }
     }
-
 
     AnimatedVisibility(
         visibleState =  visibilityState,
@@ -63,7 +62,7 @@ fun SimpleCard(
                     onTitleChange(
                         title.groupCode
                     )
-                    onOpenTimeTable(
+                    onScreenChange(
                         ScreenData(
                             Screen = ScreenList.timetable_screen,
                             Key = title.href
