@@ -10,18 +10,16 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.ViewCompat
-import ru.blays.timetable.Compose.theme.Purple80
-import ru.blays.timetable.Compose.theme.PurpleGrey80
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
+    primary = accent,
+    secondary = accentGray,
     tertiary = Pink80
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
+    primary = accent,
+    secondary = accentGray,
     tertiary = Pink40
 
     /* Other default colors to override

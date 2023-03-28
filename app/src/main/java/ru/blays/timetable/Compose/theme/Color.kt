@@ -2,6 +2,8 @@ package ru.blays.timetable.Compose.theme
 
 import androidx.compose.ui.graphics.Color
 
+val accent = Color(0xFF4994B3)
+val accentGray = Color(0xFF43758A)
 val Purple80 = Color(0xFFD0BCFF)
 val PurpleGrey80 = Color(0xFFCCC2DC)
 val Pink80 = Color(0xFFEFB8C8)

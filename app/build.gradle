@@ -25,7 +25,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            versionNameSuffix '1.0.1_alpha'
+            versionNameSuffix '1.0.2_rework'
             signingConfig signingConfigs.debug
             multiDexEnabled false
         }
@@ -68,20 +68,21 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.1'
 
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-
     // Jsoup
     implementation 'org.jsoup:jsoup:1.15.4'
 
-    // OkHTTP
-    implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.11'
 
     //ObjectBox
     implementation 'io.objectbox:objectbox-kotlin:3.5.1'
     implementation 'io.objectbox:objectbox-android:3.5.1'
+
+    //EventBus
+    implementation 'org.greenrobot:eventbus:3.3.1'
+
+    // Debug
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:1.4.0"
     debugImplementation "androidx.compose.ui:ui-tooling:1.4.0"
     debugImplementation "androidx.compose.ui:ui-test-manifest:1.4.0"
-
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 }

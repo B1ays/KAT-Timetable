@@ -1,54 +1,28 @@
 package ru.blays.timetable.ParseUtils
 
 import kotlinx.coroutines.coroutineScope
-import org.jsoup.select.Elements
+import ru.blays.timetable.*
 import ru.blays.timetable.ObjectBox.Boxes.DaysInTimeTableBox
 import ru.blays.timetable.ObjectBox.Boxes.GroupListBox
 import ru.blays.timetable.ObjectBox.Boxes.SubjectsListBox
-import ru.blays.timetable.daysListBox
-import ru.blays.timetable.groupListBox
-import ru.blays.timetable.htmlClient
-import ru.blays.timetable.objectBoxManager
-
-lateinit var tr: Elements
-/*lateinit var dbManager: DbManager*/
 
 class HTMLParser {
 
     suspend fun createMainDB() = coroutineScope {
-        try {
-            val doc = htmlClient.getHTTP("cg.htm")
-            tr = doc.select("table.inf").select("tr")
+        val tr = try {
+            htmlClient.getHTTP("cg.htm").select("tr")
         } catch (_: NullPointerException) {
             return@coroutineScope
         }
 
-        objectBoxManager.deleteBox(listOf(daysListBox, groupListBox))
+        objectBoxManager.deleteBox(listOf(daysListBox, groupListBox, subjectsListBox))
 
         tr.forEach { it1 ->
             if (it1.select(".ur").toString() != "") {
                 val gr = it1.select(".z0")
                 val href = gr.attr("href")
                 val groupResult = GroupListBox(groupCode = gr.text(), href = href)
-                //groupListBox.put(groupResult)
-//                Log.d("pasreLog", gr.text() + " | " + href)
                 groupListBox.put(groupResult)
-            }
-        }
-//        Log.d("getLog", groupListBox.all.toString())
-        getDaysFromHTML("cg60.htm")
-    }
-
-    private suspend fun getDaysFromHTML(href: String) {
-        val groupTimeTable = htmlClient.getHTTP(href)
-        val htmlRows = groupTimeTable.select("table.inf").select("tr")
-        htmlRows.forEach {
-            if (it.select(".hd").select("[rowspan=7]").toString() != "") {
-                val d = DaysInTimeTableBox(
-                    day = it.select(".hd").select("[rowspan=7]").text(),
-                    href = href
-                )
-                objectBoxManager.insertToDaysBox(href, d)
             }
         }
     }
@@ -59,16 +33,16 @@ class HTMLParser {
     )
 
     suspend fun getTimeTable(href: String): Boolean {
-        val doc = htmlClient.getHTTP(href)
         val daysIndices = mutableListOf<Int>()
         val rowRange = mutableListOf<Range>()
 
-        try {
-            tr = doc.select("table.inf").select("tr")
+        val tr = try {
+            htmlClient.getHTTP(href).select("table.inf").select("tr")
         } catch (_: NullPointerException) {
             return false
         }
-        objectBoxManager.deleteBox(listOf(daysListBox, daysListBox))
+
+        objectBoxManager.deleteTimeTable(href)
 
         for (i in tr.indices) {
             val day = tr[i].select(".hd").select("[rowspan=7]").text()
@@ -85,13 +59,11 @@ class HTMLParser {
         }
 
         rowRange.forEach {
-//            Log.d("parseLog", "rangeStart: ${it.rangeStart} rangeEnd: ${it.rangeEnd}" )
             val d = tr[it.rangeStart].select(".hd").select("[rowspan=7]").text()
             val days = DaysInTimeTableBox(
                 day = d,
                 href = href
             )
-//            Log.d("parseLog", d )
             for (i in it.rangeStart..it.rangeEnd) {
                 val tri = tr[i]
                 if (tri.select(".ur").toString() != "") {

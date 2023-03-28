@@ -14,8 +14,7 @@ data class FloatingMenuItemsModel(
 )
 
 data class FloatingMenuActionsModel(
-    val icon: ImageVector,
-    val action: String
+    val icon: ImageVector
 )
 
 object FloatingMenuItems {
@@ -26,8 +25,6 @@ object FloatingMenuItems {
 }
 
 object FloatingMenuActions {
-    val Items = listOf(
-        FloatingMenuActionsModel(androidx.compose.material.icons.Icons.Rounded.Refresh, "Refresh"),
-        FloatingMenuActionsModel(androidx.compose.material.icons.Icons.Rounded.Close, "Close")
-    )
+    val refresh = FloatingMenuActionsModel(androidx.compose.material.icons.Icons.Rounded.Refresh)
+    val close = FloatingMenuActionsModel(androidx.compose.material.icons.Icons.Rounded.Close)
 }

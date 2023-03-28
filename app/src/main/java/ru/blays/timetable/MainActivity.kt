@@ -3,9 +3,11 @@ package ru.blays.timetable
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.*
 import io.objectbox.Box
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ru.blays.timetable.Compose.ComposeElements.RootElements
 import ru.blays.timetable.Compose.theme.AviakatTimetableTheme
@@ -25,9 +27,8 @@ lateinit var daysListBox: Box<DaysInTimeTableBox>
 lateinit var subjectsListBox: Box<SubjectsListBox>
 
 
+@ExperimentalAnimationApi
 class MainActivity : ComponentActivity() {
-    
-    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (savedInstanceState == null) {
@@ -42,19 +43,19 @@ class MainActivity : ComponentActivity() {
         setContent {
             AviakatTimetableTheme {
                 var mainDbState by remember { mutableStateOf(false) }
-                LaunchedEffect(key1 = true ) {
-                    GlobalScope.launch {
+                LaunchedEffect(key1 = true) {
+                    launch(Dispatchers.IO) {
                         checkDBState(onChangeDbState = { mainDbState = it })
                     }
                 }
-                    RootElements(mainDbState)
+                RootElements(mainDbState)
             }
         }
     }
 
-    private suspend fun checkDBState(onChangeDbState: (Boolean) -> Unit){
+    private suspend fun checkDBState(onChangeDbState: (Boolean) -> Unit) {
         if (groupListBox.isEmpty) {
-            val job = GlobalScope.launch { htmlParser.createMainDB() }
+            val job = CoroutineScope(Dispatchers.IO).launch { htmlParser.createMainDB() }
             job.join()
             onChangeDbState(true)
         } else {

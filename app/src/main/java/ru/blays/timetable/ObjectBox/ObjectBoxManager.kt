@@ -1,14 +1,12 @@
 package ru.blays.timetable.ObjectBox
 
 import android.content.Context
-import android.util.Log
 import io.objectbox.Box
 import io.objectbox.BoxStore
-import ru.blays.timetable.ObjectBox.Boxes.DaysInTimeTableBox
-import ru.blays.timetable.ObjectBox.Boxes.GroupListBox
-import ru.blays.timetable.ObjectBox.Boxes.GroupListBox_
-import ru.blays.timetable.ObjectBox.Boxes.MyObjectBox
+import ru.blays.timetable.ObjectBox.Boxes.*
+import ru.blays.timetable.daysListBox
 import ru.blays.timetable.groupListBox
+import ru.blays.timetable.subjectsListBox
 
 class ObjectBoxManager {
     lateinit var store: BoxStore
@@ -20,12 +18,23 @@ class ObjectBoxManager {
             .build()
     }
 
-
     fun deleteBox(listOfBox: List<Box<*>>) {
         listOfBox.forEach {
             it.removeAll()
         }
+    }
 
+    fun deleteTimeTable(href: String) {
+        val groupBox = groupListBox.query(GroupListBox_.href.equal(href)).build().find()
+        val dayBox = daysListBox.query(DaysInTimeTableBox_.href.equal(href)).build().find()
+        if (dayBox.isNotEmpty()) {
+            try {
+                val subjectsBox = dayBox[0].subjects
+
+                dayBox.remove(dayBox[0])
+                subjectsListBox.remove(subjectsBox)
+            } catch (_: IndexOutOfBoundsException) { }
+        }
     }
 
     fun insertToGroupBox(boxModel: GroupListBox) {
@@ -34,7 +43,6 @@ class ObjectBoxManager {
 
     fun insertToDaysBox(href: String, boxModel: DaysInTimeTableBox) {
         val groupRow = groupListBox.query(GroupListBox_.href.equal(href)).build().find()
-        Log.d("getLog", groupRow.toString())
         groupRow[0].days.add(boxModel)
         groupListBox.put(groupRow)
     }
