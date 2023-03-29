@@ -92,6 +92,18 @@ class HTMLParser {
     }
 }
 
+/*CoroutineScope(Dispatchers.IO).launch {
+    val doc = htmlClient.getHTTP("vg60.htm")
+
+    val tr = doc.select("table.inf").select("tr")
+
+    for (row in tr) {
+        val i = row.select(".vp").select("[align=left]").select("a[href]").text()
+        val p = row.select("img").attr("width")
+        Log.d("parseLog", "Subject: $i, Complete:  $p")
+    }
+}*/
+
     /*suspend fun parseHTML(href: String) {
 
         val doc = htmlClient.getHTTP(href)

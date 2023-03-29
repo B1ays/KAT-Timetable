@@ -7,6 +7,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ru.blays.timetable.Compose.ScreenData
 import ru.blays.timetable.Compose.ScreenList
+import ru.blays.timetable.Compose.Screens.AboutScreen
 import ru.blays.timetable.ObjectBox.Boxes.GroupListBox
 import ru.blays.timetable.R
 import ru.blays.timetable.htmlParser
@@ -45,6 +46,11 @@ fun Navigation(
         ScreenList.settings_screen -> {
             BackPressHandler(onBackPressed = onBack)
             SettingsScreen()
+        }
+        ScreenList.about_screen -> {
+            BackPressHandler(onBackPressed = onBack)
+            onTitleChange("О приложении")
+            AboutScreen()
         }
         ScreenList.update_TimeTable -> {
             var updateState by remember { mutableStateOf(false) }

@@ -83,17 +83,8 @@ fun FloatingMenu(onScreenChange: (ScreenData) -> Unit, currentScreen: ScreenData
                             .fillMaxWidth(),
                         horizontalArrangement = Arrangement.End
                     ) {
-                        FloatingMenuAction(
-                            item = FloatingMenuActions.close,
-                            onExpandedChange = onExpandedChange,
-                            onScreenChange = onScreenChange,
-                            currentScreen = currentScreen,
-                            action = {
-                                onExpandedChange()
-                            }
-                        )
-
                         if (currentScreen.Screen == ScreenList.timetable_screen) {
+
                             FloatingMenuAction(
                                 item = FloatingMenuActions.refresh,
                                 onExpandedChange = onExpandedChange,
@@ -104,6 +95,17 @@ fun FloatingMenu(onScreenChange: (ScreenData) -> Unit, currentScreen: ScreenData
                                 }
                             )
                         }
+
+                        FloatingMenuAction(
+                            item = FloatingMenuActions.close,
+                            onExpandedChange = onExpandedChange,
+                            onScreenChange = onScreenChange,
+                            currentScreen = currentScreen,
+                            action = {
+                                onExpandedChange()
+                            }
+                        )
+
                     }
                 }
             }
