@@ -8,32 +8,34 @@ import kotlinx.coroutines.launch
 import ru.blays.timetable.Compose.ScreenData
 import ru.blays.timetable.Compose.ScreenList
 import ru.blays.timetable.Compose.Screens.AboutScreen
-import ru.blays.timetable.ObjectBox.Boxes.GroupListBox
 import ru.blays.timetable.R
 import ru.blays.timetable.htmlParser
-import ru.blays.timetable.objectBoxManager
 
 @ExperimentalAnimationApi
 @Composable
 fun Navigation(
     onTitleChange: (String) -> Unit,
     currentScreen: ScreenData,
-    onScreenChange: (ScreenData) -> Unit
+    onScreenChange: (ScreenData) -> Unit,
+    backStack: MutableList<ScreenData>
 ) {
-    var groupList by remember { mutableStateOf(listOf<GroupListBox>()) }
 
-    val onBack = {
-        if (currentScreen.Screen != ScreenList.main_screen) {
+    val onBack: () -> Unit = {
+        if (backStack.count() > 1) {
+            onScreenChange(backStack[backStack.lastIndex-1])
+            backStack.removeLast()
+        } else {
             onScreenChange(ScreenData(ScreenList.main_screen, ""))
         }
     }
 
-    groupList = objectBoxManager.getGroupListFromBox()!!
+    if (backStack.last() != currentScreen) {
+        backStack.add(currentScreen)
+    }
 
     when(currentScreen.Screen) {
         ScreenList.main_screen -> {
             SimpleList(
-                list = groupList,
                 onScreenChange,
                 onTitleChange
             )

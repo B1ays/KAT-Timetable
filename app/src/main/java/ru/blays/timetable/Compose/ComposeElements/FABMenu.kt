@@ -139,7 +139,7 @@ fun FloatingMenuItem(
             .padding(7.dp)
             .clickable {
                 onExpandedChange()
-                onScreenChange(ScreenData(item.destinationScreen, "cg60.htm"))
+                onScreenChange(ScreenData(item.destinationScreen, ""))
             }
         )
         {

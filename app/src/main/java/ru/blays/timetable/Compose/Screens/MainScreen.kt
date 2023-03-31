@@ -20,6 +20,7 @@ fun RootElements(
     val defaultTitle = stringResource(id = R.string.Toolbar_MainScreen_title)
     var titleText by remember { mutableStateOf(defaultTitle) }
     var currentScreen by remember { mutableStateOf(ScreenData(ScreenList.main_screen, "")) }
+    val backStack = mutableListOf(ScreenData(ScreenList.main_screen, ""))
 
 
     val onScreenChange: (ScreenData) -> Unit = { screen ->
@@ -36,7 +37,8 @@ fun RootElements(
                 it,
                 onTitleChange = { title -> titleText = title },
                 currentScreen,
-                onScreenChange
+                onScreenChange,
+                backStack
             )
         }
     }
@@ -48,7 +50,8 @@ fun Frame(
     paddingValues: PaddingValues,
     onTitleChange: (String) -> Unit,
     currentScreen: ScreenData,
-    onScreenChange: (ScreenData) -> Unit
+    onScreenChange: (ScreenData) -> Unit,
+    backStack: MutableList<ScreenData>
 ) {
     Surface(
         modifier = Modifier
@@ -60,7 +63,9 @@ fun Frame(
            Navigation(
                 onTitleChange,
                 currentScreen,
-                onScreenChange)
+                onScreenChange,
+                backStack
+           )
         }
     }
 }

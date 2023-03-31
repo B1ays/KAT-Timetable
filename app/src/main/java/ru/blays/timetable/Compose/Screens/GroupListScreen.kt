@@ -12,24 +12,28 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import ru.blays.timetable.Compose.ScreenData
 import ru.blays.timetable.Compose.ScreenList
 import ru.blays.timetable.ObjectBox.Boxes.GroupListBox
+import ru.blays.timetable.objectBoxManager
 
 @ExperimentalAnimationApi
 @Composable
 fun SimpleList(
-    list: List<GroupListBox>,
     onScreenChange: (ScreenData) -> Unit,
     onTitleChange: (String) -> Unit
-) {
+)
+{
+    var groupList by remember { mutableStateOf(listOf<GroupListBox>()) }
+
+    groupList = objectBoxManager.getGroupListFromBox()!!
+
     LazyColumn{
-        itemsIndexed(list) {_, item ->
+        itemsIndexed(groupList) {_, item ->
             SimpleCard(title = item, onScreenChange, onTitleChange)
         }
     }
