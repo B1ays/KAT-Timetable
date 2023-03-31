@@ -8,24 +8,23 @@ import kotlinx.coroutines.launch
 import ru.blays.timetable.Compose.ScreenData
 import ru.blays.timetable.Compose.ScreenList
 import ru.blays.timetable.Compose.Screens.AboutScreen
-import ru.blays.timetable.Compose.Utils.AppBarState
+import ru.blays.timetable.Compose.States.AppBarState
+import ru.blays.timetable.Compose.States.BackStackState.backStack
+import ru.blays.timetable.Compose.States.ScreenState
+import ru.blays.timetable.Compose.States.ScreenState.currentScreen
 import ru.blays.timetable.R
 import ru.blays.timetable.htmlParser
 
 @ExperimentalAnimationApi
 @Composable
-fun Navigation(
-    currentScreen: ScreenData,
-    onScreenChange: (ScreenData) -> Unit,
-    backStack: MutableList<ScreenData>
-) {
+fun Navigation() {
 
     val onBack: () -> Unit = {
         if (backStack.count() > 1) {
-            onScreenChange(backStack[backStack.lastIndex-1])
+            ScreenState.changeScreen(backStack[backStack.lastIndex-1])
             backStack.removeLast()
         } else {
-            onScreenChange(ScreenData(ScreenList.main_screen, ""))
+            ScreenState.changeScreen(ScreenData(ScreenList.main_screen))
         }
     }
 
@@ -35,9 +34,7 @@ fun Navigation(
 
     when(currentScreen.Screen) {
         ScreenList.main_screen -> {
-            SimpleList(
-                onScreenChange
-            )
+            SimpleList()
             AppBarState.changeTitleText(stringResource(id = R.string.Toolbar_MainScreen_title))
         }
         ScreenList.timetable_screen -> {
@@ -63,7 +60,7 @@ fun Navigation(
                 updateState = job.isCompleted
             }
             if (updateState) {
-                onScreenChange(ScreenData(ScreenList.timetable_screen, currentScreen.Key))
+                ScreenState.changeScreen(ScreenData(ScreenList.timetable_screen, currentScreen.Key))
             }
         }
     }

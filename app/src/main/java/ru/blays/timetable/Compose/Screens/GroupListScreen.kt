@@ -18,15 +18,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import ru.blays.timetable.Compose.ScreenData
 import ru.blays.timetable.Compose.ScreenList
-import ru.blays.timetable.Compose.Utils.AppBarState
+import ru.blays.timetable.Compose.States.AppBarState
+import ru.blays.timetable.Compose.States.ScreenState
 import ru.blays.timetable.ObjectBox.Boxes.GroupListBox
 import ru.blays.timetable.objectBoxManager
 
 @ExperimentalAnimationApi
 @Composable
-fun SimpleList(
-    onScreenChange: (ScreenData) -> Unit
-)
+fun SimpleList()
 {
     var groupList by remember { mutableStateOf(listOf<GroupListBox>()) }
 
@@ -34,7 +33,7 @@ fun SimpleList(
 
     LazyColumn{
         itemsIndexed(groupList) {_, item ->
-            SimpleCard(title = item, onScreenChange)
+            SimpleCard(title = item)
         }
     }
 }
@@ -42,8 +41,7 @@ fun SimpleList(
 @ExperimentalAnimationApi
 @Composable
 fun SimpleCard(
-    title: GroupListBox,
-    onScreenChange: (ScreenData) -> Unit
+    title: GroupListBox
 ) {
     val visibilityState = remember {
         MutableTransitionState(false).apply {
@@ -64,7 +62,7 @@ fun SimpleCard(
                     AppBarState.changeTitleText(
                         title.groupCode
                     )
-                    onScreenChange(
+                    ScreenState.changeScreen(
                         ScreenData(
                             Screen = ScreenList.timetable_screen,
                             Key = title.href

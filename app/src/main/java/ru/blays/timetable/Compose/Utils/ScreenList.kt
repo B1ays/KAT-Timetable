@@ -2,7 +2,7 @@ package ru.blays.timetable.Compose
 
 data class ScreenData(
     var Screen: String,
-    var Key: String
+    var Key: String = ""
 )
 object ScreenList {
     const val main_screen = "MAIN_SCREEN"

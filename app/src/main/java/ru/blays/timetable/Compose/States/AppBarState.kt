@@ -1,4 +1,4 @@
-package ru.blays.timetable.Compose.Utils
+package ru.blays.timetable.Compose.States
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf

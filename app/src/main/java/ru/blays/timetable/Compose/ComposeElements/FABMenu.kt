@@ -12,12 +12,15 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Menu
 import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import ru.blays.timetable.Compose.ScreenData
 import ru.blays.timetable.Compose.ScreenList
+import ru.blays.timetable.Compose.States.FABState.changeExpanded
+import ru.blays.timetable.Compose.States.FABState.isExpanded
+import ru.blays.timetable.Compose.States.ScreenState.currentScreen
 import ru.blays.timetable.Compose.Utils.FloatingMenuActions
 import ru.blays.timetable.Compose.Utils.FloatingMenuActionsModel
 import ru.blays.timetable.Compose.Utils.FloatingMenuItems
@@ -25,12 +28,8 @@ import ru.blays.timetable.Compose.Utils.FloatingMenuItemsModel
 
 @ExperimentalAnimationApi
 @Composable
-fun FloatingMenu(onScreenChange: (ScreenData) -> Unit, currentScreen: ScreenData) {
-    var isExpanded by remember { mutableStateOf(false) }
+fun FloatingMenu() {
 
-    val onExpandedChange = {
-        isExpanded = !isExpanded
-    }
 
     Box(
         modifier = Modifier
@@ -40,9 +39,7 @@ fun FloatingMenu(onScreenChange: (ScreenData) -> Unit, currentScreen: ScreenData
             )
             .clickable(enabled = !isExpanded)
             {
-                if (!isExpanded) {
-                    isExpanded = true
-                }
+                changeExpanded()
             }
     )
     {
@@ -76,36 +73,16 @@ fun FloatingMenu(onScreenChange: (ScreenData) -> Unit, currentScreen: ScreenData
                         style = MaterialTheme.typography.titleLarge
                     )
                     for (item in FloatingMenuItems.Items) {
-                        FloatingMenuItem(item, onExpandedChange, onScreenChange)
+                        FloatingMenuItem(item)
                     }
                     Row(
                         modifier = Modifier
                             .fillMaxWidth(),
                         horizontalArrangement = Arrangement.End
                     ) {
-                        if (currentScreen.Screen == ScreenList.timetable_screen) {
 
-                            FloatingMenuAction(
-                                item = FloatingMenuActions.refresh,
-                                onExpandedChange = onExpandedChange,
-                                onScreenChange = onScreenChange,
-                                currentScreen = currentScreen,
-                                action = {
-                                    onScreenChange(ScreenData(ScreenList.update_TimeTable, currentScreen.Key))
-                                }
-                            )
-                        }
-
-                        FloatingMenuAction(
-                            item = FloatingMenuActions.close,
-                            onExpandedChange = onExpandedChange,
-                            onScreenChange = onScreenChange,
-                            currentScreen = currentScreen,
-                            action = {
-                                onExpandedChange()
-                            }
-                        )
-
+                        if (currentScreen.Screen == ScreenList.timetable_screen) FloatingMenuAction(item = FloatingMenuActions.refresh)
+                        FloatingMenuAction(item = FloatingMenuActions.close)
                     }
                 }
             }
@@ -124,9 +101,7 @@ fun FloatingMenu(onScreenChange: (ScreenData) -> Unit, currentScreen: ScreenData
 
 @Composable
 fun FloatingMenuItem(
-    item: FloatingMenuItemsModel,
-    onExpandedChange: () -> Unit,
-    onScreenChange: (ScreenData) -> Unit
+    item: FloatingMenuItemsModel
 ) {
     Card(modifier = Modifier
         .fillMaxWidth()
@@ -138,14 +113,14 @@ fun FloatingMenuItem(
             .fillMaxWidth()
             .padding(7.dp)
             .clickable {
-                onExpandedChange()
-                onScreenChange(ScreenData(item.destinationScreen, ""))
+                changeExpanded()
+                item.action()
             }
         )
         {
             Icon(
                 imageVector = item.icon,
-                contentDescription = "Settings button",
+                contentDescription = "Menu item",
                 tint = MaterialTheme.colorScheme.primary
             )
             Text(
@@ -160,15 +135,11 @@ fun FloatingMenuItem(
 
 @Composable
 fun FloatingMenuAction(
-    item: FloatingMenuActionsModel,
-    onExpandedChange: () -> Unit,
-    onScreenChange: (ScreenData) -> Unit,
-    currentScreen: ScreenData,
-    action: () -> Unit
+    item: FloatingMenuActionsModel
 ) {
     IconButton(
         onClick = {
-           action()
+            item.action()
         }
     )
     {
