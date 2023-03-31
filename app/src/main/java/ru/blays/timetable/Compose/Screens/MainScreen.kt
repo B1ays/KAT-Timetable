@@ -10,6 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import ru.blays.timetable.Compose.ScreenData
 import ru.blays.timetable.Compose.ScreenList
+import ru.blays.timetable.Compose.Utils.AppBarState
+import ru.blays.timetable.Compose.Utils.AppBarState.titleText
 import ru.blays.timetable.R
 
 @ExperimentalAnimationApi
@@ -18,24 +20,24 @@ fun RootElements(
     mainDbState: Boolean
 ) {
     val defaultTitle = stringResource(id = R.string.Toolbar_MainScreen_title)
-    var titleText by remember { mutableStateOf(defaultTitle) }
     var currentScreen by remember { mutableStateOf(ScreenData(ScreenList.main_screen, "")) }
     val backStack = mutableListOf(ScreenData(ScreenList.main_screen, ""))
 
+    AppBarState.changeTitleText(defaultTitle)
 
     val onScreenChange: (ScreenData) -> Unit = { screen ->
         currentScreen = screen
     }
     if (mainDbState) {
+
         Scaffold(topBar = {
-            TopAppBar(title = { Text(text = titleText) })
+            TopAppBar(title = { Text(text = AppBarState.titleText) })
         },
         floatingActionButton = { FloatingMenu(onScreenChange, currentScreen) }
         )
         {
             Frame(
                 it,
-                onTitleChange = { title -> titleText = title },
                 currentScreen,
                 onScreenChange,
                 backStack
@@ -48,7 +50,6 @@ fun RootElements(
 @Composable
 fun Frame(
     paddingValues: PaddingValues,
-    onTitleChange: (String) -> Unit,
     currentScreen: ScreenData,
     onScreenChange: (ScreenData) -> Unit,
     backStack: MutableList<ScreenData>
@@ -61,7 +62,6 @@ fun Frame(
     {
         MaterialTheme {
            Navigation(
-                onTitleChange,
                 currentScreen,
                 onScreenChange,
                 backStack

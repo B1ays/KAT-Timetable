@@ -8,13 +8,13 @@ import kotlinx.coroutines.launch
 import ru.blays.timetable.Compose.ScreenData
 import ru.blays.timetable.Compose.ScreenList
 import ru.blays.timetable.Compose.Screens.AboutScreen
+import ru.blays.timetable.Compose.Utils.AppBarState
 import ru.blays.timetable.R
 import ru.blays.timetable.htmlParser
 
 @ExperimentalAnimationApi
 @Composable
 fun Navigation(
-    onTitleChange: (String) -> Unit,
     currentScreen: ScreenData,
     onScreenChange: (ScreenData) -> Unit,
     backStack: MutableList<ScreenData>
@@ -36,10 +36,9 @@ fun Navigation(
     when(currentScreen.Screen) {
         ScreenList.main_screen -> {
             SimpleList(
-                onScreenChange,
-                onTitleChange
+                onScreenChange
             )
-            onTitleChange(stringResource(id = R.string.Toolbar_MainScreen_title))
+            AppBarState.changeTitleText(stringResource(id = R.string.Toolbar_MainScreen_title))
         }
         ScreenList.timetable_screen -> {
             BackPressHandler(onBackPressed = onBack)
@@ -47,11 +46,12 @@ fun Navigation(
         }
         ScreenList.settings_screen -> {
             BackPressHandler(onBackPressed = onBack)
+            AppBarState.changeTitleText("Настройки")
             SettingsScreen()
         }
         ScreenList.about_screen -> {
             BackPressHandler(onBackPressed = onBack)
-            onTitleChange("О приложении")
+            AppBarState.changeTitleText("О приложении")
             AboutScreen()
         }
         ScreenList.update_TimeTable -> {
