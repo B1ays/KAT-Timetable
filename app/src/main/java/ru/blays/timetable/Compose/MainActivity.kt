@@ -10,6 +10,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ru.blays.timetable.Compose.ComposeElements.RootElements
+import ru.blays.timetable.Compose.States.ThemeState
 import ru.blays.timetable.Compose.theme.AviakatTimetableTheme
 import ru.blays.timetable.ObjectBox.Boxes.DaysInTimeTableBox
 import ru.blays.timetable.ObjectBox.Boxes.GroupListBox
@@ -41,7 +42,7 @@ class MainActivity : ComponentActivity() {
             htmlParser = HTMLParser()
         }
         setContent {
-            AviakatTimetableTheme {
+            AviakatTimetableTheme(darkTheme = ThemeState.isDarkMode, dynamicColor = ThemeState.isDynamicColor) {
                 var mainDbState by remember { mutableStateOf(false) }
                 LaunchedEffect(key1 = true) {
                     launch(Dispatchers.IO) {

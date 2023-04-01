@@ -1,21 +1,44 @@
 package ru.blays.timetable.Compose.ComposeElements
 
+import android.os.Build
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.rounded.CheckCircle
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import ru.blays.timetable.Compose.States.ThemeState
 
 @Composable
 fun SettingsScreen() {
-    Text(
-        modifier = Modifier.padding(6.dp),
-        text = "Настроек нет, вообще нет!")
+    var isDarkTheme by remember { mutableStateOf(false) }
+    var isDynamicColor by remember { mutableStateOf(false) }
+    isDarkTheme = isSystemInDarkTheme()
+    isDynamicColor = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+    var isThemeChecked by remember { mutableStateOf(isDarkTheme) }
+    var isDynamicChecked by remember { mutableStateOf(isDarkTheme) }
+    Column {
+        Text(
+            modifier = Modifier.padding(6.dp),
+            text = "Настроек нет, вообще нет!")
+
+        Switch(checked = isThemeChecked, onCheckedChange = {
+            isThemeChecked = it
+            ThemeState.changeTheme(it)
+        }
+        )
+
+        Switch(checked = isDynamicChecked, onCheckedChange = {
+            isDynamicChecked = it
+            ThemeState.changeDynamicColor(it)
+        }
+        )
+    }
 }
 
 @Composable
