@@ -21,10 +21,10 @@ import ru.blays.timetable.Compose.ScreenList
 import ru.blays.timetable.Compose.States.FABState.changeExpanded
 import ru.blays.timetable.Compose.States.FABState.isExpanded
 import ru.blays.timetable.Compose.States.ScreenState.currentScreen
-import ru.blays.timetable.Compose.Utils.FloatingMenuActions
-import ru.blays.timetable.Compose.Utils.FloatingMenuActionsModel
-import ru.blays.timetable.Compose.Utils.FloatingMenuItems
-import ru.blays.timetable.Compose.Utils.FloatingMenuItemsModel
+import ru.blays.timetable.Compose.helperClasses.FloatingMenuActions
+import ru.blays.timetable.Compose.helperClasses.FloatingMenuActionsModel
+import ru.blays.timetable.Compose.helperClasses.FloatingMenuItems
+import ru.blays.timetable.Compose.helperClasses.FloatingMenuItemsModel
 
 @ExperimentalAnimationApi
 @Composable
@@ -44,6 +44,8 @@ fun FloatingMenu() {
     )
     {
         if (isExpanded) {
+
+            // Развёрнутое меню
 
             val visibilityState = remember {
                 MutableTransitionState(false).apply {
@@ -86,8 +88,9 @@ fun FloatingMenu() {
                     }
                 }
             }
-        } else
-        {
+        }
+        // Свёрнутое меню
+        else {
             Icon(
                 modifier = Modifier
                     .padding(14.dp),

@@ -1,19 +1,17 @@
 package ru.blays.timetable.Compose.ComposeElements
 
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import ru.blays.timetable.Compose.ScreenData
 import ru.blays.timetable.Compose.ScreenList
 import ru.blays.timetable.Compose.Screens.AboutScreen
+import ru.blays.timetable.Compose.Screens.DownloadProgressScreen
 import ru.blays.timetable.Compose.States.AppBarState
 import ru.blays.timetable.Compose.States.BackStackState.backStack
 import ru.blays.timetable.Compose.States.ScreenState
 import ru.blays.timetable.Compose.States.ScreenState.currentScreen
 import ru.blays.timetable.R
-import ru.blays.timetable.htmlParser
 
 @ExperimentalAnimationApi
 @Composable
@@ -28,7 +26,7 @@ fun Navigation() {
         }
     }
 
-    if (backStack.last() != currentScreen) {
+    if (backStack.last() != currentScreen && currentScreen.Screen != ScreenList.update_TimeTable) {
         backStack.add(currentScreen)
     }
 
@@ -52,16 +50,9 @@ fun Navigation() {
             AboutScreen()
         }
         ScreenList.update_TimeTable -> {
-            var updateState by remember { mutableStateOf(false) }
-                LaunchedEffect(true)
-            {
-                val job = launch(Dispatchers.IO) {  htmlParser.getTimeTable(currentScreen.Key) }
-                job.join()
-                updateState = job.isCompleted
-            }
-            if (updateState) {
-                ScreenState.changeScreen(ScreenData(ScreenList.timetable_screen, currentScreen.Key))
-            }
+            AppBarState.changeTitleText("Обновление...")
+            updateTimeTable()
+            DownloadProgressScreen()
         }
     }
 }

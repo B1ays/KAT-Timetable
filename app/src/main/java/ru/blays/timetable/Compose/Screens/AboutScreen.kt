@@ -19,9 +19,9 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ru.blays.timetable.Compose.Utils.CardShape
-import ru.blays.timetable.Compose.Utils.Contact
-import ru.blays.timetable.Compose.Utils.ContactList
+import ru.blays.timetable.Compose.helperClasses.CardShape
+import ru.blays.timetable.Compose.helperClasses.Contact
+import ru.blays.timetable.Compose.helperClasses.ContactList
 
 @Composable
 fun AboutScreen() {
