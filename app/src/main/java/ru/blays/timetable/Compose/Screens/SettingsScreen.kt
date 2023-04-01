@@ -20,21 +20,17 @@ fun SettingsScreen() {
     var isDynamicColor by remember { mutableStateOf(false) }
     isDarkTheme = isSystemInDarkTheme()
     isDynamicColor = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
-    var isThemeChecked by remember { mutableStateOf(isDarkTheme) }
-    var isDynamicChecked by remember { mutableStateOf(isDarkTheme) }
     Column {
-        Text(
+        /*Text(
             modifier = Modifier.padding(6.dp),
-            text = "Настроек нет, вообще нет!")
+            text = "Настроек нет, вообще нет!")*/
 
-        Switch(checked = isThemeChecked, onCheckedChange = {
-            isThemeChecked = it
+        Switch(checked = ThemeState.isDarkMode, onCheckedChange = {
             ThemeState.changeTheme(it)
         }
         )
 
-        Switch(checked = isDynamicChecked, onCheckedChange = {
-            isDynamicChecked = it
+        Switch(checked = ThemeState.isDynamicColor, onCheckedChange = {
             ThemeState.changeDynamicColor(it)
         }
         )

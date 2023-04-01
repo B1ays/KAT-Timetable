@@ -5,16 +5,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 
 object ThemeState {
-    var isDarkMode by mutableStateOf(false)
+    var isDarkMode by mutableStateOf(true)
 
-    var isDynamicColor by mutableStateOf(false)
+    var isDynamicColor by mutableStateOf(true)
 
     fun changeTheme(isDarkTheme: Boolean) {
-        isDarkMode = isDarkTheme
+        isDarkMode = !isDarkMode
     }
 
     fun changeDynamicColor(isDynamicColors: Boolean) {
-        isDynamicColor = isDynamicColors
+        isDynamicColor = !isDynamicColor
     }
 
 }
