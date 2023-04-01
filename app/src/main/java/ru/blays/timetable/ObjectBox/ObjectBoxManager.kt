@@ -4,9 +4,9 @@ import android.content.Context
 import android.util.Log
 import io.objectbox.Box
 import io.objectbox.BoxStore
+import ru.blays.timetable.Compose.daysListBox
+import ru.blays.timetable.Compose.groupListBox
 import ru.blays.timetable.ObjectBox.Boxes.*
-import ru.blays.timetable.daysListBox
-import ru.blays.timetable.groupListBox
 
 class ObjectBoxManager {
     lateinit var store: BoxStore
@@ -43,23 +43,17 @@ class ObjectBoxManager {
     }
 
     fun insertToDaysBox(href: String, boxModel: DaysInTimeTableBox) {
-        val groupRow = groupListBox.query(GroupListBox_.href.equal(href)).build().find()
-
+        val groupRow = groupListBox.query(GroupListBox_.href.equal(href)).build().find();
             groupRow[0].days.add(boxModel)
             groupListBox.put(groupRow)
     }
 
-        fun getGroupListFromBox(): MutableList<GroupListBox>? {
-            return groupListBox.all
-        }
+    fun getGroupListFromBox(): MutableList<GroupListBox>? {
+        return groupListBox.all
+    }
 
-        fun getDaysFromTable(href: String): List<GroupListBox> {
-            return groupListBox.query(GroupListBox_.href.equal(href)).build().find()
-        }
+    fun getDaysFromTable(href: String): List<GroupListBox> {
+        return groupListBox.query(GroupListBox_.href.equal(href)).build().find()
 
-
-        /*fun deleteFromBox(box: Box<*>) {
-
-    }*/
-
+    }
 }

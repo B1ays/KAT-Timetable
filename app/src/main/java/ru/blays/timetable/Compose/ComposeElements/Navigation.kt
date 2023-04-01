@@ -11,6 +11,7 @@ import ru.blays.timetable.Compose.States.AppBarState
 import ru.blays.timetable.Compose.States.BackStackState.backStack
 import ru.blays.timetable.Compose.States.ScreenState
 import ru.blays.timetable.Compose.States.ScreenState.currentScreen
+import ru.blays.timetable.Compose.helperClasses.CurrentTimeTable
 import ru.blays.timetable.R
 
 @ExperimentalAnimationApi
@@ -37,7 +38,8 @@ fun Navigation() {
         }
         ScreenList.timetable_screen -> {
             BackPressHandler(onBackPressed = onBack)
-            TimeTableView(currentScreen.Key)
+            CurrentTimeTable.getTimeTable(currentScreen.Key)
+            TimeTableView()
         }
         ScreenList.settings_screen -> {
             BackPressHandler(onBackPressed = onBack)

@@ -1,7 +1,7 @@
 package ru.blays.timetable.ParseUtils
 
 import kotlinx.coroutines.coroutineScope
-import ru.blays.timetable.*
+import ru.blays.timetable.Compose.*
 import ru.blays.timetable.ObjectBox.Boxes.DaysInTimeTableBox
 import ru.blays.timetable.ObjectBox.Boxes.GroupListBox
 import ru.blays.timetable.ObjectBox.Boxes.SubjectsListBox

@@ -11,35 +11,20 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import ru.blays.timetable.Compose.helperClasses.CurrentTimeTable.daysList
 import ru.blays.timetable.ObjectBox.Boxes.DaysInTimeTableBox
 import ru.blays.timetable.ObjectBox.Boxes.SubjectsListBox
-import ru.blays.timetable.htmlParser
-import ru.blays.timetable.objectBoxManager
 
 @ExperimentalAnimationApi
 @Composable
-fun TimeTableView(href: String) {
-
-    var daysList by remember { mutableStateOf(objectBoxManager.getDaysFromTable(href)[0].days) }
-
-    if (daysList.isEmpty()) {
-        LaunchedEffect(key1 = true ) {
-            CoroutineScope(Dispatchers.IO).launch {
-                htmlParser.getTimeTable(href)
-                daysList = objectBoxManager.getDaysFromTable(href)[0].days
-            }
-        }
-    }
-
+fun TimeTableView() {
     LazyColumn(modifier = Modifier.fillMaxWidth()) {
         items(daysList) {
             TimeTableCard(list = it)

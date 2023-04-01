@@ -19,7 +19,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="tiramisu">
         <activity
-            android:name=".MainActivity"
+            android:name="ru.blays.timetable.Compose.MainActivity"
             android:exported="true"
             android:label="@string/title_activity_main"
             android:theme="@style/Theme.AviakatTimetable">
@@ -30,5 +30,4 @@
             </intent-filter>
         </activity>
     </application>
-
 </manifest>
