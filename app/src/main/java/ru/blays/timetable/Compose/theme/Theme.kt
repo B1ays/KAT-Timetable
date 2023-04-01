@@ -4,25 +4,29 @@ import android.app.Activity
 import android.graphics.Color
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material3.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.dynamicDarkColorScheme
+import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.ViewCompat
+import ru.blays.timetable.Compose.States.ThemeState.DarkColorScheme
+import ru.blays.timetable.Compose.States.ThemeState.LightColorScheme
 
-private val DarkColorScheme = darkColorScheme(
-    primary = accent,
+/*private val DarkColorScheme = darkColorScheme(
+    primary = ThemeState.accentColor,
     secondary = accentGray,
     tertiary = Pink80
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = accent,
+    primary = ThemeState.accentColor,
     secondary = accentGray,
     tertiary = Pink40
 
-    /* Other default colors to override
+    *//* Other default colors to override
     background = Color(0xFFFFFBFE),
     surface = Color(0xFFFFFBFE),
     onPrimary = Color.White,
@@ -30,8 +34,8 @@ private val LightColorScheme = lightColorScheme(
     onTertiary = Color.White,
     onBackground = Color(0xFF1C1B1F),
     onSurface = Color(0xFF1C1B1F),
-    */
-)
+    *//*
+)*/
 
 @Composable
 fun AviakatTimetableTheme(
