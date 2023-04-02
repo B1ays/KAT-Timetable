@@ -15,5 +15,4 @@ object ContactList {
         /*Contact(iconID = R.drawable.telegram_icon, "4PDA", "https://t.me/B1ays")*/
 
     )
-
 }

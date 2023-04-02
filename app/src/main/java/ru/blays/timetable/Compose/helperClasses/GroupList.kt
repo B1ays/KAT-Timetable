@@ -40,5 +40,4 @@ object GroupList {
     fun updateGroupList() {
         groupList = groupListBox.all
     }
-
 }

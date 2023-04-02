@@ -62,12 +62,3 @@ fun CustomAlertDialog(message: String) {
     }
     )
 }
-
-
-
-/*
-TextButton(onClick = { */
-/*TODO*//*
- }) {
-    Text(text = "ОК")
-}*/
