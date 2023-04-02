@@ -22,9 +22,10 @@ object CurrentTimeTable {
         if (CurrentHref != href) {
             CurrentHref = href
             val query = objectBoxManager.getDaysFromTable(href)[0]
-            groupCode = query.groupCode
-                if (query.days.isNotEmpty()) {
-                daysList = query.days
+            groupCode = query.groupCode;
+
+            if (query.days.isNotEmpty()) {
+            daysList = query.days
             } else {
                 CoroutineScope(Dispatchers.IO).launch {
                     try {
