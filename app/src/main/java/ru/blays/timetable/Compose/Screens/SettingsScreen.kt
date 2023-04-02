@@ -13,6 +13,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
@@ -118,13 +119,15 @@ fun ColorPickerItem(item: AccentColorItem) {
 Box(
     modifier = Modifier
         .size(50.dp)
+        .padding(4.dp)
+        .clip(CircleShape)
+        .background(color = item.accentDark)
         .clickable {
             ThemeState.changeAccentColor(
                 if (ThemeState.isDarkMode) item.accentDark else item.accentLight
             )
         }
-        .padding(4.dp)
-        .background(color = item.accentDark, shape = CircleShape))
+    )
 }
 
 @Composable

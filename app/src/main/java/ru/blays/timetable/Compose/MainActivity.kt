@@ -4,13 +4,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.runtime.*
 import io.objectbox.Box
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import ru.blays.timetable.Compose.ComposeElements.RootElements
 import ru.blays.timetable.Compose.States.ThemeState
+import ru.blays.timetable.Compose.helperClasses.GroupList
 import ru.blays.timetable.Compose.theme.AviakatTimetableTheme
 import ru.blays.timetable.ObjectBox.Boxes.DaysInTimeTableBox
 import ru.blays.timetable.ObjectBox.Boxes.GroupListBox
@@ -43,24 +40,9 @@ class MainActivity : ComponentActivity() {
         }
         setContent {
             AviakatTimetableTheme(darkTheme = ThemeState.isDarkMode, dynamicColor = ThemeState.isDynamicColor) {
-                var mainDbState by remember { mutableStateOf(false) }
-                LaunchedEffect(key1 = true) {
-                    launch(Dispatchers.IO) {
-                        checkDBState(onChangeDbState = { mainDbState = it })
-                    }
-                }
-                RootElements(mainDbState)
+                GroupList.checkDBState()
+                RootElements()
             }
-        }
-    }
-
-    private suspend fun checkDBState(onChangeDbState: (Boolean) -> Unit) {
-        if (groupListBox.isEmpty) {
-            val job = CoroutineScope(Dispatchers.IO).launch { htmlParser.createMainDB() }
-            job.join()
-            onChangeDbState(true)
-        } else {
-            onChangeDbState(true)
         }
     }
 }

@@ -11,7 +11,10 @@ class HTMLParser {
     suspend fun createMainDB() = coroutineScope {
         val tr = try {
             htmlClient.getHTTP("cg.htm").select("tr")
-        } catch (_: NullPointerException) {
+        } catch (_: Exception) {
+            /*Log.d("getlog", e.toString())
+            AlertDialogState.changeText(e.toString())
+            AlertDialogState.changeState()*/
             return@coroutineScope
         }
 
@@ -32,14 +35,17 @@ class HTMLParser {
     val rangeEnd: Int
     )
 
-    suspend fun getTimeTable(href: String): Boolean {
+    suspend fun getTimeTable(href: String) {
         val daysIndices = mutableListOf<Int>()
         val rowRange = mutableListOf<Range>()
 
         val tr = try {
             htmlClient.getHTTP(href).select("table.inf").select("tr")
         } catch (_: NullPointerException) {
-            return false
+            /*Log.d("getlog", e.toString())
+            AlertDialogState.changeText(e.toString())
+            AlertDialogState.changeState()*/
+            return
         }
 
         objectBoxManager.deleteTimeTable(href)
@@ -88,7 +94,6 @@ class HTMLParser {
             }
             objectBoxManager.insertToDaysBox(href, days)
         }
-        return true
     }
 }
 

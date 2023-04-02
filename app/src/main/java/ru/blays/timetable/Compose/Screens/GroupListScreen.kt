@@ -19,7 +19,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import ru.blays.timetable.Compose.ScreenData
 import ru.blays.timetable.Compose.ScreenList
-import ru.blays.timetable.Compose.States.AppBarState
 import ru.blays.timetable.Compose.States.ScreenState
 import ru.blays.timetable.Compose.helperClasses.GroupList.groupList
 import ru.blays.timetable.ObjectBox.Boxes.GroupListBox
@@ -55,9 +54,6 @@ fun SimpleCard(
                 .fillMaxWidth()
                 .padding(horizontal = 10.dp, vertical = 5.dp)
                 .clickable {
-                    AppBarState.changeTitleText(
-                        title.groupCode
-                    )
                     ScreenState.changeScreen(
                         ScreenData(
                             Screen = ScreenList.timetable_screen,

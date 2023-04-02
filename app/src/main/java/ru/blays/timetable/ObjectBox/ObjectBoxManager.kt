@@ -1,5 +1,6 @@
 package ru.blays.timetable.ObjectBox
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import io.objectbox.Box
@@ -42,6 +43,7 @@ class ObjectBoxManager {
         groupListBox.put(boxModel)
     }
 
+    @SuppressLint("SuspiciousIndentation")
     fun insertToDaysBox(href: String, boxModel: DaysInTimeTableBox) {
         val groupRow = groupListBox.query(GroupListBox_.href.equal(href)).build().find();
             groupRow[0].days.add(boxModel)

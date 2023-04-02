@@ -8,30 +8,26 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import ru.blays.timetable.Compose.States.AlertDialogState
 import ru.blays.timetable.Compose.States.AppBarState
 import ru.blays.timetable.R
 
 @ExperimentalAnimationApi
 @Composable
-fun RootElements(
-    mainDbState: Boolean
-) {
-    val defaultTitle = stringResource(id = R.string.Toolbar_MainScreen_title)
+fun RootElements() {
 
+    val defaultTitle = stringResource(id = R.string.Toolbar_MainScreen_title)
     AppBarState.changeTitleText(defaultTitle)
 
-    if (mainDbState) {
-
-        Scaffold(topBar = {
-            TopAppBar(title = { Text(text = AppBarState.titleText) })
-        },
-        floatingActionButton = { FloatingMenu() }
+    Scaffold(topBar = {
+        TopAppBar(title = { Text(text = AppBarState.titleText) })
+    },
+    floatingActionButton = { FloatingMenu() }
+    )
+    {
+        Frame(
+            it
         )
-        {
-            Frame(
-                it
-            )
-        }
     }
 }
 
@@ -47,7 +43,13 @@ fun Frame(
     )
     {
         MaterialTheme {
+
+            if(AlertDialogState.isOpen) {
+                CustomAlertDialog(message = AlertDialogState.text)
+            }
+
            Navigation()
+
         }
     }
 }
