@@ -7,7 +7,6 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.rounded.ArrowDropDown
 import androidx.compose.material.icons.rounded.CheckCircle
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -17,24 +16,27 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import ru.blays.timetable.Compose.States.ThemeState
 import ru.blays.timetable.Compose.helperClasses.AccentColorItem
 import ru.blays.timetable.Compose.helperClasses.AccentColorList
+import ru.blays.timetable.R
 
 @Composable
 fun SettingsScreen() {
     Column {
         Card(
             modifier = Modifier
-                .padding(12.dp)
+                .padding(vertical = 5.dp, horizontal = 12.dp)
                 .fillMaxWidth(),
             shape = RoundedCornerShape(10.dp)
         ) {
             Row(
                 modifier = Modifier
-                    .padding(12.dp)
+                    .padding(vertical = 5.dp, horizontal = 12.dp)
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
@@ -49,7 +51,7 @@ fun SettingsScreen() {
         }
             Row(
                 modifier = Modifier
-                    .padding(12.dp)
+                    .padding(vertical = 5.dp, horizontal = 12.dp)
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
@@ -75,10 +77,11 @@ fun AccentSelector() {
     }
     Card(
         modifier = Modifier
-            .padding(12.dp)
+            .padding(vertical = 5.dp, horizontal = 12.dp)
             .fillMaxWidth()
             .clickable { isExpanded = !isExpanded },
-        shape = RoundedCornerShape(10.dp)
+        shape = RoundedCornerShape(10.dp),
+        elevation = CardDefaults.cardElevation(2.dp)
     ) {
     Column(
         modifier = Modifier
@@ -99,7 +102,7 @@ fun AccentSelector() {
                     .scale(1.5F)
                     .background(color = MaterialTheme.colorScheme.background, shape = CircleShape)
                     .rotate(if (isExpanded) 180F else 0F),
-                imageVector = androidx.compose.material.icons.Icons.Rounded.ArrowDropDown,
+                imageVector = ImageVector.vectorResource(id = R.drawable.ic_arrow_down_24dp),
                 contentDescription = "Arrow")
         }
         if (isExpanded) {
@@ -136,7 +139,8 @@ fun DBStateItem() {
         modifier = Modifier
             .padding(12.dp)
             .fillMaxWidth(),
-        shape = RoundedCornerShape(10.dp)
+        shape = RoundedCornerShape(10.dp),
+        elevation = CardDefaults.cardElevation(2.dp)
     ) {
         Column(
             modifier = Modifier

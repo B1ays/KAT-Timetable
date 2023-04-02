@@ -62,7 +62,7 @@ fun SimpleCard(
                     )
                 },
             shape = RoundedCornerShape(10.dp),
-            elevation = CardDefaults.cardElevation(8.dp)
+            elevation = CardDefaults.cardElevation(4.dp)
         ) {
             Text(
                 modifier = Modifier

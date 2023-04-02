@@ -58,7 +58,7 @@ fun TimeTableCard(list: DaysInTimeTableBox) {
                 .fillMaxWidth()
                 .padding(horizontal = 10.dp, vertical = 5.dp),
             shape = RoundedCornerShape(10.dp),
-            elevation = CardDefaults.cardElevation(8.dp)
+            elevation = CardDefaults.cardElevation(4.dp)
         )
         {
             Column(
@@ -87,7 +87,7 @@ fun SubjectItem(subject: SubjectsListBox) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(/*vertical = */6.dp),
+            .padding(6.dp),
         shape = RoundedCornerShape(10.dp),
         elevation = CardDefaults
             .cardElevation(2.dp)
