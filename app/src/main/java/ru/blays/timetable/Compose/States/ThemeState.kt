@@ -5,35 +5,37 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.graphics.Color
+import ru.blays.timetable.Compose.helperClasses.AccentColorItem
+import ru.blays.timetable.Compose.helperClasses.AccentColorList
 
 object ThemeState {
     var isDarkMode by mutableStateOf(true)
 
     var isDynamicColor by mutableStateOf(true)
 
-    private var accentColor = Color(0xFF825BDD)
+    private var accentColor = AccentColorList.list[0]
+
+    private const val ColorOffset = 1.7F
 
     var DarkColorScheme by mutableStateOf(darkColorScheme(
-        primary = accentColor,
-        secondary = accentColor.copy(alpha = 0.8F),
-        onPrimary = accentColor.copy(
-            red = (accentColor.red+(1-accentColor.red)/2.7).toFloat(),
-            blue = (accentColor.blue+(1-accentColor.blue)/2.7).toFloat(),
-            green = (accentColor.green+(1-accentColor.green)/2.7).toFloat()
+        primary = accentColor.accentDark,
+        secondary = accentColor.accentDark.copy(alpha = 0.8F),
+        onPrimary = accentColor.accentDark.copy(
+            red = (accentColor.accentDark.red+(1-accentColor.accentDark.red)/ColorOffset),
+            blue = (accentColor.accentDark.blue+(1-accentColor.accentDark.blue)/ColorOffset),
+            green = (accentColor.accentDark.green+(1-accentColor.accentDark.green)/ColorOffset)
         )
     ))
 
     var LightColorScheme by mutableStateOf(lightColorScheme(
-        primary = accentColor,
-        secondary = accentColor.copy(alpha = 0.8F),
-        onPrimary = accentColor.copy(
-            red = (accentColor.red+(1-accentColor.red)/2.7).toFloat(),
-            blue = (accentColor.blue+(1-accentColor.blue)/2.7).toFloat(),
-            green = (accentColor.green+(1-accentColor.green)/2.7).toFloat()
+        primary = accentColor.accentLight,
+        secondary = accentColor.accentLight.copy(alpha = 0.8F),
+        onPrimary = accentColor.accentLight.copy(
+            red = (accentColor.accentLight.red+(1-accentColor.accentLight.red)/ColorOffset),
+            blue = (accentColor.accentLight.blue+(1-accentColor.accentLight.blue)/ColorOffset),
+            green = (accentColor.accentLight.green+(1-accentColor.accentLight.green)/ColorOffset)
         )
     ))
-
 
     fun changeTheme() {
         isDarkMode = !isDarkMode
@@ -43,23 +45,23 @@ object ThemeState {
         isDynamicColor = !isDynamicColor
     }
 
-    fun changeAccentColor(color: Color) {
+    fun changeAccentColor(item: AccentColorItem) {
         DarkColorScheme = darkColorScheme(
-            primary = color,
-            secondary = color.copy(alpha = 0.8F),
-            onPrimary = accentColor.copy(
-                red = (color.red+(1-color.red)/2.7).toFloat(),
-                blue = (color.blue+(1-color.blue)/2.7).toFloat(),
-                green = (color.green+(1-color.green)/2.7).toFloat()
+            primary = item.accentDark,
+            secondary = item.accentDark.copy(alpha = 0.8F),
+            onPrimary = item.accentDark.copy(
+                red = (item.accentDark.red+(1-item.accentDark.red)/ColorOffset),
+                blue = (item.accentDark.blue+(1-item.accentDark.blue)/ColorOffset),
+                green = (item.accentDark.green+(1-item.accentDark.green)/ColorOffset)
             )
         )
         LightColorScheme = lightColorScheme(
-            primary = color,
-            secondary = color.copy(alpha = 0.8F),
-            onPrimary = accentColor.copy(
-                red = (color.red+(1-color.red)/2.7).toFloat(),
-                blue = (color.blue+(1-color.blue)/2.7).toFloat(),
-                green = (color.green+(1-color.green)/2.7).toFloat()
+            primary = item.accentLight,
+            secondary = item.accentLight.copy(alpha = 0.8F),
+            onPrimary = item.accentLight.copy(
+                red = (item.accentLight.red+(1-item.accentLight.red)/ColorOffset),
+                blue = (item.accentLight.blue+(1-item.accentLight.blue)/ColorOffset),
+                green = (item.accentLight.green+(1-item.accentLight.green)/ColorOffset)
             )
         )
     }

@@ -127,7 +127,7 @@ Box(
         .background(color = item.accentDark)
         .clickable {
             ThemeState.changeAccentColor(
-                if (ThemeState.isDarkMode) item.accentDark else item.accentLight
+                item
             )
         }
     )
