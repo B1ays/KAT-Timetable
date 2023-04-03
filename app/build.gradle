@@ -68,6 +68,8 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.1'
 
+    implementation(files("libs/material-color-util.jar"))
+
     // Jsoup
     implementation 'org.jsoup:jsoup:1.15.4'
 
