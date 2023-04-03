@@ -8,9 +8,11 @@ import androidx.compose.runtime.setValue
 import ru.blays.timetable.Compose.helperClasses.AccentColorItem
 import ru.blays.timetable.Compose.helperClasses.createDarkTheme
 import ru.blays.timetable.Compose.helperClasses.createLightTheme
+import ru.blays.timetable.Compose.prefs
 
 object ThemeState {
-    var isDarkMode by mutableStateOf(true)
+
+    var isDarkMode  by mutableStateOf(false)
 
     var isDynamicColor by mutableStateOf(true)
 
@@ -18,9 +20,13 @@ object ThemeState {
 
     var LightColorScheme by mutableStateOf(lightColorScheme())
 
-    fun changeTheme() {
-        isDarkMode = !isDarkMode
-    }
+    fun ChangeTheme(pref: Int) {
+        when(prefs.themePrefs) {
+            0 -> isDarkMode = false
+            1 -> isDarkMode = true
+            2 -> isDarkMode = false
+            }
+        }
 
     fun changeDynamicColor() {
         isDynamicColor = !isDynamicColor
@@ -30,5 +36,4 @@ object ThemeState {
         DarkColorScheme = createDarkTheme(color = item.accentDark)
         LightColorScheme = createLightTheme(color = item.accentLight)
     }
-
 }

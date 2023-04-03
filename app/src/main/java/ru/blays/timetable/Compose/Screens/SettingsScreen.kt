@@ -2,6 +2,7 @@ package ru.blays.timetable.Compose.ComposeElements
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -23,51 +24,123 @@ import androidx.compose.ui.unit.dp
 import ru.blays.timetable.Compose.States.ThemeState
 import ru.blays.timetable.Compose.helperClasses.AccentColorItem
 import ru.blays.timetable.Compose.helperClasses.AccentColorList
+import ru.blays.timetable.Compose.prefs
 import ru.blays.timetable.R
 
 @Composable
 fun SettingsScreen() {
     Column {
-        Card(
-            modifier = Modifier
-                .padding(vertical = 5.dp, horizontal = 12.dp)
-                .fillMaxWidth(),
-            shape = RoundedCornerShape(10.dp)
-        ) {
-            Row(
-                modifier = Modifier
-                    .padding(vertical = 5.dp, horizontal = 12.dp)
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-            )
-            {
-                Text(text = "Тёмная тема")
-            Switch(
-                checked = ThemeState.isDarkMode,
-                onCheckedChange = {
-                ThemeState.changeTheme()
-            })
-        }
-            Row(
-                modifier = Modifier
-                    .padding(vertical = 5.dp, horizontal = 12.dp)
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            )
-            {
-                Text(text = "MaterialYou акцент")
-                Switch(
-                    checked = ThemeState.isDynamicColor,
-                    onCheckedChange = {
-                    ThemeState.changeDynamicColor()
-                })
-            }
-        }
+        ThemeSettings()
+        MonetSettings()
         AccentSelector()
     }
 
+}
+
+@Composable
+fun ThemeSettings() {
+    var radioButtonSelectionState by remember { mutableStateOf(prefs.themePrefs) }
+    val isDarkMode = isSystemInDarkTheme()
+    Card(
+        modifier = Modifier
+            .padding(vertical = 5.dp, horizontal = 12.dp)
+            .fillMaxWidth(),
+        shape = RoundedCornerShape(10.dp)
+    ) {
+        Text(
+            modifier = Modifier
+                .padding(12.dp)
+                .fillMaxWidth(),
+            text = "Тема приложения:",
+            style = MaterialTheme.typography.titleMedium
+        )
+        Row(
+            modifier = Modifier
+                .padding(vertical = 2.dp, horizontal = 12.dp)
+                .fillMaxWidth()
+                .clickable {
+                    radioButtonSelectionState = 0
+                    prefs.themePrefs = 0
+                    ThemeState.isDarkMode = isDarkMode
+                },
+            verticalAlignment = Alignment.CenterVertically
+        )
+        {
+            RadioButton(
+                selected = radioButtonSelectionState == 0,
+                onClick = {}
+            )
+            Text(modifier = Modifier.padding(start = 8.dp), text = "Системная тема")
+        }
+
+        Row(
+            modifier = Modifier
+                .padding(vertical = 2.dp, horizontal = 12.dp)
+                .fillMaxWidth()
+                .clickable {
+                    radioButtonSelectionState = 1
+                    prefs.themePrefs = 1
+                    ThemeState.isDarkMode = true
+                },
+            verticalAlignment = Alignment.CenterVertically
+        )
+        {
+            RadioButton(
+                selected = radioButtonSelectionState == 1,
+                onClick = {}
+            )
+            Text(modifier = Modifier.padding(start = 8.dp), text = "Тёмная тема")
+        }
+
+        Row(
+            modifier = Modifier
+                .padding(vertical = 2.dp, horizontal = 12.dp)
+                .fillMaxWidth()
+                .clickable {
+                    radioButtonSelectionState = 2
+                    prefs.themePrefs = 2
+                    ThemeState.isDarkMode = false
+                },
+            verticalAlignment = Alignment.CenterVertically
+        )
+        {
+            RadioButton(
+                selected = radioButtonSelectionState == 2,
+                onClick = {}
+            )
+            Text(modifier = Modifier.padding(start = 8.dp), text = "Светлая тема")
+        }
+    }
+}
+
+@Composable
+fun MonetSettings() {
+    Card(
+        modifier = Modifier
+            .padding(vertical = 5.dp, horizontal = 12.dp)
+            .fillMaxWidth(),
+        shape = RoundedCornerShape(10.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .padding(vertical = 5.dp, horizontal = 12.dp)
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        )
+        {
+            Text(
+                text = "MaterialYou акцент",
+
+            )
+            Switch(
+                checked = ThemeState.isDynamicColor,
+                onCheckedChange = {
+                    prefs.monetPrefs = it
+                    ThemeState.changeDynamicColor()
+                })
+        }
+    }
 }
 
 @Composable
@@ -108,8 +181,8 @@ fun AccentSelector() {
         if (isExpanded) {
             LazyRow(modifier = Modifier.padding(top = 16.dp)) {
                 itemsIndexed(AccentColorList.list)
-                    { _, item ->
-                        ColorPickerItem(item = item)
+                    { index, item ->
+                        ColorPickerItem(item = item, index = index)
                     }
                 }
             }
@@ -118,7 +191,7 @@ fun AccentSelector() {
 }
 
 @Composable
-fun ColorPickerItem(item: AccentColorItem) {
+fun ColorPickerItem(item: AccentColorItem, index: Int) {
 Box(
     modifier = Modifier
         .size(50.dp)
@@ -126,6 +199,7 @@ Box(
         .clip(CircleShape)
         .background(color = item.accentDark)
         .clickable {
+            prefs.accentColorPrefs = index
             ThemeState.changeAccentColor(item)
         }
     )
