@@ -12,9 +12,7 @@ fun createDarkTheme(color: Color): ColorScheme {
     return Scheme.darkContent(color.toArgb()).toDarkThemeColorScheme()
 }
 
-
 fun createLightTheme(color: Color): ColorScheme {
-    val colorArgb = color.toArgb()
     return Scheme.lightContent(color.toArgb()).toLightThemeColorScheme()
 }
 
