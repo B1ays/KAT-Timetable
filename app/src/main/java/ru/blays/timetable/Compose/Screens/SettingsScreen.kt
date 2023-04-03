@@ -126,9 +126,7 @@ Box(
         .clip(CircleShape)
         .background(color = item.accentDark)
         .clickable {
-            ThemeState.changeAccentColor(
-                item
-            )
+            ThemeState.changeAccentColor(item)
         }
     )
 }
