@@ -8,6 +8,7 @@ import io.objectbox.relation.ToOne
 class SubjectsListBox(
     @Id var id: Long = 0,
     var position: String = "",
+    var subgroups: String = "",
     var subject: String = "",
     var lecturer: String = "",
     var auditory: String = ""

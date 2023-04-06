@@ -31,9 +31,7 @@ fun RootElements() {
     floatingActionButton = { FloatingMenu() }
     )
     {
-        Frame(
-            it
-        )
+        Frame(it)
     }
 }
 
@@ -49,13 +47,10 @@ fun Frame(
     )
     {
         MaterialTheme {
-
             if(AlertDialogState.isOpen) {
                 CustomAlertDialog(message = AlertDialogState.text)
             }
-
            Navigation()
-
         }
     }
 }
