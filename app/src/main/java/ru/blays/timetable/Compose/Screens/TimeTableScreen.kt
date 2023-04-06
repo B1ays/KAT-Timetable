@@ -3,6 +3,7 @@ package ru.blays.timetable.Compose.ComposeElements
 import androidx.compose.animation.*
 import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -84,53 +85,67 @@ fun TimeTableCard(list: DaysInTimeTableBox) {
 
 @Composable
 fun SubjectItem(subject: SubjectsListBox) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(6.dp),
-        shape = RoundedCornerShape(10.dp),
-        elevation = CardDefaults
-            .cardElevation(2.dp)
+    Box(
+        modifier = Modifier.fillMaxWidth(),
+        contentAlignment = if (subject.subgroups == "1") Alignment.CenterStart else Alignment.CenterEnd,
     ) {
-        Row(
+        Card(
             modifier = Modifier
-                .fillMaxWidth()
-                .background(color = MaterialTheme.colorScheme.background)
-                .padding(10.dp),
-            verticalAlignment = Alignment.CenterVertically
-        )
-        {
-            Text(
+                .fillMaxWidth(if (subject.subgroups == "BOTH") 1F else 0.9F)
+                .padding(6.dp),
+            shape = RoundedCornerShape(10.dp),
+            elevation = CardDefaults
+                .cardElevation(2.dp)
+        ) {
+            Row(
                 modifier = Modifier
-                    .background(
-                        color = MaterialTheme.colorScheme.primary,
-                        shape = RoundedCornerShape(20.dp)
-                    )
-                    .padding(5.dp),
-                text = subject.position,
-                textAlign = TextAlign.Center,
-                color = MaterialTheme.colorScheme.background)
-            Column(modifier = Modifier
-                    .fillMaxSize()
-                    .padding(start = 10.dp))
+                    .fillMaxWidth()
+                    .background(color = MaterialTheme.colorScheme.background)
+                    .padding(10.dp),
+                verticalAlignment = Alignment.CenterVertically
+            )
             {
-                Text(modifier = Modifier.fillMaxWidth(),
-                    text = subject.subject,
-                    textAlign = TextAlign.Center)
-                Row(modifier =
-                Modifier
-                    .padding(horizontal = 4.dp))
+                Text(
+                    modifier = Modifier
+                        .border(
+                            width = 2.dp,
+                            color = MaterialTheme.colorScheme.primary,
+                            shape = RoundedCornerShape(20.dp)
+                        )
+                        .padding(5.dp),
+                    text = subject.position,
+                    textAlign = TextAlign.Center
+                )
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(start = 10.dp)
+                )
                 {
                     Text(
-                        modifier = Modifier
-                            .fillMaxWidth(0.5F),
-                        text = subject.lecturer,
-                        textAlign = TextAlign.Start)
-                    Text(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        text = subject.auditory,
-                        textAlign = TextAlign.End)
+                        modifier = Modifier.fillMaxWidth(),
+                        text = subject.subject,
+                        textAlign = TextAlign.Center
+                    )
+                    Row(
+                        modifier =
+                        Modifier
+                            .padding(horizontal = 4.dp)
+                    )
+                    {
+                        Text(
+                            modifier = Modifier
+                                .fillMaxWidth(0.5F),
+                            text = subject.lecturer,
+                            textAlign = TextAlign.Start
+                        )
+                        Text(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            text = subject.auditory,
+                            textAlign = TextAlign.End
+                        )
+                    }
                 }
             }
         }
