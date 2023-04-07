@@ -67,121 +67,61 @@ class HTMLParser {
                 val tri = tr[i] // table row №i
                 val cell = tri.select(".ur")
                 if (cell.toString() != "") {
-                    if (i == it.rangeStart) {
 
-                        // Если первым в расписании идёт предмет по подгруппам, то:
-                        if (cell.count() > 1) {
+                    // Если первым в расписании идёт предмет по подгруппам, то:
+                    if (cell.count() > 1) {
 
-                            //Предмет у первой п/г
-                        val position1 = tri.select(".hd")[1].text()
-                        val subject1 = cell[0].select(".z1").text()
-                        val subgroups1 = "1"
-                        val lecturer1 = cell[0].select(".z3").text()
-                        val auditory1 = cell[0].select(".z2").text()
+                        //Предмет у первой п/г
+                    val position1 = tri.select(".hd")[if (i == it.rangeStart) 1 else 0].text()
+                    val subject1 = cell[0].select(".z1").text()
+                    val subgroups1 = "1"
+                    val lecturer1 = cell[0].select(".z3").text()
+                    val auditory1 = cell[0].select(".z2").text()
 
-                            //Предмет у второй п/г
-                        val position2 = tri.select(".hd")[1].text()
-                        val subgroups2 = "2"
-                        val subject2 = cell[1].select(".z1").text()
-                        val lecturer2 = cell[1].select(".z3").text()
-                        val auditory2 = cell[1].select(".z2").text()
+                        //Предмет у второй п/г
+                    val position2 = tri.select(".hd")[if (i == it.rangeStart) 1 else 0].text()
+                    val subgroups2 = "2"
+                    val subject2 = cell[1].select(".z1").text()
+                    val lecturer2 = cell[1].select(".z3").text()
+                    val auditory2 = cell[1].select(".z2").text()
 
-                        val sid1 = SubjectsListBox(
-                            position = position1,
-                            subgroups = subgroups1,
-                            subject = subject1,
-                            lecturer = lecturer1,
-                            auditory = auditory1
-                        )
+                    val sid1 = SubjectsListBox(
+                        position = position1,
+                        subgroups = subgroups1,
+                        subject = subject1,
+                        lecturer = lecturer1,
+                        auditory = auditory1
+                    )
 
-                        val sid2 = SubjectsListBox(
-                            position = position2,
-                            subgroups = subgroups2,
-                            subject = subject2,
-                            lecturer = lecturer2,
-                            auditory = auditory2
-                        )
-                        // Добавить в БД предмет для обеих подгрупп
-                        days.subjects.add(sid1)
-                        days.subjects.add(sid2)
+                    val sid2 = SubjectsListBox(
+                        position = position2,
+                        subgroups = subgroups2,
+                        subject = subject2,
+                        lecturer = lecturer2,
+                        auditory = auditory2
+                    )
+                    // Добавить в БД предмет для обеих подгрупп
+                    days.subjects.add(sid1)
+                    days.subjects.add(sid2)
 
-                            // Если первым в расписании идёт предмет для обеих подгрупп, то:
-                        } else {
-
-                            val position = tri.select(".hd")[1].text()
-                            val subgroups = "BOTH"
-                            val subject = tri.select(".z1").text()
-                            val lecturer = tri.select(".z3").text()
-                            val auditory = tri.select(".z2").text()
-
-                            val sid = SubjectsListBox(
-                                position = position,
-                                subgroups = subgroups,
-                                subject = subject,
-                                lecturer = lecturer,
-                                auditory = auditory
-                            )
-
-                            days.subjects.add(sid)
-                        }
+                        // Если первым в расписании идёт предмет для обеих подгрупп, то:
                     } else {
 
-                        // Если первым в расписании идёт предмет по подгруппам, то:
-                        if (cell.count() > 1) {
+                        val position = tri.select(".hd")[if (i == it.rangeStart) 1 else 0].text()
+                        val subgroups = "BOTH"
+                        val subject = tri.select(".z1").text()
+                        val lecturer = tri.select(".z3").text()
+                        val auditory = tri.select(".z2").text()
 
-                            //Предмет у первой п/г
-                            val position1 = tri.select(".hd").text()
-                            val subject1 = cell[0].select(".z1").text()
-                            val subgroups1 = "1"
-                            val lecturer1 = cell[0].select(".z3").text()
-                            val auditory1 = cell[0].select(".z2").text()
+                        val sid = SubjectsListBox(
+                            position = position,
+                            subgroups = subgroups,
+                            subject = subject,
+                            lecturer = lecturer,
+                            auditory = auditory
+                        )
 
-                            //Предмет у второй п/г
-                            val position2 = tri.select(".hd").text()
-                            val subgroups2 = "2"
-                            val subject2 = cell[1].select(".z1").text()
-                            val lecturer2 = cell[1].select(".z3").text()
-                            val auditory2 = cell[1].select(".z2").text()
-
-                            val sid1 = SubjectsListBox(
-                                position = position1,
-                                subgroups = subgroups1,
-                                subject = subject1,
-                                lecturer = lecturer1,
-                                auditory = auditory1
-                            )
-
-                            val sid2 = SubjectsListBox(
-                                position = position2,
-                                subgroups = subgroups2,
-                                subject = subject2,
-                                lecturer = lecturer2,
-                                auditory = auditory2
-                            )
-                            // Добавить в БД предмет для обеих подгрупп
-                            days.subjects.add(sid1)
-                            days.subjects.add(sid2)
-
-                            // Если первым в расписании идёт предмет для обеих подгрупп, то:
-                        } else {
-
-                            val position = tri.select(".hd").text()
-                            val subgroups = "BOTH"
-                            val subject = tri.select(".z1").text()
-                            val lecturer = tri.select(".z3").text()
-                            val auditory = tri.select(".z2").text()
-
-                            val sid = SubjectsListBox(
-                                position = position,
-                                subgroups = subgroups,
-                                subject = subject,
-                                lecturer = lecturer,
-                                auditory = auditory
-                            )
-
-                            days.subjects.add(sid)
-                        }
-
+                        days.subjects.add(sid)
                     }
                 }
             }
@@ -189,85 +129,3 @@ class HTMLParser {
         }
     }
 }
-
-/*CoroutineScope(Dispatchers.IO).launch {
-    val doc = htmlClient.getHTTP("vg60.htm")
-
-    val tr = doc.select("table.inf").select("tr")
-
-    for (row in tr) {
-        val i = row.select(".vp").select("[align=left]").select("a[href]").text()
-        val p = row.select("img").attr("width")
-        Log.d("parseLog", "Subject: $i, Complete:  $p")
-    }
-}*/
-
-    /*suspend fun parseHTML(href: String) {
-
-        val doc = htmlClient.getHTTP(href)
-
-        try {
-            tr = doc.select("table.inf").select("tr")
-        } catch (_: NullPointerException) {
-            return
-        }
-
-        for (cell in tr) {
-            if (cell.select(".hd").select("[rowspan=7]").toString() != "") {
-                val dt = cell.select(".hd").select("[rowspan=7]").text()
-                Log.d("parseLog", dt.toString())
-                Log.d("ParseLog", dt + day)
-
-                val cl = cell.select(".ur")
-                if (cl.toString() != "") {
-                    if (cl.count() > 1) {
-                        val si1 = SecTableModel(
-                            cell.select(".hd")[1].text() + "\n1 п/г",
-                            cl[0].select(".z1").text(),
-                            cl[0].select(".z2").text(),
-                            cl[0].select(".z3").text()
-                        )
-                        val si2 = SecTableModel(
-                            cell.select(".hd")[1].text() + "\n2 п/г",
-                            cl[1].select(".z1").text(),
-                            cl[1].select(".z2").text(),
-                            cl[1].select(".z3").text()
-                        )
-
-                    } else {
-                        val si = SecTableModel(
-                            cell.select(".hd")[1].text() + "\n",
-                            cell.select(".z1").text(),
-                            cell.select(".z2").text(),
-                            cell.select(".z3").text()
-                        )
-                    }
-                }
-
-            } else if (cell.select(".ur").toString() != "") {
-                val cl = cell.select(".ur")
-                if (cl.count() > 1) {
-                    val si1 = SecTableModel(
-                        cell.select(".hd").text() + "\n1 п/г",
-                        cl[0].select(".z1").text(),
-                        cl[0].select(".z2").text(),
-                        cl[0].select(".z3").text()
-                    )
-                    val si2 = SecTableModel(
-                        cell.select(".hd").text() + "\n2 п/г",
-                        cl[1].select(".z1").text(),
-                        cl[1].select(".z2").text(),
-                        cl[1].select(".z3").text()
-
-                } else {
-                    val si = SecTableModel(
-                        cell.select(".hd").text() + "\n",
-                        cell.select(".z1").text(),
-                        cell.select(".z2").text(),
-                        cell.select(".z3").text()
-                    )
-                }
-            }
-        }
-    }
-    */
