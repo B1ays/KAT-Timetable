@@ -15,20 +15,22 @@ import ru.blays.timetable.ObjectBox.Boxes.DaysInTimeTableBox
 object CurrentTimeTable {
 
     var CurrentHref = ""
-    var groupCode = ""
+    var groupCode by mutableStateOf("")
     var daysList by mutableStateOf(listOf<DaysInTimeTableBox>())
 
     fun getTimeTable(href: String) {
-        if (CurrentHref != href) {
+        if (CurrentHref != href || daysList.isEmpty()) {
             CurrentHref = href
             val query = objectBoxManager.getDaysFromTable(href)[0]
-            groupCode = query.groupCode;
+            groupCode = query.groupCode
+            Log.d("getLog", groupCode)
 
             if (query.days.isNotEmpty()) {
             daysList = query.days
             } else {
                 CoroutineScope(Dispatchers.IO).launch {
                     try {
+                        Log.d("getLog", "get timetable")
                         htmlParser.getTimeTable(href)
                         val query = objectBoxManager.getDaysFromTable(href)[0]
                         groupCode = query.groupCode

@@ -11,13 +11,11 @@ import ru.blays.timetable.Compose.States.ScreenState
 import ru.blays.timetable.Compose.helperClasses.CurrentTimeTable
 import ru.blays.timetable.Compose.htmlParser
 
-
-
 fun updateTimeTable() {
     CoroutineScope(Dispatchers.IO).launch {
         try {
         htmlParser.getTimeTable(ScreenState.currentScreen.Key)
-        CurrentTimeTable.getTimeTable(ScreenState.currentScreen.Key)
+        CurrentTimeTable.daysList = listOf()
         } catch (e: Exception) {
             Log.d("getlog", e.toString())
             AlertDialogState.changeText(e.toString())

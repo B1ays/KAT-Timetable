@@ -1,6 +1,5 @@
 package ru.blays.timetable.ParseUtils
 
-import android.util.Log
 import ru.blays.timetable.Compose.*
 import ru.blays.timetable.ObjectBox.Boxes.DaysInTimeTableBox
 import ru.blays.timetable.ObjectBox.Boxes.GroupListBox
@@ -73,8 +72,6 @@ class HTMLParser {
                         // Если первым в расписании идёт предмет по подгруппам, то:
                         if (cell.count() > 1) {
 
-                        Log.d("parseLog", "Count: ${cell.count()}")
-
                             //Предмет у первой п/г
                         val position1 = tri.select(".hd")[1].text()
                         val subject1 = cell[0].select(".z1").text()
@@ -131,8 +128,6 @@ class HTMLParser {
 
                         // Если первым в расписании идёт предмет по подгруппам, то:
                         if (cell.count() > 1) {
-
-                            Log.d("parseLog", "Count: ${cell.count()}")
 
                             //Предмет у первой п/г
                             val position1 = tri.select(".hd").text()
