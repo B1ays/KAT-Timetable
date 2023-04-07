@@ -3,6 +3,7 @@ package ru.blays.timetable.Compose.Screens
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.CircleShape
@@ -15,17 +16,21 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ru.blays.timetable.BuildConfig
 import ru.blays.timetable.Compose.helperClasses.Animations.ModifierWithExpandAnimation
 import ru.blays.timetable.Compose.helperClasses.CardShape
 import ru.blays.timetable.Compose.helperClasses.Contact
 import ru.blays.timetable.Compose.helperClasses.ContactList
+import ru.blays.timetable.R
 
 @Composable
 fun AboutScreen() {
@@ -49,20 +54,95 @@ fun HeadItem() {
     }
     val modifier = Modifier.padding(6.dp)
 
+    val intent = Intent(/* action = */ Intent.ACTION_VIEW, /* uri = */ Uri.parse("https://t.me/+cV-dnkBU_rtjYjhi"))
+    val context = LocalContext.current
+
     Column {
         Text(
             modifier = Modifier
                 .padding(5.dp)
                 .fillMaxWidth(),
-            text = "Описание",
+            text = "О приложении ",
             textAlign = TextAlign.Center,
             fontSize = 20.sp)
 
         Card(
-            modifier = ModifierWithExpandAnimation
-                .padding(12.dp)
+            modifier = Modifier
+                .padding(horizontal = 12.dp, vertical = 2.dp)
                 .fillMaxWidth(),
-            shape = CardShape.CardStandalone
+            shape = CardShape.CardStart
+        ) {
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(10.dp),
+                verticalAlignment = Alignment.CenterVertically
+            )
+            {
+                Image(
+                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_launcher_foreground), contentDescription = "Icon",
+                    modifier = Modifier
+                        .size(50.dp)
+                        .background(
+                            color = Color(0xFF80BAE2),
+                            shape = CircleShape
+                        ),
+                )
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = "КАТ - Расписание",
+                        modifier = Modifier
+                            .padding(bottom = 8.dp),
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        text = "Версия: ${BuildConfig.VERSION_NAME} - ${BuildConfig.BUILD_TYPE}",
+                        modifier = Modifier
+                            .padding(bottom = 8.dp)
+                    )
+                }
+            }
+        }
+
+        Card(
+            modifier = Modifier
+                .padding(horizontal = 12.dp, vertical = 2.dp)
+                .fillMaxWidth(),
+            shape = CardShape.CardMid
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            )
+            {
+                Image(
+                    imageVector = ImageVector.vectorResource(id = R.drawable.telegram_icon), contentDescription = "Icon",
+                    modifier = Modifier.size(32.dp),
+                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary))
+
+                TextButton(onClick = { context.startActivity(intent) } ) {
+                    Text(
+                        text = "Канал в Telegram",
+                        modifier = Modifier
+                            .padding(start = 4.dp)
+                    )
+                }
+            }
+        }
+
+        Card(
+            modifier = ModifierWithExpandAnimation
+                .padding(horizontal = 12.dp, vertical = 2.dp)
+                .fillMaxWidth(),
+            shape = CardShape.CardEnd
         ) {
             Text(
                 modifier = modifier,
@@ -107,7 +187,7 @@ fun AboutAuthor() {
 fun AuthorNick() {
     Card(
         modifier = Modifier
-            .padding(horizontal = 12.dp, vertical = 3.dp)
+            .padding(horizontal = 12.dp, vertical = 2.dp)
             .fillMaxWidth(),
         shape = CardShape.CardStart
     ) {
@@ -136,7 +216,7 @@ fun ContactItem(contact: Contact, cardShape: RoundedCornerShape) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(5.dp),
+                .padding(8.dp),
             verticalAlignment = Alignment.CenterVertically
         )
         {
