@@ -4,6 +4,8 @@ import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.selection.toggleable
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
@@ -12,6 +14,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
@@ -46,7 +49,7 @@ fun HeadItem() {
     }
     val modifier = Modifier.padding(6.dp)
 
-    Column() {
+    Column {
         Text(
             modifier = Modifier
                 .padding(5.dp)
@@ -66,9 +69,13 @@ fun HeadItem() {
                 text = headText,
                 maxLines = if (isExpanded) Int.MAX_VALUE else 2)
 
-            TextButton(onClick = onExpandChange) {
-                Text(modifier = modifier, text = if (isExpanded) "Скрыть..." else "Показать полностью..." )
-            }
+
+            Text(modifier = modifier
+                .clip(CircleShape)
+                .toggleable(value = isExpanded) { onExpandChange() },
+                text = if (isExpanded) "Скрыть..." else "Показать полностью...",
+                color = MaterialTheme.colorScheme.primary
+            )
         }
     }
 }
@@ -138,7 +145,7 @@ fun ContactItem(contact: Contact, cardShape: RoundedCornerShape) {
                 modifier = Modifier.size(32.dp),
                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary))
 
-            TextButton(onClick = { context.startActivity(intent)}) {
+            TextButton(onClick = { context.startActivity(intent) } ) {
                 Text(
                     text = "Я в ${contact.name}",
                     modifier = Modifier

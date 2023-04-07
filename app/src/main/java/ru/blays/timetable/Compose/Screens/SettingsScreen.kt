@@ -9,6 +9,7 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.rounded.CheckCircle
@@ -47,6 +48,10 @@ fun ThemeSettings() {
     val isDarkMode = isSystemInDarkTheme()
     var isExpanded by remember { mutableStateOf(false) }
 
+    val onExpandChange = {
+        isExpanded = !isExpanded
+    }
+
     val setSystemTheme = {
         radioButtonSelectionState = 0
         prefs.themePrefs = 0
@@ -80,7 +85,7 @@ fun ThemeSettings() {
         modifier = ModifierWithExpandAnimation
             .padding(vertical = 5.dp, horizontal = 12.dp)
             .fillMaxWidth()
-            .clickable { isExpanded = !isExpanded },
+            .toggleable(value = isExpanded) { onExpandChange() },
         shape = RoundedCornerShape(10.dp)
     ) {
         Row(
@@ -190,6 +195,9 @@ fun AccentSelector() {
     var isExpanded by remember {
         mutableStateOf(false)
     }
+    val onExpandChange = {
+        isExpanded = !isExpanded
+    }
 
     val transition = updateTransition(targetState = isExpanded, label = null)
     val rotateValue by transition.animateFloat(
@@ -207,7 +215,7 @@ fun AccentSelector() {
         modifier = ModifierWithExpandAnimation
             .padding(vertical = 5.dp, horizontal = 12.dp)
             .fillMaxWidth()
-            .clickable { isExpanded = !isExpanded },
+            .toggleable(value = isExpanded) { onExpandChange() },
         shape = RoundedCornerShape(10.dp),
         elevation = CardDefaults.cardElevation(2.dp)
     ) {
