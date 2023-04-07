@@ -46,6 +46,23 @@ fun ThemeSettings() {
     var radioButtonSelectionState by remember { mutableStateOf(prefs.themePrefs) }
     val isDarkMode = isSystemInDarkTheme()
     var isExpanded by remember { mutableStateOf(false) }
+
+    val setSystemTheme = {
+        radioButtonSelectionState = 0
+        prefs.themePrefs = 0
+        ThemeState.isDarkMode = isDarkMode
+    }
+    val setDarkTheme = {
+        radioButtonSelectionState = 1
+        prefs.themePrefs = 1
+        ThemeState.isDarkMode = true
+    }
+
+    val setLightTheme = {
+        radioButtonSelectionState = 2
+        prefs.themePrefs = 2
+        ThemeState.isDarkMode = false
+    }
     val transition = updateTransition(targetState = isExpanded, label = null)
     val rotateValue by transition.animateFloat(
         transitionSpec = {
@@ -89,16 +106,14 @@ fun ThemeSettings() {
                     .padding(vertical = 2.dp, horizontal = 12.dp)
                     .fillMaxWidth()
                     .clickable {
-                        radioButtonSelectionState = 0
-                        prefs.themePrefs = 0
-                        ThemeState.isDarkMode = isDarkMode
+                        setSystemTheme()
                     },
                 verticalAlignment = Alignment.CenterVertically
             )
             {
                 RadioButton(
                     selected = radioButtonSelectionState == 0,
-                    onClick = {}
+                    onClick = { setSystemTheme() }
                 )
                 Text(modifier = Modifier.padding(start = 8.dp), text = "Системная тема")
             }
@@ -108,16 +123,14 @@ fun ThemeSettings() {
                     .padding(vertical = 2.dp, horizontal = 12.dp)
                     .fillMaxWidth()
                     .clickable {
-                        radioButtonSelectionState = 1
-                        prefs.themePrefs = 1
-                        ThemeState.isDarkMode = true
+                        setDarkTheme()
                     },
                 verticalAlignment = Alignment.CenterVertically
             )
             {
                 RadioButton(
                     selected = radioButtonSelectionState == 1,
-                    onClick = {}
+                    onClick = { setDarkTheme() }
                 )
                 Text(modifier = Modifier.padding(start = 8.dp), text = "Тёмная тема")
             }
@@ -127,16 +140,14 @@ fun ThemeSettings() {
                     .padding(vertical = 2.dp, horizontal = 12.dp)
                     .fillMaxWidth()
                     .clickable {
-                        radioButtonSelectionState = 2
-                        prefs.themePrefs = 2
-                        ThemeState.isDarkMode = false
+                        setLightTheme()
                     },
                 verticalAlignment = Alignment.CenterVertically
             )
             {
                 RadioButton(
                     selected = radioButtonSelectionState == 2,
-                    onClick = {}
+                    onClick = { setLightTheme() }
                 )
                 Text(modifier = Modifier.padding(start = 8.dp), text = "Светлая тема")
             }

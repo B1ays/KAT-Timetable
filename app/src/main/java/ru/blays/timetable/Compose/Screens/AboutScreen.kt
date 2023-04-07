@@ -19,6 +19,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ru.blays.timetable.Compose.helperClasses.Animations.ModifierWithExpandAnimation
 import ru.blays.timetable.Compose.helperClasses.CardShape
 import ru.blays.timetable.Compose.helperClasses.Contact
 import ru.blays.timetable.Compose.helperClasses.ContactList
@@ -43,6 +44,8 @@ fun HeadItem() {
     val onExpandChange = {
         isExpanded = !isExpanded
     }
+    val modifier = Modifier.padding(6.dp)
+
     Column() {
         Text(
             modifier = Modifier
@@ -53,23 +56,18 @@ fun HeadItem() {
             fontSize = 20.sp)
 
         Card(
-            modifier = Modifier
+            modifier = ModifierWithExpandAnimation
                 .padding(12.dp)
                 .fillMaxWidth(),
             shape = CardShape.CardStandalone
         ) {
-            val modifier = Modifier.padding(6.dp)
-            if (isExpanded) {
-                Text(modifier = modifier, text = headText)
+            Text(
+                modifier = modifier,
+                text = headText,
+                maxLines = if (isExpanded) Int.MAX_VALUE else 2)
 
-                TextButton(onClick = onExpandChange) {
-                    Text(modifier = modifier, text = "Скрыть...")
-                }
-            } else {
-                Text(modifier = modifier, text = headText, maxLines = 2)
-                TextButton(onClick = onExpandChange) {
-                    Text(modifier = modifier, text = "Показать полностью...")
-                }
+            TextButton(onClick = onExpandChange) {
+                Text(modifier = modifier, text = if (isExpanded) "Скрыть..." else "Показать полностью..." )
             }
         }
     }
@@ -111,7 +109,7 @@ fun AuthorNick() {
                 .fillMaxWidth()
                 .padding(5.dp),
             text = "Сделано Blays." +
-                    "\nсвязаться со мной можно здесь:"
+                    "\nСвязаться со мной можно здесь:"
         )
     }
 }
