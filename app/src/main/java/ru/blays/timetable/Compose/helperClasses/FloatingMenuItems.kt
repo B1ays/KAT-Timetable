@@ -26,7 +26,7 @@ object FloatingMenuItems {
             ScreenState.changeScreen(ScreenData(ScreenList.settings_screen))
         },
         FloatingMenuItemsModel(title = "Избранное", iconPath.Star, ScreenList.timetable_screen) {
-            ScreenState.changeScreen(ScreenData(ScreenList.timetable_screen, "cg61.htm"))
+            ScreenState.changeScreen(ScreenData(ScreenList.timetable_screen, "cg60.htm"))
         },
         FloatingMenuItemsModel(title = "О приложении", iconPath.Info, ScreenList.about_screen) {
             ScreenState.changeScreen(ScreenData(ScreenList.about_screen))
