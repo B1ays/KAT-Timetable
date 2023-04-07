@@ -133,14 +133,13 @@ fun SubjectItem(subject: SubjectsListBox) {
                         textAlign = TextAlign.Center
                     )
                     Row(
-                        modifier =
-                        Modifier
+                        modifier = Modifier
                             .padding(horizontal = 4.dp)
                     )
                     {
                         Text(
                             modifier = Modifier
-                                .fillMaxWidth(0.5F),
+                                .fillMaxWidth(0.7F),
                             text = subject.lecturer,
                             textAlign = TextAlign.Start
                         )
