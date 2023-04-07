@@ -1,5 +1,8 @@
 package ru.blays.timetable.Compose.ComposeElements
 
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -24,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import ru.blays.timetable.Compose.States.ThemeState
 import ru.blays.timetable.Compose.helperClasses.AccentColorItem
 import ru.blays.timetable.Compose.helperClasses.AccentColorList
+import ru.blays.timetable.Compose.helperClasses.Animations.ModifierWithExpandAnimation
 import ru.blays.timetable.Compose.prefs
 import ru.blays.timetable.R
 
@@ -42,8 +46,21 @@ fun ThemeSettings() {
     var radioButtonSelectionState by remember { mutableStateOf(prefs.themePrefs) }
     val isDarkMode = isSystemInDarkTheme()
     var isExpanded by remember { mutableStateOf(false) }
+    val transition = updateTransition(targetState = isExpanded, label = null)
+    val rotateValue by transition.animateFloat(
+        transitionSpec = {
+            tween(
+                durationMillis = 300
+                )
+            },
+            label = ""
+        )
+    { expanded ->
+        if (expanded) 180f else 0f
+    }
+
     Card(
-        modifier = Modifier
+        modifier = ModifierWithExpandAnimation
             .padding(vertical = 5.dp, horizontal = 12.dp)
             .fillMaxWidth()
             .clickable { isExpanded = !isExpanded },
@@ -62,7 +79,7 @@ fun ThemeSettings() {
                 modifier = Modifier
                     .scale(1.5F)
                     .background(color = MaterialTheme.colorScheme.background, shape = CircleShape)
-                    .rotate(if (isExpanded) 180F else 0F),
+                    .rotate(rotateValue),
                 imageVector = ImageVector.vectorResource(id = R.drawable.ic_arrow_down_24dp),
                 contentDescription = "Arrow")
         }
@@ -162,8 +179,21 @@ fun AccentSelector() {
     var isExpanded by remember {
         mutableStateOf(false)
     }
+
+    val transition = updateTransition(targetState = isExpanded, label = null)
+    val rotateValue by transition.animateFloat(
+        transitionSpec = {
+            tween(
+                durationMillis = 300
+            )
+        },
+        label = ""
+    )
+    { expanded ->
+        if (expanded) 180f else 0f
+    }
     Card(
-        modifier = Modifier
+        modifier = ModifierWithExpandAnimation
             .padding(vertical = 5.dp, horizontal = 12.dp)
             .fillMaxWidth()
             .clickable { isExpanded = !isExpanded },
@@ -183,7 +213,7 @@ fun AccentSelector() {
             modifier = Modifier
                 .scale(1.5F)
                 .background(color = MaterialTheme.colorScheme.background, shape = CircleShape)
-                .rotate(if (isExpanded) 180F else 0F),
+                .rotate(rotateValue),
             imageVector = ImageVector.vectorResource(id = R.drawable.ic_arrow_down_24dp),
             contentDescription = "Arrow")
     }

@@ -1,10 +1,9 @@
 package ru.blays.timetable.Compose.ComposeElements
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.*
+import androidx.compose.animation.core.FastOutLinearInEasing
 import androidx.compose.animation.core.MutableTransitionState
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -29,8 +28,6 @@ import ru.blays.timetable.Compose.helperClasses.FloatingMenuItemsModel
 @ExperimentalAnimationApi
 @Composable
 fun FloatingMenu() {
-
-
     Box(
         modifier = Modifier
             .background(
@@ -41,7 +38,13 @@ fun FloatingMenu() {
             {
                 changeExpanded()
             }
-    )
+            .animateContentSize(
+                animationSpec = tween(
+                    durationMillis = 200,
+                    easing = FastOutLinearInEasing
+                )
+            )
+        )
     {
         if (isExpanded) {
 
