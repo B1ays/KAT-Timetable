@@ -1,6 +1,5 @@
 package ru.blays.timetable.ObjectBox
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import io.objectbox.Box
@@ -26,7 +25,6 @@ class ObjectBoxManager {
     }
 
     fun deleteTimeTable(href: String) {
-        val groupBox = groupListBox.query(GroupListBox_.href.equal(href)).build().find()
         val dayBox = daysListBox.query(DaysInTimeTableBox_.href.equal(href)).build().find()
         if (dayBox.isNotEmpty()) {
             try {
@@ -39,23 +37,14 @@ class ObjectBoxManager {
         }
     }
 
-    fun insertToGroupBox(boxModel: GroupListBox) {
-        groupListBox.put(boxModel)
-    }
-
-    @SuppressLint("SuspiciousIndentation")
     fun insertToDaysBox(href: String, boxModel: DaysInTimeTableBox) {
-        val groupRow = groupListBox.query(GroupListBox_.href.equal(href)).build().find();
-            groupRow[0].days.add(boxModel)
-            groupListBox.put(groupRow)
+        val groupRow = groupListBox.query(GroupListBox_.href.equal(href)).build().find()
+        groupRow[0].days.add(boxModel)
+        groupListBox.put(groupRow)
     }
 
-    fun getGroupListFromBox(): MutableList<GroupListBox>? {
-        return groupListBox.all
-    }
 
     fun getDaysFromTable(href: String): List<GroupListBox> {
         return groupListBox.query(GroupListBox_.href.equal(href)).build().find()
-
     }
 }

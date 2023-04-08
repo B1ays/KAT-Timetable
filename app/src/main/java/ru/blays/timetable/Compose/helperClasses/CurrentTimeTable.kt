@@ -30,7 +30,6 @@ object CurrentTimeTable {
             } else {
                 CoroutineScope(Dispatchers.IO).launch {
                     try {
-                        Log.d("getLog", "get timetable")
                         htmlParser.getTimeTable(href)
                         val query = objectBoxManager.getDaysFromTable(href)[0]
                         groupCode = query.groupCode
