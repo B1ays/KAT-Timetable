@@ -9,3 +9,9 @@ object CardShape {
     val CardEnd = RoundedCornerShape(topStart = 5.dp, topEnd = 5.dp, bottomStart = 10.dp, bottomEnd = 10.dp)
     val CardStandalone = RoundedCornerShape(10.dp)
 }
+
+object DefaultPadding {
+
+    val CardVerticalPadding = 3.dp
+    val CardHorizontalPadding = 12.dp
+}

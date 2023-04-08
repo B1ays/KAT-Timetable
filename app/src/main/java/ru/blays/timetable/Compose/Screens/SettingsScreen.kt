@@ -29,6 +29,8 @@ import ru.blays.timetable.Compose.States.ThemeState
 import ru.blays.timetable.Compose.helperClasses.AccentColorItem
 import ru.blays.timetable.Compose.helperClasses.AccentColorList
 import ru.blays.timetable.Compose.helperClasses.Animations.ModifierWithExpandAnimation
+import ru.blays.timetable.Compose.helperClasses.CardShape
+import ru.blays.timetable.Compose.helperClasses.DefaultPadding
 import ru.blays.timetable.Compose.prefs
 import ru.blays.timetable.R
 
@@ -83,10 +85,11 @@ fun ThemeSettings() {
 
     Card(
         modifier = ModifierWithExpandAnimation
-            .padding(vertical = 5.dp, horizontal = 12.dp)
+            .padding(horizontal = DefaultPadding.CardHorizontalPadding, vertical = DefaultPadding.CardVerticalPadding)
             .fillMaxWidth()
             .toggleable(value = isExpanded) { onExpandChange() },
-        shape = RoundedCornerShape(10.dp)
+        shape = CardShape.CardStandalone,
+        elevation = CardDefaults.cardElevation(2.dp)
     ) {
         Row(
             modifier = Modifier
@@ -164,9 +167,13 @@ fun ThemeSettings() {
 fun MonetSettings() {
     Card(
         modifier = Modifier
-            .padding(vertical = 5.dp, horizontal = 12.dp)
+            .padding(
+                horizontal = DefaultPadding.CardHorizontalPadding,
+                vertical = DefaultPadding.CardVerticalPadding
+            )
             .fillMaxWidth(),
-        shape = RoundedCornerShape(10.dp)
+        shape = CardShape.CardStandalone,
+        elevation = CardDefaults.cardElevation(2.dp)
     ) {
         Row(
             modifier = Modifier
@@ -213,10 +220,13 @@ fun AccentSelector() {
     }
     Card(
         modifier = ModifierWithExpandAnimation
-            .padding(vertical = 5.dp, horizontal = 12.dp)
+            .padding(
+                horizontal = DefaultPadding.CardHorizontalPadding,
+                vertical = DefaultPadding.CardVerticalPadding
+            )
             .fillMaxWidth()
             .toggleable(value = isExpanded) { onExpandChange() },
-        shape = RoundedCornerShape(10.dp),
+        shape = CardShape.CardStandalone,
         elevation = CardDefaults.cardElevation(2.dp)
     ) {
     Row(

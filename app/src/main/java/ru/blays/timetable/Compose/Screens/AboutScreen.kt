@@ -30,6 +30,7 @@ import ru.blays.timetable.Compose.helperClasses.Animations.ModifierWithExpandAni
 import ru.blays.timetable.Compose.helperClasses.CardShape
 import ru.blays.timetable.Compose.helperClasses.Contact
 import ru.blays.timetable.Compose.helperClasses.ContactList
+import ru.blays.timetable.Compose.helperClasses.DefaultPadding
 import ru.blays.timetable.R
 
 @Composable
@@ -68,7 +69,7 @@ fun HeadItem() {
 
         Card(
             modifier = Modifier
-                .padding(horizontal = 12.dp, vertical = 2.dp)
+                .padding(horizontal = DefaultPadding.CardHorizontalPadding, vertical = DefaultPadding.CardVerticalPadding)
                 .fillMaxWidth(),
             shape = CardShape.CardStart
         ) {
@@ -112,7 +113,7 @@ fun HeadItem() {
 
         Card(
             modifier = Modifier
-                .padding(horizontal = 12.dp, vertical = 2.dp)
+                .padding(horizontal = DefaultPadding.CardHorizontalPadding, vertical = DefaultPadding.CardVerticalPadding)
                 .fillMaxWidth(),
             shape = CardShape.CardMid
         ) {
@@ -140,7 +141,7 @@ fun HeadItem() {
 
         Card(
             modifier = ModifierWithExpandAnimation
-                .padding(horizontal = 12.dp, vertical = 2.dp)
+                .padding(horizontal = DefaultPadding.CardHorizontalPadding, vertical = DefaultPadding.CardVerticalPadding)
                 .fillMaxWidth(),
             shape = CardShape.CardEnd
         ) {
@@ -187,7 +188,7 @@ fun AboutAuthor() {
 fun AuthorNick() {
     Card(
         modifier = Modifier
-            .padding(horizontal = 12.dp, vertical = 2.dp)
+            .padding(horizontal = DefaultPadding.CardHorizontalPadding, vertical = DefaultPadding.CardVerticalPadding)
             .fillMaxWidth(),
         shape = CardShape.CardStart
     ) {

@@ -21,8 +21,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.blays.timetable.Compose.States.AppBarState
 import ru.blays.timetable.Compose.States.ScreenState
+import ru.blays.timetable.Compose.helperClasses.CardShape
 import ru.blays.timetable.Compose.helperClasses.CurrentTimeTable
 import ru.blays.timetable.Compose.helperClasses.CurrentTimeTable.daysList
+import ru.blays.timetable.Compose.helperClasses.DefaultPadding
 import ru.blays.timetable.ObjectBox.Boxes.DaysInTimeTableBox
 import ru.blays.timetable.ObjectBox.Boxes.SubjectsListBox
 
@@ -53,7 +55,6 @@ fun TimeTableCard(list: DaysInTimeTableBox) {
         }
     }
 
-
     AnimatedVisibility(
         visibleState =  visibilityState,
         enter = slideInHorizontally() + scaleIn(),
@@ -62,8 +63,11 @@ fun TimeTableCard(list: DaysInTimeTableBox) {
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 10.dp, vertical = 5.dp),
-            shape = RoundedCornerShape(10.dp),
+                .padding(
+                    horizontal = DefaultPadding.CardHorizontalPadding,
+                    vertical = DefaultPadding.CardVerticalPadding
+                ),
+            shape = CardShape.CardStandalone,
             elevation = CardDefaults.cardElevation(4.dp)
         )
         {
@@ -75,7 +79,8 @@ fun TimeTableCard(list: DaysInTimeTableBox) {
             {
                 Text(
                     modifier = Modifier
-                        .fillMaxWidth(),
+                        .fillMaxWidth()
+                        .padding(bottom = 4.dp),
                     text = list.day,
                     textAlign = TextAlign.Center,
                     fontSize = 20.sp
@@ -97,8 +102,8 @@ fun SubjectItem(subject: SubjectsListBox) {
         Card(
             modifier = Modifier
                 .fillMaxWidth(if (subject.subgroups == "BOTH") 1F else 0.9F)
-                .padding(6.dp),
-            shape = RoundedCornerShape(10.dp),
+                .padding(horizontal = 6.dp, vertical = 4.dp),
+            shape = CardShape.CardStandalone,
             elevation = CardDefaults
                 .cardElevation(2.dp)
         ) {

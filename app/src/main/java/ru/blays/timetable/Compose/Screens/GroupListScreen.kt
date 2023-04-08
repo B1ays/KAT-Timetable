@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -20,6 +19,8 @@ import androidx.compose.ui.unit.dp
 import ru.blays.timetable.Compose.ScreenData
 import ru.blays.timetable.Compose.ScreenList
 import ru.blays.timetable.Compose.States.ScreenState
+import ru.blays.timetable.Compose.helperClasses.CardShape
+import ru.blays.timetable.Compose.helperClasses.DefaultPadding
 import ru.blays.timetable.Compose.helperClasses.GroupList.groupList
 import ru.blays.timetable.ObjectBox.Boxes.GroupListBox
 
@@ -52,7 +53,10 @@ fun SimpleCard(
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 10.dp, vertical = 5.dp)
+                .padding(
+                    horizontal = DefaultPadding.CardHorizontalPadding,
+                    vertical = DefaultPadding.CardVerticalPadding
+                )
                 .clickable {
                     ScreenState.changeScreen(
                         ScreenData(
@@ -61,7 +65,7 @@ fun SimpleCard(
                         )
                     )
                 },
-            shape = RoundedCornerShape(10.dp),
+            shape = CardShape.CardStandalone,
             elevation = CardDefaults.cardElevation(4.dp)
         ) {
             Text(
