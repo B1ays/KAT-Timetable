@@ -64,7 +64,6 @@ fun AviakatTimetableTheme(
         }
     }
 
-
     MaterialTheme(
         colorScheme = colorScheme,
         typography = Typography,

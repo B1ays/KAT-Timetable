@@ -42,6 +42,11 @@ class MainActivity : ComponentActivity() {
             htmlParser = HTMLParser()
             prefs = Prefs(this)
         }
+
+        if (actionBar != null) {
+            actionBar!!.hide()
+        }
+
         setContent {
             InitSettings()
             AviakatTimetableTheme(darkTheme = ThemeState.isDarkMode, dynamicColor = ThemeState.isDynamicColor) {
