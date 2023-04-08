@@ -34,10 +34,5 @@ object GroupList {
         } else {
             groupList = groupListBox.all
         }
-        Log.d("getlog", groupList.toString())
-    }
-
-    fun updateGroupList() {
-        groupList = groupListBox.all
     }
 }

@@ -1,6 +1,5 @@
 package ru.blays.timetable.ParseUtils
 
-import android.util.Log
 import ru.blays.timetable.Compose.*
 import ru.blays.timetable.ObjectBox.Boxes.DaysInTimeTableBox
 import ru.blays.timetable.ObjectBox.Boxes.GroupListBox
@@ -78,7 +77,6 @@ class HTMLParser {
                         for (row in td) {
                             val rowCell = row.select(".ur")
                             if (row.select(".nul[colspan=1]").toString() != "") {
-                                Log.d("NullCellFind", "null cell")
                                 isFirstSubgroup = false
                             } else if (rowCell.toString() != "") {
 

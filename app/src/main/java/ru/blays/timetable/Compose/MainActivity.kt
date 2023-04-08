@@ -5,7 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import io.objectbox.Box
-import ru.blays.timetable.Compose.ComposeElements.RootElements
+import ru.blays.timetable.Compose.Screens.RootElements
 import ru.blays.timetable.Compose.States.ThemeState
 import ru.blays.timetable.Compose.helperClasses.GroupList
 import ru.blays.timetable.Compose.helperClasses.InitSettings
