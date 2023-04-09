@@ -16,14 +16,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import ru.blays.timetable.Compose.ScreenList
-import ru.blays.timetable.Compose.States.FloatingMenuState.changeExpanded
-import ru.blays.timetable.Compose.States.FloatingMenuState.isExpanded
-import ru.blays.timetable.Compose.States.ScreenState.currentScreen
 import ru.blays.timetable.Compose.HelperClasses.FloatingMenuActions
 import ru.blays.timetable.Compose.HelperClasses.FloatingMenuActionsModel
 import ru.blays.timetable.Compose.HelperClasses.FloatingMenuItems
 import ru.blays.timetable.Compose.HelperClasses.FloatingMenuItemsModel
+import ru.blays.timetable.Compose.ScreenList
+import ru.blays.timetable.Compose.States.FloatingMenuState.changeExpanded
+import ru.blays.timetable.Compose.States.FloatingMenuState.isExpanded
+import ru.blays.timetable.Compose.States.ScreenState.currentScreen
 
 @ExperimentalAnimationApi
 @Composable
@@ -111,17 +111,17 @@ fun FloatingMenuItem(
 ) {
     Card(modifier = Modifier
         .fillMaxWidth()
-        .padding(vertical = 3.dp),
+        .padding(vertical = 3.dp)
+        .clickable {
+            changeExpanded()
+            item.action()
+        },
         shape = RoundedCornerShape(4.dp)
     )
     {
         Row(modifier = Modifier
             .fillMaxWidth()
             .padding(7.dp)
-            .clickable {
-                changeExpanded()
-                item.action()
-            }
         )
         {
             Icon(
