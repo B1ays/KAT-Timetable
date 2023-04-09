@@ -1,4 +1,4 @@
-package ru.blays.timetable.Compose.theme
+package ru.blays.timetable.Compose.Theme
 
 import android.app.Activity
 import android.os.Build

@@ -1,4 +1,4 @@
-package ru.blays.timetable.Compose.helperClasses
+package ru.blays.timetable.Compose.HelperClasses
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.unit.dp

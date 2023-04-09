@@ -26,11 +26,11 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import ru.blays.timetable.Compose.States.ThemeState
-import ru.blays.timetable.Compose.helperClasses.AccentColorItem
-import ru.blays.timetable.Compose.helperClasses.AccentColorList
-import ru.blays.timetable.Compose.helperClasses.Animations.ModifierWithExpandAnimation
-import ru.blays.timetable.Compose.helperClasses.CardShape
-import ru.blays.timetable.Compose.helperClasses.DefaultPadding
+import ru.blays.timetable.Compose.HelperClasses.AccentColorItem
+import ru.blays.timetable.Compose.HelperClasses.AccentColorList
+import ru.blays.timetable.Compose.HelperClasses.Animations.ModifierWithExpandAnimation
+import ru.blays.timetable.Compose.HelperClasses.CardShape
+import ru.blays.timetable.Compose.HelperClasses.DefaultPadding
 import ru.blays.timetable.Compose.prefs
 import ru.blays.timetable.R
 

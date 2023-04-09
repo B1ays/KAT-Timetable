@@ -1,4 +1,4 @@
-package ru.blays.timetable.Compose.helperClasses
+package ru.blays.timetable.Compose.HelperClasses
 
 import android.annotation.SuppressLint
 import android.util.Log

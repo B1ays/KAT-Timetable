@@ -1,10 +1,10 @@
-package ru.blays.timetable.Compose.helperClasses
+package ru.blays.timetable.Compose.HelperClasses
 
 import androidx.compose.material.icons.rounded.*
 import androidx.compose.ui.graphics.vector.ImageVector
 import ru.blays.timetable.Compose.ScreenData
 import ru.blays.timetable.Compose.ScreenList
-import ru.blays.timetable.Compose.States.FABState
+import ru.blays.timetable.Compose.States.FloatingMenuState
 import ru.blays.timetable.Compose.States.ScreenState
 import ru.blays.timetable.Compose.prefs
 
@@ -42,6 +42,6 @@ object FloatingMenuActions {
         ScreenState.changeScreen(ScreenData(ScreenList.update_TimeTable, ScreenState.currentScreen.Key))
     }
     val close = FloatingMenuActionsModel(androidx.compose.material.icons.Icons.Rounded.Close) {
-        FABState.changeExpanded()
+        FloatingMenuState.changeExpanded()
     }
 }

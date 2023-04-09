@@ -26,11 +26,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.blays.timetable.BuildConfig
-import ru.blays.timetable.Compose.helperClasses.Animations.ModifierWithExpandAnimation
-import ru.blays.timetable.Compose.helperClasses.CardShape
-import ru.blays.timetable.Compose.helperClasses.Contact
-import ru.blays.timetable.Compose.helperClasses.ContactList
-import ru.blays.timetable.Compose.helperClasses.DefaultPadding
+import ru.blays.timetable.Compose.HelperClasses.Animations.ModifierWithExpandAnimation
+import ru.blays.timetable.Compose.HelperClasses.CardShape
+import ru.blays.timetable.Compose.HelperClasses.Contact
+import ru.blays.timetable.Compose.HelperClasses.ContactList
+import ru.blays.timetable.Compose.HelperClasses.DefaultPadding
 import ru.blays.timetable.R
 
 @Composable
@@ -125,7 +125,7 @@ fun HeadItem() {
             )
             {
                 Image(
-                    imageVector = ImageVector.vectorResource(id = R.drawable.telegram_icon), contentDescription = "Icon",
+                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_telegram), contentDescription = "Icon",
                     modifier = Modifier.size(32.dp),
                     colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary))
 

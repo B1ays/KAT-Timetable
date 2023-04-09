@@ -7,9 +7,9 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import io.objectbox.Box
 import ru.blays.timetable.Compose.Screens.RootElements
 import ru.blays.timetable.Compose.States.ThemeState
-import ru.blays.timetable.Compose.helperClasses.GroupList
-import ru.blays.timetable.Compose.helperClasses.InitSettings
-import ru.blays.timetable.Compose.theme.AviakatTimetableTheme
+import ru.blays.timetable.Compose.HelperClasses.GroupList
+import ru.blays.timetable.Compose.HelperClasses.InitSettings
+import ru.blays.timetable.Compose.Theme.AviakatTimetableTheme
 import ru.blays.timetable.ObjectBox.Boxes.DaysInTimeTableBox
 import ru.blays.timetable.ObjectBox.Boxes.GroupListBox
 import ru.blays.timetable.ObjectBox.Boxes.SubjectsListBox

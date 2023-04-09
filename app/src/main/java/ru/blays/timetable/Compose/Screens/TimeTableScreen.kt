@@ -20,10 +20,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.blays.timetable.Compose.States.ScreenState
-import ru.blays.timetable.Compose.helperClasses.CardShape
-import ru.blays.timetable.Compose.helperClasses.CurrentTimeTable
-import ru.blays.timetable.Compose.helperClasses.CurrentTimeTable.daysList
-import ru.blays.timetable.Compose.helperClasses.DefaultPadding
+import ru.blays.timetable.Compose.HelperClasses.CardShape
+import ru.blays.timetable.Compose.HelperClasses.CurrentTimeTable
+import ru.blays.timetable.Compose.HelperClasses.CurrentTimeTable.daysList
+import ru.blays.timetable.Compose.HelperClasses.DefaultPadding
 import ru.blays.timetable.ObjectBox.Boxes.DaysInTimeTableBox
 import ru.blays.timetable.ObjectBox.Boxes.SubjectsListBox
 

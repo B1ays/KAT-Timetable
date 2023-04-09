@@ -1,4 +1,4 @@
-package ru.blays.timetable.Compose.helperClasses
+package ru.blays.timetable.Compose.HelperClasses
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.FastOutLinearInEasing

@@ -1,4 +1,4 @@
-package ru.blays.timetable.Compose.helperClasses
+package ru.blays.timetable.Compose.HelperClasses
 
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.darkColorScheme

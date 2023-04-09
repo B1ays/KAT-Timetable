@@ -1,4 +1,4 @@
-package ru.blays.timetable.Compose.helperClasses
+package ru.blays.timetable.Compose.HelperClasses
 
 import ru.blays.timetable.R
 
@@ -10,8 +10,8 @@ data class Contact(
 
 object ContactList {
     val List = listOf(
-        Contact(iconID = R.drawable.vk_icon, "Вконтакте", "https://vk.com/b1ays"),
-        Contact(iconID = R.drawable.telegram_icon, "Telegram", "https://t.me/B1ays"),
+        Contact(iconID = R.drawable.ic_vk, "Вконтакте", "https://vk.com/b1ays"),
+        Contact(iconID = R.drawable.ic_telegram, "Telegram", "https://t.me/B1ays"),
         /*Contact(iconID = R.drawable.telegram_icon, "4PDA", "https://t.me/B1ays")*/
 
     )

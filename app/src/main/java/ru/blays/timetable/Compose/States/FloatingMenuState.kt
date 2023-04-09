@@ -4,7 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 
-object FABState {
+object FloatingMenuState {
     var isExpanded by  mutableStateOf(false)
 
     fun changeExpanded() {

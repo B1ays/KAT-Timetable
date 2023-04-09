@@ -8,7 +8,7 @@ import ru.blays.timetable.Compose.ScreenData
 import ru.blays.timetable.Compose.ScreenList
 import ru.blays.timetable.Compose.States.AlertDialogState
 import ru.blays.timetable.Compose.States.ScreenState
-import ru.blays.timetable.Compose.helperClasses.CurrentTimeTable
+import ru.blays.timetable.Compose.HelperClasses.CurrentTimeTable
 import ru.blays.timetable.Compose.htmlParser
 
 fun updateTimeTable() {

@@ -5,9 +5,9 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import ru.blays.timetable.Compose.helperClasses.AccentColorItem
-import ru.blays.timetable.Compose.helperClasses.createDarkTheme
-import ru.blays.timetable.Compose.helperClasses.createLightTheme
+import ru.blays.timetable.Compose.HelperClasses.AccentColorItem
+import ru.blays.timetable.Compose.HelperClasses.createDarkTheme
+import ru.blays.timetable.Compose.HelperClasses.createLightTheme
 
 object ThemeState {
 

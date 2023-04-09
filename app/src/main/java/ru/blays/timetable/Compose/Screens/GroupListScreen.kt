@@ -19,9 +19,9 @@ import androidx.compose.ui.unit.dp
 import ru.blays.timetable.Compose.ScreenData
 import ru.blays.timetable.Compose.ScreenList
 import ru.blays.timetable.Compose.States.ScreenState
-import ru.blays.timetable.Compose.helperClasses.CardShape
-import ru.blays.timetable.Compose.helperClasses.DefaultPadding
-import ru.blays.timetable.Compose.helperClasses.GroupList.groupList
+import ru.blays.timetable.Compose.HelperClasses.CardShape
+import ru.blays.timetable.Compose.HelperClasses.DefaultPadding
+import ru.blays.timetable.Compose.HelperClasses.GroupList.groupList
 import ru.blays.timetable.ObjectBox.Boxes.GroupListBox
 
 @ExperimentalAnimationApi

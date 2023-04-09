@@ -5,8 +5,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
+import ru.blays.timetable.Compose.HelperClasses.CurrentTimeTable
 import ru.blays.timetable.Compose.ScreenList
-import ru.blays.timetable.Compose.helperClasses.CurrentTimeTable
 import ru.blays.timetable.R
 
 object AppBarState {
