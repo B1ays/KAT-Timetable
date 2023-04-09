@@ -9,6 +9,8 @@ import androidx.compose.material3.IconToggleButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import ru.blays.timetable.Compose.States.AppBarState
@@ -48,6 +50,8 @@ fun CollapsingAppBar(scrollBehavior: CustomToolbarScrollBehavior) {
                         if (AppBarState.favoriteButtonChecked) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
                     )
                     Icon(
+                        modifier = Modifier
+                            .scale(1.2F),
                         imageVector = if (AppBarState.favoriteButtonChecked) {
                             ImageVector.vectorResource(
                                 id = R.drawable.round_star_24
