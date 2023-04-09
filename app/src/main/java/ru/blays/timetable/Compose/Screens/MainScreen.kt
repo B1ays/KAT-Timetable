@@ -3,24 +3,20 @@ package ru.blays.timetable.Compose.Screens
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
+import ru.blays.timetable.Compose.ComposeElements.CollapsingAppBar
 import ru.blays.timetable.Compose.ComposeElements.CustomAlertDialog
 import ru.blays.timetable.Compose.ComposeElements.FloatingMenu
 import ru.blays.timetable.Compose.ComposeElements.Navigation
-import ru.blays.timetable.Compose.ComposeElements.onBack
-import ru.blays.timetable.Compose.ScreenList
 import ru.blays.timetable.Compose.States.AlertDialogState
 import ru.blays.timetable.Compose.States.AppBarState
-import ru.blays.timetable.Compose.States.ScreenState
 import ru.blays.timetable.R
-import ru.hh.toolbar.custom_toolbar.CollapsingTitle
-import ru.hh.toolbar.custom_toolbar.CustomToolbar
 import ru.hh.toolbar.custom_toolbar.rememberToolbarScrollBehavior
 
 @ExperimentalAnimationApi
@@ -32,20 +28,10 @@ fun RootElements() {
     val scrollBehavior = rememberToolbarScrollBehavior()
 
     Scaffold(
-        modifier = Modifier
-            .nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = {
-            CustomToolbar(
-                collapsingTitle = CollapsingTitle.large(AppBarState.titleText),
-                scrollBehavior = scrollBehavior,
-                navigationIcon = { if (ScreenState.currentScreen.Screen != ScreenList.main_screen) IconButton(
-                    onClick = { onBack() }
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.ArrowBack,
-                        contentDescription = "Navigation back button") }
-                    }
-            )
+    modifier = Modifier
+        .nestedScroll(scrollBehavior.nestedScrollConnection),
+    topBar = {
+        CollapsingAppBar(scrollBehavior)
     },
     floatingActionButton = { FloatingMenu() }
     )

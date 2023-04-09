@@ -10,6 +10,7 @@ class Prefs (context: Context) {
     private val APP_THEME_TYPE = "AppTheme"
     private val APP_THEME_MONET = "MonetTheme"
     private val APP_THEME_ACCENT = "AccentColor"
+    private val FAVORITE_TIMETABLE = "Favorite"
 
     var themePrefs: Int
         get() = preferences.getInt(APP_THEME_TYPE, 0)
@@ -22,4 +23,9 @@ class Prefs (context: Context) {
     var accentColorPrefs: Int
         get() = preferences.getInt(APP_THEME_ACCENT, 1)
         set(value) = preferences.edit().putInt(APP_THEME_ACCENT, value).apply()
+
+    var favoriteTimetablePrefs: String?
+        get() = preferences.getString(FAVORITE_TIMETABLE, "no")
+        set(value) = preferences.edit().putString(FAVORITE_TIMETABLE, value).apply()
+
 }

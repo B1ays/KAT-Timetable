@@ -6,6 +6,7 @@ import ru.blays.timetable.Compose.ScreenData
 import ru.blays.timetable.Compose.ScreenList
 import ru.blays.timetable.Compose.States.FABState
 import ru.blays.timetable.Compose.States.ScreenState
+import ru.blays.timetable.Compose.prefs
 
 data class FloatingMenuItemsModel(
     val title: String,
@@ -26,7 +27,9 @@ object FloatingMenuItems {
             ScreenState.changeScreen(ScreenData(ScreenList.settings_screen))
         },
         FloatingMenuItemsModel(title = "Избранное", iconPath.Star, ScreenList.timetable_screen) {
-            ScreenState.changeScreen(ScreenData(ScreenList.timetable_screen, "cg60.htm"))
+            ScreenState.changeScreen(ScreenData(ScreenList.timetable_screen,
+                prefs.favoriteTimetablePrefs!!
+            ))
         },
         FloatingMenuItemsModel(title = "О приложении", iconPath.Info, ScreenList.about_screen) {
             ScreenState.changeScreen(ScreenData(ScreenList.about_screen))

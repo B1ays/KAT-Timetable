@@ -23,7 +23,7 @@ import kotlin.math.roundToInt
 @Composable
 fun CustomToolbar(
     modifier: Modifier = Modifier,
-    navigationIcon: (@Composable () -> Unit)? = null /*{ Icon(Icons.Default.ArrowBack, null) }*/,
+    navigationIcon: (@Composable () -> Unit)? = null,
     actions: (@Composable RowScope.() -> Unit)? = null,
     centralContent: (@Composable () -> Unit)? = null,
     additionalContent: (@Composable () -> Unit)? = null,
