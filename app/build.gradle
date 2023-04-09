@@ -28,7 +28,7 @@ android {
             zipAlignEnabled true
             crunchPngs true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            versionNameSuffix '_build1'
+            versionNameSuffix '_build2'
             signingConfig signingConfigs.debug
             multiDexEnabled false
         }

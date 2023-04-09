@@ -20,8 +20,6 @@ import ru.hh.toolbar.custom_toolbar.rememberToolbarScrollBehavior
 @Composable
 fun RootElements() {
 
-    /*val defaultTitle = stringResource(id = R.string.Toolbar_MainScreen_title)
-    AppBarState.changeTitleText(defaultTitle)*/
     val scrollBehavior = rememberToolbarScrollBehavior()
 
     Scaffold(

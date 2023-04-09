@@ -5,10 +5,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import io.objectbox.Box
-import ru.blays.timetable.Compose.Screens.RootElements
-import ru.blays.timetable.Compose.States.ThemeState
 import ru.blays.timetable.Compose.HelperClasses.GroupList
 import ru.blays.timetable.Compose.HelperClasses.InitSettings
+import ru.blays.timetable.Compose.Screens.RootElements
+import ru.blays.timetable.Compose.States.ThemeState
 import ru.blays.timetable.Compose.Theme.AviakatTimetableTheme
 import ru.blays.timetable.ObjectBox.Boxes.DaysInTimeTableBox
 import ru.blays.timetable.ObjectBox.Boxes.GroupListBox
@@ -51,7 +51,9 @@ class MainActivity : ComponentActivity() {
             InitSettings()
             AviakatTimetableTheme(darkTheme = ThemeState.isDarkMode, dynamicColor = ThemeState.isDynamicColor) {
                 GroupList.checkDBState()
-                RootElements()
+                /*if (prefs.firstStart) {
+                    LandingScreen()
+                } else*/ RootElements()
             }
         }
     }
