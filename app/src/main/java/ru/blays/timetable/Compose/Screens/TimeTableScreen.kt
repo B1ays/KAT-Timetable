@@ -19,7 +19,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ru.blays.timetable.Compose.States.AppBarState
 import ru.blays.timetable.Compose.States.ScreenState
 import ru.blays.timetable.Compose.helperClasses.CardShape
 import ru.blays.timetable.Compose.helperClasses.CurrentTimeTable
@@ -33,10 +32,6 @@ import ru.blays.timetable.ObjectBox.Boxes.SubjectsListBox
 fun TimeTableView() {
 
     CurrentTimeTable.getTimeTable(ScreenState.currentScreen.Key)
-
-    AppBarState.changeTitleText(
-        CurrentTimeTable.groupCode
-    )
 
     LazyColumn(modifier = Modifier.fillMaxWidth()) {
         items(daysList) {
