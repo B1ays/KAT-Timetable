@@ -4,9 +4,9 @@ import androidx.compose.material.icons.rounded.*
 import androidx.compose.ui.graphics.vector.ImageVector
 import ru.blays.timetable.Compose.ScreenData
 import ru.blays.timetable.Compose.ScreenList
+import ru.blays.timetable.Compose.States.AppBarState
 import ru.blays.timetable.Compose.States.FloatingMenuState
 import ru.blays.timetable.Compose.States.ScreenState
-import ru.blays.timetable.Compose.prefs
 
 data class FloatingMenuItemsModel(
     val title: String,
@@ -27,9 +27,14 @@ object FloatingMenuItems {
             ScreenState.changeScreen(ScreenData(ScreenList.settings_screen))
         },
         FloatingMenuItemsModel(title = "Избранное", iconPath.Star, ScreenList.timetable_screen) {
-            ScreenState.changeScreen(ScreenData(ScreenList.timetable_screen,
-                prefs.favoriteTimetablePrefs!!
-            ))
+            if (AppBarState.currentFavoriteTimetable != "no") {
+                ScreenState.changeScreen(
+                    ScreenData(
+                        ScreenList.timetable_screen,
+                        AppBarState.currentFavoriteTimetable
+                    )
+                )
+            }
         },
         FloatingMenuItemsModel(title = "О приложении", iconPath.Info, ScreenList.about_screen) {
             ScreenState.changeScreen(ScreenData(ScreenList.about_screen))
