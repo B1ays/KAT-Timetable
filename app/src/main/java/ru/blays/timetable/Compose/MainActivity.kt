@@ -53,7 +53,8 @@ class MainActivity : ComponentActivity() {
                 GroupList.checkDBState()
                 /*if (prefs.firstStart) {
                     LandingScreen()
-                } else*/ RootElements()
+                } else*/
+                RootElements()
             }
         }
     }

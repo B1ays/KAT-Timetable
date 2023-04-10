@@ -12,7 +12,7 @@ object ContactList {
     val List = listOf(
         Contact(iconID = R.drawable.ic_vk, "Вконтакте", "https://vk.com/b1ays"),
         Contact(iconID = R.drawable.ic_telegram, "Telegram", "https://t.me/B1ays"),
-        /*Contact(iconID = R.drawable.telegram_icon, "4PDA", "https://t.me/B1ays")*/
+        Contact(iconID = R.drawable.ic_4pda, "4PDA", "https://4pda.to/forum/index.php?showuser=7576426")
 
     )
 }
