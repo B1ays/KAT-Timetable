@@ -15,6 +15,7 @@ import ru.blays.timetable.ObjectBox.Boxes.DaysInTimeTableBox
 object CurrentTimeTable {
 
     var CurrentHref = ""
+    var updateTime by mutableStateOf("")
     var groupCode by mutableStateOf("")
     var daysList by mutableStateOf(listOf<DaysInTimeTableBox>())
 
@@ -23,6 +24,7 @@ object CurrentTimeTable {
             CurrentHref = href
             val query = objectBoxManager.getDaysFromTable(href)[0]
             groupCode = query.groupCode
+            updateTime = query.updateTime
             Log.d("getLog", groupCode)
 
             if (query.days.isNotEmpty()) {
@@ -33,6 +35,7 @@ object CurrentTimeTable {
                         htmlParser.getTimeTable(href)
                         val query = objectBoxManager.getDaysFromTable(href)[0]
                         groupCode = query.groupCode
+                        updateTime = query.updateTime
                         daysList = query.days
                     } catch (e: Exception) {
                         Log.d("getlog", e.toString())

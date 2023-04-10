@@ -61,7 +61,7 @@
     },
     {
       "id": "3:8664575799498037836",
-      "lastPropertyId": "6:3224200310742379038",
+      "lastPropertyId": "7:5325690469292080606",
       "name": "SubjectsListBox",
       "properties": [
         {
@@ -97,6 +97,11 @@
           "type": 11,
           "flags": 520,
           "relationTarget": "DaysInTimeTableBox"
+        },
+        {
+          "id": "7:5325690469292080606",
+          "name": "subgroups",
+          "type": 9
         }
       ],
       "relations": []

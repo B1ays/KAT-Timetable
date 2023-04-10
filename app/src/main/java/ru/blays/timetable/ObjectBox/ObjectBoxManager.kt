@@ -37,9 +37,10 @@ class ObjectBoxManager {
         }
     }
 
-    fun insertToDaysBox(href: String, boxModel: DaysInTimeTableBox) {
+    fun insertTimetableToBox(href: String, updateTime: String, boxModel: DaysInTimeTableBox) {
         val groupRow = groupListBox.query(GroupListBox_.href.equal(href)).build().find()
         groupRow[0].days.add(boxModel)
+        groupRow[0].updateTime = updateTime
         groupListBox.put(groupRow)
     }
 

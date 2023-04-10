@@ -10,7 +10,9 @@ import ru.blays.timetable.Compose.ScreenList
 import ru.blays.timetable.R
 
 object AppBarState {
-    var titleText by mutableStateOf("defaultTitle")
+    var titleText by mutableStateOf("")
+
+    var subtitleVisible by mutableStateOf(false)
 
     var navigateBackButtonVisible by mutableStateOf(false)
 
@@ -31,6 +33,8 @@ object AppBarState {
             ScreenList.update_TimeTable -> "Обновление..."
             else -> ""
         }
+
+        subtitleVisible = favoriteButtonVisible
 
         navigateBackButtonVisible = ScreenState.currentScreen.Screen != ScreenList.main_screen
 

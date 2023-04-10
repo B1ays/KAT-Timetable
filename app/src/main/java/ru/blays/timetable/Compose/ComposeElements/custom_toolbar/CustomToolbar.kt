@@ -8,6 +8,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.Layout
@@ -33,7 +34,7 @@ fun CustomToolbar(
 ) {
     val collapsedFraction = when {
         scrollBehavior != null && centralContent == null -> scrollBehavior.state.collapsedFraction
-        scrollBehavior != null && centralContent != null -> 0f
+        scrollBehavior != null && centralContent != null -> /*0f*/ scrollBehavior.state.collapsedFraction
         else -> 1f
     }
 
@@ -113,6 +114,7 @@ fun CustomToolbar(
                         modifier = Modifier
                             .wrapContentSize()
                             .layoutId(CentralContentId)
+                            .alpha(1 - scrollBehavior?.state?.collapsedFraction!!)
                     ) {
                         centralContent()
                     }
@@ -212,7 +214,7 @@ fun CustomToolbar(
                 val heightOffsetLimitPx = expandedTitlePlaceable.height + expandedTitleBottomPaddingPx
                 scrollBehavior?.state?.heightOffsetLimit = when (centralContent) {
                     null -> -heightOffsetLimitPx
-                    else -> -1f
+                    else -> /*-1f*/ -heightOffsetLimitPx
                 }
 
                 // Toolbar height at fully expanded state

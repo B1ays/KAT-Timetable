@@ -35,11 +35,15 @@ class HTMLParser {
         val daysIndices = mutableListOf<Int>()
         val rowRange = mutableListOf<Range>()
 
-        val tr = try {
-            htmlClient.getHTTP(href).select("table.inf").select("tr")
+        val htmlBody = try {
+            htmlClient.getHTTP(href)
         } catch (_: NullPointerException) {
             return
         }
+
+        val tr = htmlBody.select("table.inf").select("tr")
+
+        val updateTime = htmlBody.select(".ref").text()
 
         objectBoxManager.deleteTimeTable(href)
 
@@ -161,7 +165,11 @@ class HTMLParser {
                     }
                 }
             }
-            objectBoxManager.insertToDaysBox(href, days)
+            objectBoxManager.insertTimetableToBox(
+                href = href,
+                updateTime = updateTime,
+                boxModel = days
+            )
         }
     }
 }
