@@ -40,7 +40,7 @@ object CurrentTimeTable {
                     } catch (e: Exception) {
                         Log.d("getlog", e.toString())
                         AlertDialogState.changeText(e.toString())
-                        AlertDialogState.changeState()
+                        AlertDialogState.openDialog()
                     }
                 }
             }

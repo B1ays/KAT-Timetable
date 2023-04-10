@@ -10,8 +10,11 @@ object AlertDialogState {
 
     var text by mutableStateOf("")
 
-    fun changeState() = run {
-        isOpen = !isOpen
+    fun openDialog() = run {
+        isOpen = true
+    }
+    fun closeDialog() = run {
+        isOpen = false
     }
 
     fun changeText(message: String) = run {

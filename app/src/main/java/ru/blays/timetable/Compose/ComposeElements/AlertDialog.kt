@@ -24,7 +24,7 @@ fun CustomAlertDialog(message: String) {
     val context = LocalContext.current
     AlertDialog(
         dismissButton = {
-        TextButton(onClick = { AlertDialogState.changeState() }) {
+        TextButton(onClick = { AlertDialogState.closeDialog() }) {
             Text(text = "Отмена")
         }
     },
@@ -32,14 +32,14 @@ fun CustomAlertDialog(message: String) {
             TextButton(
                 onClick = {
                     context.startActivity(intent)
-                    AlertDialogState.changeState()
+                    AlertDialogState.closeDialog()
                 }
             )
             {
          Text(text = "Ок")
     }
     },
-    onDismissRequest = { AlertDialogState.changeState() },
+    onDismissRequest = { AlertDialogState.closeDialog() },
     title = { Text(text = "Не удалось подключится к сайту!", textAlign = TextAlign.Center) },
     text = {
         Column(
