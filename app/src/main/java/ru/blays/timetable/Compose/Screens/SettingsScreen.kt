@@ -1,5 +1,6 @@
 package ru.blays.timetable.Compose.ComposeElements
 
+import android.os.Build
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
@@ -11,8 +12,6 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.rounded.CheckCircle
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -20,17 +19,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import ru.blays.timetable.Compose.States.ThemeState
 import ru.blays.timetable.Compose.HelperClasses.AccentColorItem
 import ru.blays.timetable.Compose.HelperClasses.AccentColorList
 import ru.blays.timetable.Compose.HelperClasses.Animations.ModifierWithExpandAnimation
 import ru.blays.timetable.Compose.HelperClasses.CardShape
 import ru.blays.timetable.Compose.HelperClasses.DefaultPadding
+import ru.blays.timetable.Compose.States.ThemeState
 import ru.blays.timetable.Compose.prefs
 import ru.blays.timetable.R
 
@@ -38,7 +35,7 @@ import ru.blays.timetable.R
 fun SettingsScreen() {
     Column {
         ThemeSettings()
-        MonetSettings()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) MonetSettings()
         AccentSelector()
     }
 
@@ -272,6 +269,7 @@ Box(
     )
 }
 
+/*
 @Composable
 fun DBStateItem() {
     Card(
@@ -314,11 +312,13 @@ fun DBStateItem() {
                 contentAlignment = Alignment.CenterEnd) {
                 Button(modifier = Modifier
                     .padding(top = 4.dp),
-                    onClick = { /*TODO*/ }
+                    onClick = { */
+/*TODO*//*
+ }
                 ) {
                     Text(text = "Пересоздать базу данных")
                 }
             }
         }
     }
-}
+}*/
