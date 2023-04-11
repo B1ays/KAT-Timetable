@@ -37,8 +37,8 @@
 
 Андроид 7.0+
 
-Скачать:
-> # 
+> # Скачать:
+
 [Релиз](https://github.com/B1ays/KATTimetable/releases/tag/1.1.0_build3)
 
 > # Open source проекты используемые в приложении:
