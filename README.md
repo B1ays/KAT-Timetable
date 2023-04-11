@@ -32,13 +32,14 @@
 
 <a href="https://ibb.co/3kNtq3q"><img src="https://i.ibb.co/4JTBGqG/Screenshot-20230411-162009.png" alt="Screenshot-20230411-162009" border="0"></a>
 
+
 > # Требования
 
 Андроид 7.0+
 
 Скачать:
 > # 
-[Релиз](https://github.com/B1ays/KAT-Timetable/releases/tag/1.1.0_build3)
+[Релиз](https://github.com/B1ays/KATTimetable/releases/tag/1.1.0_build3)
 
 > # Open source проекты используемые в приложении:
 
