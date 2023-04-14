@@ -44,22 +44,21 @@ android {
         viewBinding true
         compose true
     }
-
     packagingOptions {
-        exclude 'MMETA-INF/versions/9/previous-compilation-data.bin'
         resources {
-            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+            excludes += ['/META-INF/{AL2.0,LGPL2.1}', 'MMETA-INF/versions/9/previous-compilation-data.bin']
         }
     }
+
     composeOptions {
-        kotlinCompilerExtensionVersion '1.4.4'
+        kotlinCompilerExtensionVersion '1.4.5'
     }
 }
 
 dependencies {
 
     //default
-    implementation 'androidx.core:core-ktx:1.11.0-alpha01'
+    implementation 'androidx.core:core-ktx:1.12.0-alpha03'
     implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.activity:activity-compose:1.7.0'
