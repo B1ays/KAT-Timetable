@@ -1,0 +1,18 @@
+plugins {
+    id 'java-library'
+    id 'org.jetbrains.kotlin.jvm'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_19
+    targetCompatibility = JavaVersion.VERSION_19
+}
+
+dependencies {
+
+    //material-color-utilities
+    implementation(files("libs/material-color-util.jar"))
+
+    // Jsoup
+    implementation 'org.jsoup:jsoup:1.15.4'
+}
