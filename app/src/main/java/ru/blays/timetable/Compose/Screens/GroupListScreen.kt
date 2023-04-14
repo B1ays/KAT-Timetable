@@ -22,7 +22,7 @@ import ru.blays.timetable.Compose.States.ScreenState
 import ru.blays.timetable.Compose.HelperClasses.CardShape
 import ru.blays.timetable.Compose.HelperClasses.DefaultPadding
 import ru.blays.timetable.Compose.HelperClasses.GroupList.groupList
-import ru.blays.timetable.ObjectBox.Boxes.GroupListBox
+import ru.blays.timetable.data.models.ObjectBox.Boxes.GroupListBox
 
 @ExperimentalAnimationApi
 @Composable
@@ -37,7 +37,7 @@ fun SimpleList() {
 @ExperimentalAnimationApi
 @Composable
 fun SimpleCard(
-    title: GroupListBox
+    title: ru.blays.timetable.data.models.ObjectBox.Boxes.GroupListBox
 ) {
     val visibilityState = remember {
         MutableTransitionState(false).apply {

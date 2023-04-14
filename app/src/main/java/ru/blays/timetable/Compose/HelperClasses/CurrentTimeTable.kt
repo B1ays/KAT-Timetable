@@ -13,7 +13,7 @@ import ru.blays.timetable.Compose.States.AlertDialogState
 import ru.blays.timetable.Compose.States.ScreenState
 import ru.blays.timetable.Compose.htmlParser
 import ru.blays.timetable.Compose.objectBoxManager
-import ru.blays.timetable.ObjectBox.Boxes.DaysInTimeTableBox
+import ru.blays.timetable.data.models.ObjectBox.Boxes.DaysInTimeTableBox
 
 object CurrentTimeTable {
 
@@ -21,7 +21,7 @@ object CurrentTimeTable {
     var isUpdate by mutableStateOf(false)
     var updateTime by mutableStateOf("")
     var groupCode by mutableStateOf("")
-    var daysList by mutableStateOf(listOf<DaysInTimeTableBox>())
+    var daysList by mutableStateOf(listOf<ru.blays.timetable.data.models.ObjectBox.Boxes.DaysInTimeTableBox>())
 
     @Composable
     fun UpdateTimetableObject() {

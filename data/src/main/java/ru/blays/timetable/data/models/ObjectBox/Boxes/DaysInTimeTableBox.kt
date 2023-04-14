@@ -1,4 +1,4 @@
-package ru.blays.timetable.ObjectBox.Boxes
+package ru.blays.timetable.data.models.ObjectBox.Boxes
 
 import io.objectbox.annotation.Backlink
 import io.objectbox.annotation.Entity

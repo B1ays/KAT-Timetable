@@ -1,9 +1,9 @@
 package ru.blays.timetable.ParseUtils
 
 import ru.blays.timetable.Compose.*
-import ru.blays.timetable.ObjectBox.Boxes.DaysInTimeTableBox
-import ru.blays.timetable.ObjectBox.Boxes.GroupListBox
-import ru.blays.timetable.ObjectBox.Boxes.SubjectsListBox
+import ru.blays.timetable.data.models.ObjectBox.Boxes.DaysInTimeTableBox
+import ru.blays.timetable.data.models.ObjectBox.Boxes.GroupListBox
+import ru.blays.timetable.data.models.ObjectBox.Boxes.SubjectsListBox
 
 class HTMLParser {
 
@@ -20,7 +20,10 @@ class HTMLParser {
             if (it1.select(".ur").toString() != "") {
                 val gr = it1.select(".z0")
                 val href = gr.attr("href")
-                val groupResult = GroupListBox(groupCode = gr.text(), href = href)
+                val groupResult = ru.blays.timetable.data.models.ObjectBox.Boxes.GroupListBox(
+                    groupCode = gr.text(),
+                    href = href
+                )
                 groupListBox.put(groupResult)
             }
         }
@@ -63,7 +66,7 @@ class HTMLParser {
 
         rowRange.forEach {
             val d = tr[it.rangeStart].select(".hd").select("[rowspan=7]").text()
-            val days = DaysInTimeTableBox(
+            val days = ru.blays.timetable.data.models.ObjectBox.Boxes.DaysInTimeTableBox(
                 day = d,
                 href = href
             )
@@ -91,13 +94,14 @@ class HTMLParser {
                                 val lecturer = rowCell.select(".z3").text()
                                 val auditory = rowCell.select(".z2").text()
 
-                                val sid = SubjectsListBox(
-                                    position = position,
-                                    subgroups = subgroups,
-                                    subject = subject,
-                                    lecturer = lecturer,
-                                    auditory = auditory
-                                )
+                                val sid =
+                                    ru.blays.timetable.data.models.ObjectBox.Boxes.SubjectsListBox(
+                                        position = position,
+                                        subgroups = subgroups,
+                                        subject = subject,
+                                        lecturer = lecturer,
+                                        auditory = auditory
+                                    )
 
                                 days.subjects.add(sid)
                             }
@@ -123,21 +127,23 @@ class HTMLParser {
                             val lecturer2 = cell[1].select(".z3").text()
                             val auditory2 = cell[1].select(".z2").text()
 
-                            val sid1 = SubjectsListBox(
-                                position = position1,
-                                subgroups = subgroups1,
-                                subject = subject1,
-                                lecturer = lecturer1,
-                                auditory = auditory1
-                            )
+                            val sid1 =
+                                ru.blays.timetable.data.models.ObjectBox.Boxes.SubjectsListBox(
+                                    position = position1,
+                                    subgroups = subgroups1,
+                                    subject = subject1,
+                                    lecturer = lecturer1,
+                                    auditory = auditory1
+                                )
 
-                            val sid2 = SubjectsListBox(
-                                position = position2,
-                                subgroups = subgroups2,
-                                subject = subject2,
-                                lecturer = lecturer2,
-                                auditory = auditory2
-                            )
+                            val sid2 =
+                                ru.blays.timetable.data.models.ObjectBox.Boxes.SubjectsListBox(
+                                    position = position2,
+                                    subgroups = subgroups2,
+                                    subject = subject2,
+                                    lecturer = lecturer2,
+                                    auditory = auditory2
+                                )
                             // Добавить в БД предмет для обеих подгрупп
                             days.subjects.add(sid1)
                             days.subjects.add(sid2)
@@ -152,13 +158,14 @@ class HTMLParser {
                             val lecturer = tri.select(".z3").text()
                             val auditory = tri.select(".z2").text()
 
-                            val sid = SubjectsListBox(
-                                position = position,
-                                subgroups = subgroups,
-                                subject = subject,
-                                lecturer = lecturer,
-                                auditory = auditory
-                            )
+                            val sid =
+                                ru.blays.timetable.data.models.ObjectBox.Boxes.SubjectsListBox(
+                                    position = position,
+                                    subgroups = subgroups,
+                                    subject = subject,
+                                    lecturer = lecturer,
+                                    auditory = auditory
+                                )
 
                             days.subjects.add(sid)
                         }

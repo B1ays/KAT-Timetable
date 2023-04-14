@@ -22,8 +22,8 @@ import androidx.compose.ui.unit.sp
 import ru.blays.timetable.Compose.HelperClasses.CardShape
 import ru.blays.timetable.Compose.HelperClasses.CurrentTimeTable.daysList
 import ru.blays.timetable.Compose.HelperClasses.DefaultPadding
-import ru.blays.timetable.ObjectBox.Boxes.DaysInTimeTableBox
-import ru.blays.timetable.ObjectBox.Boxes.SubjectsListBox
+import ru.blays.timetable.data.models.ObjectBox.Boxes.DaysInTimeTableBox
+import ru.blays.timetable.data.models.ObjectBox.Boxes.SubjectsListBox
 
 @ExperimentalAnimationApi
 @Composable
@@ -38,7 +38,7 @@ fun TimeTableView() {
 
 @ExperimentalAnimationApi
 @Composable
-fun TimeTableCard(list: DaysInTimeTableBox) {
+fun TimeTableCard(list: ru.blays.timetable.data.models.ObjectBox.Boxes.DaysInTimeTableBox) {
 
     val visibilityState = remember {
         MutableTransitionState(false).apply {
@@ -85,7 +85,7 @@ fun TimeTableCard(list: DaysInTimeTableBox) {
 }
 
 @Composable
-fun SubjectItem(subject: SubjectsListBox) {
+fun SubjectItem(subject: ru.blays.timetable.data.models.ObjectBox.Boxes.SubjectsListBox) {
     Box(
         modifier = Modifier.fillMaxWidth(),
         contentAlignment = if (subject.subgroups == "1") Alignment.CenterStart else Alignment.CenterEnd,

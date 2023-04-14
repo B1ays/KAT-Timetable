@@ -37,7 +37,7 @@ class ObjectBoxManager {
         }
     }
 
-    fun insertTimetableToBox(href: String, updateTime: String, boxModel: DaysInTimeTableBox) {
+    fun insertTimetableToBox(href: String, updateTime: String, boxModel: ru.blays.timetable.data.models.ObjectBox.Boxes.DaysInTimeTableBox) {
         val groupRow = groupListBox.query(GroupListBox_.href.equal(href)).build().find()
         groupRow[0].days.add(boxModel)
         groupRow[0].updateTime = updateTime
@@ -45,7 +45,7 @@ class ObjectBoxManager {
     }
 
 
-    fun getDaysFromTable(href: String): List<GroupListBox> {
+    fun getDaysFromTable(href: String): List<ru.blays.timetable.data.models.ObjectBox.Boxes.GroupListBox> {
         return groupListBox.query(GroupListBox_.href.equal(href)).build().find()
     }
 }

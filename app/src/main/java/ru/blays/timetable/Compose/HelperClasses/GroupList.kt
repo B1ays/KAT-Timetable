@@ -11,12 +11,12 @@ import kotlinx.coroutines.launch
 import ru.blays.timetable.Compose.States.AlertDialogState
 import ru.blays.timetable.Compose.groupListBox
 import ru.blays.timetable.Compose.htmlParser
-import ru.blays.timetable.ObjectBox.Boxes.GroupListBox
+import ru.blays.timetable.data.models.ObjectBox.Boxes.GroupListBox
 
 @SuppressLint("MutableCollectionMutableState")
 object GroupList {
 
-    var groupList by mutableStateOf(listOf<GroupListBox>())
+    var groupList by mutableStateOf(listOf<ru.blays.timetable.data.models.ObjectBox.Boxes.GroupListBox>())
 
     fun checkDBState() {
         if (groupListBox.isEmpty) {
