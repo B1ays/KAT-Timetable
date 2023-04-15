@@ -1,3 +1,4 @@
+/*
 package ru.blays.timetable.ParseUtils
 
 import ru.blays.timetable.Compose.*
@@ -179,4 +180,4 @@ class HTMLParser {
             )
         }
     }
-}
+}*/

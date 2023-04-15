@@ -1,30 +1,7 @@
 package ru.blays.timetable.Compose.ComposeElements
 
-import androidx.compose.animation.*
-import androidx.compose.animation.core.FastOutLinearInEasing
-import androidx.compose.animation.core.MutableTransitionState
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Menu
-import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
-import ru.blays.timetable.Compose.HelperClasses.FloatingMenuActions
-import ru.blays.timetable.Compose.HelperClasses.FloatingMenuActionsModel
-import ru.blays.timetable.Compose.HelperClasses.FloatingMenuItems
-import ru.blays.timetable.Compose.HelperClasses.FloatingMenuItemsModel
-import ru.blays.timetable.Compose.ScreenList
-import ru.blays.timetable.Compose.States.FloatingMenuState.changeExpanded
-import ru.blays.timetable.Compose.States.FloatingMenuState.isExpanded
-import ru.blays.timetable.Compose.States.ScreenState.currentScreen
 
+/*
 @ExperimentalAnimationApi
 @Composable
 fun FloatingMenu() {
@@ -158,4 +135,4 @@ fun FloatingMenuAction(
             tint = MaterialTheme.colorScheme.background
         )
     }
-}
+}*/

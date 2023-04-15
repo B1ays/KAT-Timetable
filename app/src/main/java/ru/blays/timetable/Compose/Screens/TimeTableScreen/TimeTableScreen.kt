@@ -1,10 +1,19 @@
 package ru.blays.timetable.Compose.ComposeElements
 
-import androidx.compose.animation.*
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.MutableTransitionState
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -20,17 +29,19 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.blays.timetable.Compose.HelperClasses.CardShape
-import ru.blays.timetable.Compose.HelperClasses.CurrentTimeTable.daysList
 import ru.blays.timetable.Compose.HelperClasses.DefaultPadding
-import ru.blays.timetable.data.models.ObjectBox.Boxes.DaysInTimeTableBox
-import ru.blays.timetable.data.models.ObjectBox.Boxes.SubjectsListBox
+import ru.blays.timetable.Compose.Screens.TimeTableScreen.TimetableScreenVM
+import ru.blays.timetable.domain.models.GetDaysListModel
+import ru.blays.timetable.domain.models.GetSubjectsListModel
 
 @ExperimentalAnimationApi
 @Composable
 fun TimeTableView() {
 
+    val viewModel = TimetableScreenVM()
+
     LazyColumn(modifier = Modifier.fillMaxWidth()) {
-        items(daysList) {
+        items(viewModel.timetable.daysWithSubjectsList) {
             TimeTableCard(list = it)
         }
     }
@@ -38,7 +49,7 @@ fun TimeTableView() {
 
 @ExperimentalAnimationApi
 @Composable
-fun TimeTableCard(list: ru.blays.timetable.data.models.ObjectBox.Boxes.DaysInTimeTableBox) {
+fun TimeTableCard(list: GetDaysListModel) {
 
     val visibilityState = remember {
         MutableTransitionState(false).apply {
@@ -85,7 +96,7 @@ fun TimeTableCard(list: ru.blays.timetable.data.models.ObjectBox.Boxes.DaysInTim
 }
 
 @Composable
-fun SubjectItem(subject: ru.blays.timetable.data.models.ObjectBox.Boxes.SubjectsListBox) {
+fun SubjectItem(subject: GetSubjectsListModel) {
     Box(
         modifier = Modifier.fillMaxWidth(),
         contentAlignment = if (subject.subgroups == "1") Alignment.CenterStart else Alignment.CenterEnd,

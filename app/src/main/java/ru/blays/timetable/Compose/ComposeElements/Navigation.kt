@@ -2,22 +2,19 @@ package ru.blays.timetable.Compose.ComposeElements
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
-import ru.blays.timetable.Compose.ScreenList
-import ru.blays.timetable.Compose.Screens.AboutScreen
-import ru.blays.timetable.Compose.Screens.DownloadProgressScreen
-import ru.blays.timetable.Compose.States.BackStackState.backStack
-import ru.blays.timetable.Compose.States.ScreenState.currentScreen
 
 @ExperimentalAnimationApi
 @Composable
 fun Navigation() {
 
 
-    if (backStack.last() != currentScreen && currentScreen.Screen != ScreenList.update_TimeTable) {
+   /* if (backStack.last() != currentScreen && currentScreen.Screen != ScreenList.update_TimeTable) {
         backStack.add(currentScreen)
-    }
+    }*/
 
-    when(currentScreen.Screen) {
+
+
+    /*when(currentScreen.Screen) {
         ScreenList.main_screen -> {
             SimpleList()
         }
@@ -37,5 +34,5 @@ fun Navigation() {
             updateTimeTable()
             DownloadProgressScreen()
         }
-    }
+    }*/
 }

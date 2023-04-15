@@ -3,11 +3,11 @@ package ru.blays.timetable.Compose.ComposeElements
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.OnBackPressedDispatcher
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
-import androidx.compose.runtime.*
-import ru.blays.timetable.Compose.ScreenData
-import ru.blays.timetable.Compose.ScreenList
-import ru.blays.timetable.Compose.States.BackStackState
-import ru.blays.timetable.Compose.States.ScreenState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 
 @Composable
 fun BackPressHandler(
@@ -34,6 +34,7 @@ fun BackPressHandler(
     }
 }
 
+/*
 val onBack: () -> Unit = {
     if (BackStackState.backStack.count() > 1) {
         ScreenState.changeScreen(BackStackState.backStack[BackStackState.backStack.lastIndex-1])
@@ -41,4 +42,4 @@ val onBack: () -> Unit = {
     } else {
         ScreenState.changeScreen(ScreenData(ScreenList.main_screen))
     }
-}
+}*/

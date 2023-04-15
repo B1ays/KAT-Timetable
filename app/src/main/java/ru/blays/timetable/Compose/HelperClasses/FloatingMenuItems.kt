@@ -1,12 +1,6 @@
 package ru.blays.timetable.Compose.HelperClasses
 
-import androidx.compose.material.icons.rounded.*
 import androidx.compose.ui.graphics.vector.ImageVector
-import ru.blays.timetable.Compose.ScreenData
-import ru.blays.timetable.Compose.ScreenList
-import ru.blays.timetable.Compose.States.AppBarState
-import ru.blays.timetable.Compose.States.FloatingMenuState
-import ru.blays.timetable.Compose.States.ScreenState
 
 data class FloatingMenuItemsModel(
     val title: String,
@@ -20,6 +14,7 @@ data class FloatingMenuActionsModel(
     val action: () -> Unit
 )
 
+/*
 object FloatingMenuItems {
     private val iconPath = androidx.compose.material.icons.Icons.Rounded
     val Items = listOf(
@@ -49,4 +44,4 @@ object FloatingMenuActions {
     val close = FloatingMenuActionsModel(androidx.compose.material.icons.Icons.Rounded.Close) {
         FloatingMenuState.changeExpanded()
     }
-}
+}*/

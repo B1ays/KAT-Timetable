@@ -1,13 +1,7 @@
 package ru.blays.timetable.Compose.HelperClasses
 
-import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.runtime.Composable
-import ru.blays.timetable.Compose.HelperClasses.CurrentTimeTable.UpdateTimetableObject
-import ru.blays.timetable.Compose.States.AppBarState
-import ru.blays.timetable.Compose.States.AppBarState.UpdateAppBarState
-import ru.blays.timetable.Compose.States.ThemeState
-import ru.blays.timetable.Compose.prefs
 
+/*
 @Composable
 fun InitSettings() {
 
@@ -27,4 +21,4 @@ fun InitSettings() {
 
     AppBarState.currentFavoriteTimetable = prefs.favoriteTimetablePrefs!!
 
-}
+}*/

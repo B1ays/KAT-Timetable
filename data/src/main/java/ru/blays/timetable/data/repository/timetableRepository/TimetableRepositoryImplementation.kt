@@ -11,6 +11,7 @@ import ru.blays.timetable.domain.models.GetDaysListModel
 import ru.blays.timetable.domain.models.GetGroupListModel
 import ru.blays.timetable.domain.models.GetSubjectsListModel
 import ru.blays.timetable.domain.models.GetTimetableModel
+import ru.blays.timetable.domain.models.SaveGroupsListModel
 import ru.blays.timetable.domain.models.SaveTimetableModel
 import ru.blays.timetable.domain.repository.TimetableRepositoryInterface
 
@@ -76,15 +77,14 @@ class TimetableRepositoryImplementation(
         )
     }
 
-    override fun saveGroupList(getGroupsList: List<GetGroupListModel>) {
+    override fun saveGroupList(groupsList: List<SaveGroupsListModel>) {
         val groupList = mutableListOf<GroupListBox>()
 
-        getGroupsList.forEach { groups ->
+        groupsList.forEach { groups ->
             groupList.add(
                 GroupListBox(
                     groupCode = groups.groupCode,
-                    href = groups.href,
-                    updateTime = groups.updateTime
+                    href = groups.href
                 )
             )
         }

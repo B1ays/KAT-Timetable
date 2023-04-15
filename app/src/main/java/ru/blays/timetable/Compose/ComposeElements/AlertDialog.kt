@@ -1,23 +1,7 @@
 package ru.blays.timetable.Compose.ComposeElements
 
-import android.content.Intent
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import ru.blays.timetable.Compose.States.AlertDialogState
 
-
+/*
 @Composable
 fun CustomAlertDialog(message: String) {
     val intent = Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS)
@@ -61,4 +45,4 @@ fun CustomAlertDialog(message: String) {
         }
     }
     )
-}
+}*/

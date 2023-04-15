@@ -1,24 +1,6 @@
 package ru.blays.timetable.Compose.ComposeElements
 
-import androidx.compose.animation.animateColorAsState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.vectorResource
-import ru.blays.timetable.Compose.HelperClasses.CurrentTimeTable
-import ru.blays.timetable.Compose.States.AppBarState
-import ru.blays.timetable.Compose.States.ScreenState
-import ru.blays.timetable.Compose.prefs
-import ru.blays.timetable.R
-import ru.hh.toolbar.custom_toolbar.CollapsingTitle
-import ru.hh.toolbar.custom_toolbar.CustomToolbar
-import ru.hh.toolbar.custom_toolbar.CustomToolbarScrollBehavior
-
+/*
 @Composable
 fun CollapsingAppBar(scrollBehavior: CustomToolbarScrollBehavior) {
     CustomToolbar(
@@ -43,7 +25,11 @@ fun CollapsingAppBar(scrollBehavior: CustomToolbarScrollBehavior) {
             if (AppBarState.favoriteButtonVisible) {
                 IconToggleButton(
                     checked = AppBarState.favoriteButtonChecked,
-                    onCheckedChange = { prefs.favoriteTimetablePrefs = ScreenState.currentScreen.Key
+                    onCheckedChange = {
+                        TODO(reason = "Непонятно как реализваоть имплементацияю репозитория")
+                        */
+/*prefs.favoriteTimetablePrefs = ScreenState.currentScreen.Key*//*
+
                         AppBarState.currentFavoriteTimetable = ScreenState.currentScreen.Key
                     }
                 ) {
@@ -67,4 +53,4 @@ fun CollapsingAppBar(scrollBehavior: CustomToolbarScrollBehavior) {
             }
         }
     )
-}
+}*/

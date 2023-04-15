@@ -2,6 +2,7 @@ package ru.blays.timetable.domain.repository
 
 import ru.blays.timetable.domain.models.GetGroupListModel
 import ru.blays.timetable.domain.models.GetTimetableModel
+import ru.blays.timetable.domain.models.SaveGroupsListModel
 import ru.blays.timetable.domain.models.SaveTimetableModel
 
 interface TimetableRepositoryInterface {
@@ -12,7 +13,7 @@ interface TimetableRepositoryInterface {
 
     // save values //
 
-    fun saveGroupList(groupsList:  List<GetGroupListModel>)
+    fun saveGroupList(groupsList:  List<SaveGroupsListModel>)
 
     fun saveDaysList(timetableModel: SaveTimetableModel)
 

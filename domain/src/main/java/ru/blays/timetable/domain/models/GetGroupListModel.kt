@@ -1,8 +1,8 @@
 package ru.blays.timetable.domain.models
 
 data class GetGroupListModel(
-    val groupCode: String,
-    val href: String,
-    val updateTime: String,
-    var days: List<GetDaysListModel>?
+    val groupCode: String? = null,
+    val href: String? = null,
+    val updateTime: String? = null,
+    var days: List<GetDaysListModel>? = null
 )

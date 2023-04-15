@@ -8,27 +8,21 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
-import ru.blays.timetable.Compose.ComposeElements.CollapsingAppBar
-import ru.blays.timetable.Compose.ComposeElements.CustomAlertDialog
-import ru.blays.timetable.Compose.ComposeElements.FloatingMenu
-import ru.blays.timetable.Compose.ComposeElements.Navigation
-import ru.blays.timetable.Compose.States.AlertDialogState
-import ru.hh.toolbar.custom_toolbar.rememberToolbarScrollBehavior
+import ru.blays.timetable.Compose.ComposeElements.SimpleList
 
 @ExperimentalAnimationApi
 @Composable
 fun RootElements() {
 
-    val scrollBehavior = rememberToolbarScrollBehavior()
+   /* val scrollBehavior = rememberToolbarScrollBehavior()*/
 
     Scaffold(
     modifier = Modifier
-        .nestedScroll(scrollBehavior.nestedScrollConnection),
+        /*.nestedScroll(scrollBehavior.nestedScrollConnection)*/,
     topBar = {
-        CollapsingAppBar(scrollBehavior)
+        /*CollapsingAppBar(scrollBehavior)*/
     },
-    floatingActionButton = { FloatingMenu() }
+    floatingActionButton = { /*FloatingMenu()*/ }
     )
     {
         Frame(it)
@@ -47,10 +41,11 @@ fun Frame(
     )
     {
         MaterialTheme {
-            if(AlertDialogState.isOpen) {
+            SimpleList()
+        /*if(AlertDialogState.isOpen) {
                 CustomAlertDialog(message = AlertDialogState.text)
-            }
-           Navigation()
+            }*/
+//           Navigation()
         }
     }
 }

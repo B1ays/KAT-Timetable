@@ -1,24 +1,17 @@
 package ru.blays.timetable.Compose.HelperClasses
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import ru.blays.timetable.Compose.States.AlertDialogState
-import ru.blays.timetable.Compose.groupListBox
-import ru.blays.timetable.Compose.htmlParser
 import ru.blays.timetable.data.models.ObjectBox.Boxes.GroupListBox
 
 @SuppressLint("MutableCollectionMutableState")
 object GroupList {
 
-    var groupList by mutableStateOf(listOf<ru.blays.timetable.data.models.ObjectBox.Boxes.GroupListBox>())
+    var groupList by mutableStateOf(listOf<GroupListBox>())
 
-    fun checkDBState() {
+    /*fun checkDBState() {
         if (groupListBox.isEmpty) {
 
             CoroutineScope(Dispatchers.IO).launch {
@@ -34,5 +27,5 @@ object GroupList {
         } else {
             groupList = groupListBox.all
         }
-    }
+    }*/
 }
