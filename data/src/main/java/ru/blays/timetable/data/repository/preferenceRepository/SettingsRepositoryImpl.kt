@@ -1,7 +1,8 @@
-package ru.blays.timetable.data.repositories.preferenceRepository.storage
+package ru.blays.timetable.data.repository.preferenceRepository
 
 import android.content.Context
 import android.content.SharedPreferences
+import ru.blays.timetable.domain.repository.SettingsRepositoryInterface
 
 private const val APP_THEME_TYPE = "AppTheme"
 private const val APP_THEME_MONET = "MonetTheme"
@@ -9,10 +10,10 @@ private const val APP_THEME_ACCENT = "AccentColor"
 private const val FIRST_START = "FirstStart"
 private const val FAVORITE_TIMETABLE = "Favorite"
 
-class SharedPrefsStorageIml(context: Context): SettingsStorage {
+
+class SettingsRepositoryImpl(context: Context) : SettingsRepositoryInterface {
 
     private val preferences: SharedPreferences = context.getSharedPreferences("MainPreference", Context.MODE_PRIVATE)
-
 
     override var appTheme: Int
         get() = preferences.getInt(APP_THEME_TYPE, 0)
@@ -33,4 +34,5 @@ class SharedPrefsStorageIml(context: Context): SettingsStorage {
     override var firstStart: Boolean
         get() = preferences.getBoolean(FIRST_START, false)
         set(value) = preferences.edit().putBoolean(FIRST_START, value).apply()
+
 }

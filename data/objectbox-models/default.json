@@ -1,0 +1,126 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:2130649636173347138",
+      "lastPropertyId": "4:24366366440402504",
+      "name": "DaysInTimeTableBox",
+      "properties": [
+        {
+          "id": "1:6708478558089863174",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:4350544290294972889",
+          "name": "day",
+          "type": 9
+        },
+        {
+          "id": "3:8303976583125806280",
+          "name": "href",
+          "type": 9
+        },
+        {
+          "id": "4:24366366440402504",
+          "name": "groupId",
+          "indexId": "1:3216416850143143427",
+          "type": 11,
+          "flags": 520,
+          "relationTarget": "GroupListBox"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "2:8668354248660568215",
+      "lastPropertyId": "4:1599606359321903515",
+      "name": "GroupListBox",
+      "properties": [
+        {
+          "id": "1:2505928499513122322",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:7488096209597870878",
+          "name": "groupCode",
+          "type": 9
+        },
+        {
+          "id": "3:1525088666927183488",
+          "name": "href",
+          "type": 9
+        },
+        {
+          "id": "4:1599606359321903515",
+          "name": "updateTime",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "3:4290857263286613796",
+      "lastPropertyId": "7:3840768905130034917",
+      "name": "SubjectsListBox",
+      "properties": [
+        {
+          "id": "1:4965764514559767173",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:6294055310540274249",
+          "name": "position",
+          "type": 9
+        },
+        {
+          "id": "3:481452492443976948",
+          "name": "subgroups",
+          "type": 9
+        },
+        {
+          "id": "4:8603937110275585418",
+          "name": "subject",
+          "type": 9
+        },
+        {
+          "id": "5:9174377775803808677",
+          "name": "lecturer",
+          "type": 9
+        },
+        {
+          "id": "6:2068765915011909098",
+          "name": "auditory",
+          "type": 9
+        },
+        {
+          "id": "7:3840768905130034917",
+          "name": "dayId",
+          "indexId": "2:2169088450527733706",
+          "type": 11,
+          "flags": 520,
+          "relationTarget": "DaysInTimeTableBox"
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "3:4290857263286613796",
+  "lastIndexId": "2:2169088450527733706",
+  "lastRelationId": "0:0",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [],
+  "retiredRelationUids": [],
+  "version": 1
+}

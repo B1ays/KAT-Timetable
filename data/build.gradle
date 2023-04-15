@@ -46,4 +46,6 @@ dependencies {
     //ObjectBox
     implementation 'io.objectbox:objectbox-kotlin:3.5.1'
     implementation 'io.objectbox:objectbox-android:3.5.1'
+
+    implementation project(path: ':domain')
 }

@@ -1,8 +1,6 @@
-package ru.blays.timetable.data.repositories.preferenceRepository.storage
+package ru.blays.timetable.domain.repository
 
-interface SettingsStorage {
-
-    // get values //
+interface SettingsRepositoryInterface {
 
     var appTheme: Int
 
