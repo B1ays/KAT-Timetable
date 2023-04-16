@@ -16,33 +16,24 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import ru.blays.timetable.Compose.HelperClasses.CardShape
 import ru.blays.timetable.Compose.HelperClasses.DefaultPadding
-import ru.blays.timetable.Compose.Screens.GroupListScreen.GroupListScreenVM
-import ru.blays.timetable.Compose.getGroupsListUseCase
+import ru.blays.timetable.Compose.ScreenData
+import ru.blays.timetable.Compose.ScreenList
+import ru.blays.timetable.Compose.groupListViewModel
+import ru.blays.timetable.Compose.navigationVM
 import ru.blays.timetable.domain.models.GetGroupListModel
 
 @ExperimentalAnimationApi
 @Composable
 fun SimpleList() {
 
-    val viewModel = GroupListScreenVM(getGroupsListUseCase)
-
-    LaunchedEffect(key1 = true) {
-        withContext(Dispatchers.IO) {
-            viewModel.get()
-        }
-    }
-
     LazyColumn{
-        itemsIndexed(viewModel.groupList) {_, item ->
+        itemsIndexed(groupListViewModel.groupList) { _, item ->
             SimpleCard(getGroupListModel = item)
         }
     }
@@ -73,12 +64,12 @@ fun SimpleCard(
                     vertical = DefaultPadding.CardVerticalPadding
                 )
                 .clickable {
-                    /* ScreenState.changeScreen(
+                     navigationVM.changeScreen(
                         ScreenData(
                             Screen = ScreenList.timetable_screen,
                             Key = getGroupListModel.href ?: ""
                         )
-                    )*/
+                    )
                 },
             shape = CardShape.CardStandalone,
             elevation = CardDefaults.cardElevation(4.dp)

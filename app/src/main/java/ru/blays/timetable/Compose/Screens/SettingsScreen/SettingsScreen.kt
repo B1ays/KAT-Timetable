@@ -14,10 +14,10 @@ fun SettingsScreen() {
 fun ThemeSettings() {
     var radioButtonSelectionState by remember { mutableStateOf(prefs.themePrefs) }
     val isDarkMode = isSystemInDarkTheme()
-    var isExpanded by remember { mutableStateOf(false) }
+    var isMenuExpanded by remember { mutableStateOf(false) }
 
     val onExpandChange = {
-        isExpanded = !isExpanded
+        isMenuExpanded = !isMenuExpanded
     }
 
     val setSystemTheme = {
@@ -36,7 +36,7 @@ fun ThemeSettings() {
         prefs.themePrefs = 2
         ThemeState.isDarkMode = false
     }
-    val transition = updateTransition(targetState = isExpanded, label = null)
+    val transition = updateTransition(targetState = isMenuExpanded, label = null)
     val rotateValue by transition.animateFloat(
         transitionSpec = {
             tween(
@@ -53,7 +53,7 @@ fun ThemeSettings() {
         modifier = ModifierWithExpandAnimation
             .padding(horizontal = DefaultPadding.CardHorizontalPadding, vertical = DefaultPadding.CardVerticalPadding)
             .fillMaxWidth()
-            .toggleable(value = isExpanded) { onExpandChange() },
+            .toggleable(value = isMenuExpanded) { onExpandChange() },
         shape = CardShape.CardStandalone,
         elevation = CardDefaults.cardElevation(2.dp)
     ) {
@@ -74,7 +74,7 @@ fun ThemeSettings() {
                 imageVector = ImageVector.vectorResource(id = R.drawable.ic_arrow_down_24dp),
                 contentDescription = "Arrow")
         }
-        if (isExpanded) {
+        if (isMenuExpanded) {
             Row(
                 modifier = Modifier
                     .padding(vertical = 2.dp, horizontal = 12.dp)
@@ -165,14 +165,14 @@ fun MonetSettings() {
 
 @Composable
 fun AccentSelector() {
-    var isExpanded by remember {
+    var isMenuExpanded by remember {
         mutableStateOf(false)
     }
     val onExpandChange = {
-        isExpanded = !isExpanded
+        isMenuExpanded = !isMenuExpanded
     }
 
-    val transition = updateTransition(targetState = isExpanded, label = null)
+    val transition = updateTransition(targetState = isMenuExpanded, label = null)
     val rotateValue by transition.animateFloat(
         transitionSpec = {
             tween(
@@ -191,7 +191,7 @@ fun AccentSelector() {
                 vertical = DefaultPadding.CardVerticalPadding
             )
             .fillMaxWidth()
-            .toggleable(value = isExpanded) { onExpandChange() },
+            .toggleable(value = isMenuExpanded) { onExpandChange() },
         shape = CardShape.CardStandalone,
         elevation = CardDefaults.cardElevation(2.dp)
     ) {
@@ -212,7 +212,7 @@ fun AccentSelector() {
             imageVector = ImageVector.vectorResource(id = R.drawable.ic_arrow_down_24dp),
             contentDescription = "Arrow")
     }
-    if (isExpanded) {
+    if (isMenuExpanded) {
         LazyRow(modifier = Modifier.padding(12.dp)) {
             itemsIndexed(AccentColorList.list)
                 { index, item ->

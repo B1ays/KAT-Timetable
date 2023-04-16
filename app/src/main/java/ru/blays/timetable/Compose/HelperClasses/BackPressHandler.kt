@@ -8,6 +8,9 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
+import ru.blays.timetable.Compose.ScreenData
+import ru.blays.timetable.Compose.ScreenList
+import ru.blays.timetable.Compose.navigationVM
 
 @Composable
 fun BackPressHandler(
@@ -34,12 +37,12 @@ fun BackPressHandler(
     }
 }
 
-/*
 val onBack: () -> Unit = {
-    if (BackStackState.backStack.count() > 1) {
-        ScreenState.changeScreen(BackStackState.backStack[BackStackState.backStack.lastIndex-1])
-        BackStackState.backStack.removeLast()
+    val backStack = navigationVM.backStack
+    if (backStack.count() > 1) {
+        navigationVM.changeScreen(backStack[backStack.lastIndex-1])
+        backStack.removeLast()
     } else {
-        ScreenState.changeScreen(ScreenData(ScreenList.main_screen))
+        navigationVM.changeScreen(ScreenData(ScreenList.main_screen))
     }
-}*/
+}

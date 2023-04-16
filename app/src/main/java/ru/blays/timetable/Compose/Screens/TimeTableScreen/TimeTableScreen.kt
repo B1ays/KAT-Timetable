@@ -22,6 +22,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,7 +31,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.blays.timetable.Compose.HelperClasses.CardShape
 import ru.blays.timetable.Compose.HelperClasses.DefaultPadding
-import ru.blays.timetable.Compose.Screens.TimeTableScreen.TimetableScreenVM
+import ru.blays.timetable.Compose.navigationVM
+import ru.blays.timetable.Compose.timetableViewModel
 import ru.blays.timetable.domain.models.GetDaysListModel
 import ru.blays.timetable.domain.models.GetSubjectsListModel
 
@@ -38,11 +40,18 @@ import ru.blays.timetable.domain.models.GetSubjectsListModel
 @Composable
 fun TimeTableView() {
 
-    val viewModel = TimetableScreenVM()
+    LaunchedEffect(key1 = true) {
+        timetableViewModel.get(navigationVM.currentScreen.Key)
+    }
 
-    LazyColumn(modifier = Modifier.fillMaxWidth()) {
-        items(viewModel.timetable.daysWithSubjectsList) {
-            TimeTableCard(list = it)
+    LazyColumn(modifier = Modifier
+        .fillMaxWidth()
+    ) {
+
+        val items = timetableViewModel.timetable.daysWithSubjectsList
+
+        items(items) {days ->
+            TimeTableCard(list = days)
         }
     }
 }
