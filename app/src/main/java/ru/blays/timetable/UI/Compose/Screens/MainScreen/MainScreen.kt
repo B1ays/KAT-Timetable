@@ -1,6 +1,5 @@
 package ru.blays.timetable.UI.Screens
 
-import android.util.Log
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
@@ -12,16 +11,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import ru.blays.timetable.UI.Compose.ComposeElements.CollapsingAppBar
 import ru.blays.timetable.UI.Compose.ComposeElements.FloatingMenu
-import ru.blays.timetable.UI.Compose.mainViewModel
+import ru.blays.timetable.UI.Compose.ComposeElements.navigation.NavigationVM
+import ru.blays.timetable.UI.Compose.MainViewModel
+import ru.blays.timetable.UI.Compose.Screens.GroupListScreen.GroupListScreenVM
+import ru.blays.timetable.UI.Compose.Screens.SettingsScreen.SettingsScreenVM
+import ru.blays.timetable.UI.Compose.Screens.TimeTableScreen.TimetableScreenVM
 import ru.blays.timetable.UI.ComposeElements.Navigation
 import ru.blays.timetable.UI.ScreenList
 import ru.hh.toolbar.custom_toolbar.rememberToolbarScrollBehavior
 
 @ExperimentalAnimationApi
 @Composable
-fun RootElements() {
+fun RootElements(
+    mainViewModel: MainViewModel,
+    timetableViewModel: TimetableScreenVM,
+    groupListViewModel: GroupListScreenVM,
+    navigationViewModel: NavigationVM,
+    settingsViewModel: SettingsScreenVM
+) {
 
-    observe()
+    observe(mainViewModel)
 
     val scrollBehavior = rememberToolbarScrollBehavior()
 
@@ -31,14 +40,30 @@ fun RootElements() {
                 scrollBehavior.nestedScrollConnection
             ),
         topBar = {
-            CollapsingAppBar(scrollBehavior)
+            val appBar = CollapsingAppBar(
+                mainViewModel = mainViewModel,
+                navigationViewModel = navigationViewModel
+            )
+            appBar.Create(scrollBehavior)
         },
         floatingActionButton = {
-            FloatingMenu()
+            val floatingMenu = FloatingMenu(
+                mainViewModel = mainViewModel,
+                navigationViewModel = navigationViewModel,
+                timetableViewModel = timetableViewModel
+            )
+            floatingMenu.Create()
         }
     )
     {
-        Frame(it)
+        Frame(
+            it,
+            mainViewModel,
+            timetableViewModel,
+            groupListViewModel,
+            navigationViewModel,
+            settingsViewModel
+        )
     }
 }
 
@@ -47,7 +72,12 @@ fun RootElements() {
 @ExperimentalAnimationApi
 @Composable
 fun Frame(
-    paddingValues: PaddingValues
+    paddingValues: PaddingValues,
+    mainViewModel: MainViewModel,
+    timetableViewModel: TimetableScreenVM,
+    groupListViewModel: GroupListScreenVM,
+    navigationViewModel: NavigationVM,
+    settingsViewModel: SettingsScreenVM
 ) {
     Surface(
         modifier = Modifier
@@ -59,12 +89,18 @@ fun Frame(
         /*if(AlertDialogState.isOpen) {
                 CustomAlertDialog(message = AlertDialogState.text)
             }*/
-           Navigation()
+           Navigation(
+            mainViewModel,
+            timetableViewModel,
+            groupListViewModel,
+            navigationViewModel,
+            settingsViewModel
+           )
         }
     }
 }
 
-fun observe() {
+fun observe(mainViewModel: MainViewModel) {
     mainViewModel.mediatingRepository.appBarStateCallBack = { currentScreen, currentGroupCode ->
         when (currentScreen) {
             ScreenList.main_screen -> mainViewModel.titleText = "Главаная"
@@ -73,7 +109,6 @@ fun observe() {
             ScreenList.timetable_screen -> mainViewModel.titleText = currentGroupCode
             else -> mainViewModel.titleText = ""
         }
-        Log.d("callBackLog", "$currentScreen $currentGroupCode")
     }
 
     mainViewModel.mediatingRepository.themeChangeCallBack = { isDarkMode ->

@@ -20,11 +20,11 @@ import ru.blays.timetable.data.models.ObjectBox.Boxes.MyObjectBox
 import ru.blays.timetable.domain.repository.MediatingRepository.MediatingRepository
 
 
-lateinit var mainViewModel: MainViewModel
-lateinit var timetableViewModel: TimetableScreenVM
-lateinit var groupListViewModel : GroupListScreenVM
-lateinit var navigationViewModel: NavigationVM
-lateinit var settingsViewModel: SettingsScreenVM
+private lateinit var mainViewModel: MainViewModel
+private lateinit var timetableViewModel: TimetableScreenVM
+private lateinit var groupListViewModel : GroupListScreenVM
+private lateinit var navigationViewModel: NavigationVM
+private lateinit var settingsViewModel: SettingsScreenVM
 
 @ExperimentalAnimationApi
 class MainActivity : ComponentActivity() {
@@ -73,7 +73,13 @@ class MainActivity : ComponentActivity() {
             AviakatTimetableTheme(darkTheme = mainViewModel.isDarkMode, dynamicColor = mainViewModel.monetColors) {
                 mainViewModel.systemTheme = isSystemInDarkTheme()
                 mainViewModel.init()
-                RootElements()
+                RootElements(
+                    mainViewModel,
+                    timetableViewModel,
+                    groupListViewModel,
+                    navigationViewModel,
+                    settingsViewModel
+                )
             }
         }
     }

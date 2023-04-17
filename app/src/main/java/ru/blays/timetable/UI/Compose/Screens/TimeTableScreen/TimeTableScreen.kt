@@ -30,154 +30,157 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ru.blays.timetable.UI.Compose.navigationViewModel
-import ru.blays.timetable.UI.Compose.timetableViewModel
+import ru.blays.timetable.UI.Compose.ComposeElements.navigation.NavigationVM
+import ru.blays.timetable.UI.Compose.Screens.TimeTableScreen.TimetableScreenVM
 import ru.blays.timetable.UI.DataClasses.CardShape
 import ru.blays.timetable.UI.DataClasses.DefaultPadding
 import ru.blays.timetable.domain.models.GetDaysListModel
 import ru.blays.timetable.domain.models.GetSubjectsListModel
 
-@ExperimentalAnimationApi
-@Composable
-fun TimeTableView() {
+class TimeTableScreen(private val timetableViewModel: TimetableScreenVM, private val navigationViewModel: NavigationVM) {
+    @ExperimentalAnimationApi
+    @Composable
+    fun Create() {
 
-    LaunchedEffect(key1 = true) {
-        timetableViewModel.get(navigationViewModel.currentScreen.Key)
-    }
-
-    if (timetableViewModel.showProgress) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize(),
-            contentAlignment = Alignment.TopCenter
-        ) { CircularProgressIndicator(modifier = Modifier.fillMaxWidth(0.4F)) }
-    } else {
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-
-            val items = timetableViewModel.timetable.daysWithSubjectsList
-
-            items(items) { days ->
-                TimeTableCard(list = days)
-            }
+        LaunchedEffect(key1 = true) {
+            timetableViewModel.get(navigationViewModel.currentScreen.Key)
         }
-    }
-}
 
-@ExperimentalAnimationApi
-@Composable
-fun TimeTableCard(list: GetDaysListModel) {
-
-    val visibilityState = remember {
-        MutableTransitionState(false).apply {
-            targetState = true
-        }
-    }
-
-    AnimatedVisibility(
-        visibleState =  visibilityState,
-        enter = slideInHorizontally() + scaleIn(),
-        exit = slideOutHorizontally()
-    ) {
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    horizontal = DefaultPadding.CardHorizontalPadding,
-                    vertical = DefaultPadding.CardVerticalPadding
-                ),
-            shape = CardShape.CardStandalone,
-            elevation = CardDefaults.cardElevation(4.dp)
-        )
-        {
-            Column(
+        if (timetableViewModel.showProgress) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize(),
+                contentAlignment = Alignment.TopCenter
+            ) { CircularProgressIndicator(modifier = Modifier.fillMaxWidth(0.4F)) }
+        } else {
+            LazyColumn(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(5.dp)
-            )
-            {
-                Text(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 4.dp),
-                    text = list.day,
-                    textAlign = TextAlign.Center,
-                    fontSize = 20.sp
-                )
-                for (subject in list.subjects) {
-                    SubjectItem(subject)
+            ) {
+
+                val items = timetableViewModel.timetable.daysWithSubjectsList
+
+                items(items) { days ->
+                    TimeTableCard(list = days)
                 }
             }
         }
     }
-}
 
-@Composable
-fun SubjectItem(subject: GetSubjectsListModel) {
-    Box(
-        modifier = Modifier.fillMaxWidth(),
-        contentAlignment = if (subject.subgroups == "1") Alignment.CenterStart else Alignment.CenterEnd,
-    ) {
-        Card(
-            modifier = Modifier
-                .fillMaxWidth(if (subject.subgroups == "BOTH") 1F else 0.9F)
-                .padding(horizontal = 6.dp, vertical = 4.dp),
-            shape = CardShape.CardStandalone,
-            elevation = CardDefaults
-                .cardElevation(2.dp)
+    @ExperimentalAnimationApi
+    @Composable
+    private fun TimeTableCard(list: GetDaysListModel) {
+
+        val visibilityState = remember {
+            MutableTransitionState(false).apply {
+                targetState = true
+            }
+        }
+
+        AnimatedVisibility(
+            visibleState =  visibilityState,
+            enter = slideInHorizontally() + scaleIn(),
+            exit = slideOutHorizontally()
         ) {
-            Row(
+            Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(color = MaterialTheme.colorScheme.background)
-                    .padding(10.dp),
-                verticalAlignment = Alignment.CenterVertically
+                    .padding(
+                        horizontal = DefaultPadding.CardHorizontalPadding,
+                        vertical = DefaultPadding.CardVerticalPadding
+                    ),
+                shape = CardShape.CardStandalone,
+                elevation = CardDefaults.cardElevation(4.dp)
             )
             {
-                Text(
-                    modifier = Modifier
-                        .border(
-                            width = 2.dp,
-                            color = MaterialTheme.colorScheme.primary,
-                            shape = RoundedCornerShape(20.dp)
-                        )
-                        .padding(5.dp),
-                    text = subject.position,
-                    textAlign = TextAlign.Center
-                )
                 Column(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .padding(start = 10.dp)
+                        .fillMaxWidth()
+                        .padding(5.dp)
                 )
                 {
                     Text(
-                        modifier = Modifier.fillMaxWidth(),
-                        text = subject.subject,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 4.dp),
+                        text = list.day,
+                        textAlign = TextAlign.Center,
+                        fontSize = 20.sp
+                    )
+                    for (subject in list.subjects) {
+                        SubjectItem(subject)
+                    }
+                }
+            }
+        }
+    }
+
+    @Composable
+    private fun SubjectItem(subject: GetSubjectsListModel) {
+        Box(
+            modifier = Modifier.fillMaxWidth(),
+            contentAlignment = if (subject.subgroups == "1") Alignment.CenterStart else Alignment.CenterEnd,
+        ) {
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth(if (subject.subgroups == "BOTH") 1F else 0.9F)
+                    .padding(horizontal = 6.dp, vertical = 4.dp),
+                shape = CardShape.CardStandalone,
+                elevation = CardDefaults
+                    .cardElevation(2.dp)
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(color = MaterialTheme.colorScheme.background)
+                        .padding(10.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                )
+                {
+                    Text(
+                        modifier = Modifier
+                            .border(
+                                width = 2.dp,
+                                color = MaterialTheme.colorScheme.primary,
+                                shape = RoundedCornerShape(20.dp)
+                            )
+                            .padding(5.dp),
+                        text = subject.position,
                         textAlign = TextAlign.Center
                     )
-                    Row(
+                    Column(
                         modifier = Modifier
-                            .padding(horizontal = 4.dp)
+                            .fillMaxSize()
+                            .padding(start = 10.dp)
                     )
                     {
                         Text(
-                            modifier = Modifier
-                                .fillMaxWidth(0.7F),
-                            text = subject.lecturer,
-                            textAlign = TextAlign.Start
+                            modifier = Modifier.fillMaxWidth(),
+                            text = subject.subject,
+                            textAlign = TextAlign.Center
                         )
-                        Text(
+                        Row(
                             modifier = Modifier
-                                .fillMaxWidth(),
-                            text = subject.auditory,
-                            textAlign = TextAlign.End
+                                .padding(horizontal = 4.dp)
                         )
+                        {
+                            Text(
+                                modifier = Modifier
+                                    .fillMaxWidth(0.7F),
+                                text = subject.lecturer,
+                                textAlign = TextAlign.Start
+                            )
+                            Text(
+                                modifier = Modifier
+                                    .fillMaxWidth(),
+                                text = subject.auditory,
+                                textAlign = TextAlign.End
+                            )
+                        }
                     }
                 }
             }
         }
     }
 }
+

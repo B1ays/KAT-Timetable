@@ -15,59 +15,62 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import ru.blays.timetable.R
-import ru.blays.timetable.UI.Compose.mainViewModel
+import ru.blays.timetable.UI.Compose.ComposeElements.navigation.NavigationVM
+import ru.blays.timetable.UI.Compose.MainViewModel
 import ru.blays.timetable.UI.ComposeElements.onBack
 import ru.hh.toolbar.custom_toolbar.CollapsingTitle
 import ru.hh.toolbar.custom_toolbar.CustomToolbar
 import ru.hh.toolbar.custom_toolbar.CustomToolbarScrollBehavior
 
-@Composable
-fun CollapsingAppBar(scrollBehavior: CustomToolbarScrollBehavior) {
-    CustomToolbar(
-        collapsingTitle = CollapsingTitle.large(mainViewModel.titleText),
-        centralContent =  {
-            if (mainViewModel.subtitleVisible) Text(text = mainViewModel.subtitleText, color = MaterialTheme.colorScheme.primary)
-        },
-        scrollBehavior = scrollBehavior,
-        navigationIcon = {
-            if (mainViewModel.navigateBackButtonVisible) {
-                IconButton(
-                    onClick = { onBack() }
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.ArrowBack,
-                        contentDescription = "Navigation back button"
-                    )
-                }
-            }
-        },
-        actions = {
-            if (mainViewModel.favoriteButtonVisible) {
-                IconToggleButton(
-                    checked = mainViewModel.favoriteButtonChecked,
-                    onCheckedChange = {
-                        /*prefs.favoriteTimetablePrefs = ScreenState.currentScreen.Key
-                        AppBarState.currentFavoriteTimetable = ScreenState.currentScreen.Key*/
+class CollapsingAppBar(private val mainViewModel: MainViewModel, private val navigationViewModel: NavigationVM) {
+    @Composable
+    fun Create(scrollBehavior: CustomToolbarScrollBehavior) {
+        CustomToolbar(
+            collapsingTitle = CollapsingTitle.large(mainViewModel.titleText),
+            centralContent =  {
+                if (mainViewModel.subtitleVisible) Text(text = mainViewModel.subtitleText, color = MaterialTheme.colorScheme.primary)
+            },
+            scrollBehavior = scrollBehavior,
+            navigationIcon = {
+                if (mainViewModel.navigateBackButtonVisible) {
+                    IconButton(
+                        onClick = { onBack(navigationViewModel) }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = "Navigation back button"
+                        )
                     }
-                ) {
-                    val tint by animateColorAsState(
-                        if (mainViewModel.favoriteButtonChecked) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
-                    )
-                    Icon(
-                        modifier = Modifier
-                            .scale(1.2F),
-                        imageVector = if (mainViewModel.favoriteButtonChecked) {
-                            ImageVector.vectorResource(
-                                id = R.drawable.round_star_24
-                            )
-                        } else ImageVector.vectorResource(
-                            id = R.drawable.round_star_border_24
-                        ),
-                        contentDescription = "Favorite Button",
-                        tint = tint
-                    )
+                }
+            },
+            actions = {
+                if (mainViewModel.favoriteButtonVisible) {
+                    IconToggleButton(
+                        checked = mainViewModel.favoriteButtonChecked,
+                        onCheckedChange = {
+                            /*prefs.favoriteTimetablePrefs = ScreenState.currentScreen.Key
+                            AppBarState.currentFavoriteTimetable = ScreenState.currentScreen.Key*/
+                        }
+                    ) {
+                        val tint by animateColorAsState(
+                            if (mainViewModel.favoriteButtonChecked) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
+                        )
+                        Icon(
+                            modifier = Modifier
+                                .scale(1.2F),
+                            imageVector = if (mainViewModel.favoriteButtonChecked) {
+                                ImageVector.vectorResource(
+                                    id = R.drawable.round_star_24
+                                )
+                            } else ImageVector.vectorResource(
+                                id = R.drawable.round_star_border_24
+                            ),
+                            contentDescription = "Favorite Button",
+                            tint = tint
+                        )
+                    }
                 }
             }
-        }
-    )
+        )
+    }
 }

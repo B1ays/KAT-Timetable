@@ -39,7 +39,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import ru.blays.timetable.R
-import ru.blays.timetable.UI.Compose.settingsViewModel
+import ru.blays.timetable.UI.Compose.Screens.SettingsScreen.SettingsScreenVM
 import ru.blays.timetable.UI.DataClasses.AccentColorItem
 import ru.blays.timetable.UI.DataClasses.AccentColorList
 import ru.blays.timetable.UI.DataClasses.Animations.ModifierWithExpandAnimation
@@ -47,242 +47,247 @@ import ru.blays.timetable.UI.DataClasses.CardShape
 import ru.blays.timetable.UI.DataClasses.DefaultPadding
 import ru.blays.timetable.domain.models.SettingsModel
 
-@Composable
-fun SettingsScreen() {
-    Column {
-        ThemeSettings()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) MonetSettings()
-        AccentSelector()
-    }
-}
+class SettingsScreen(private val settingsViewModel: SettingsScreenVM) {
 
-@Composable
-fun ThemeSettings() {
-
-    val isDarkMode = isSystemInDarkTheme()
-    var isMenuExpanded by remember { mutableStateOf(false) }
-
-    val onExpandChange = {
-        isMenuExpanded = !isMenuExpanded
+    @Composable
+    fun Create() {
+        Column {
+            ThemeSettings()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) MonetSettings()
+            AccentSelector()
+        }
     }
 
-    val setSystemTheme = {
-        settingsViewModel.radioButtonSelectionState = 0
-        settingsViewModel.changeTheme(isDarkMode)
-        settingsViewModel.set(SettingsModel(appTheme = 0))
-    }
-    val setDarkTheme = {
-        settingsViewModel.radioButtonSelectionState = 1
-        settingsViewModel.changeTheme(true)
-        settingsViewModel.set(SettingsModel(appTheme = 1))
-    }
+    @Composable
+    private fun ThemeSettings() {
 
-    val setLightTheme = {
-        settingsViewModel.radioButtonSelectionState = 2
-        settingsViewModel.changeTheme(false)
-        settingsViewModel.set(SettingsModel(appTheme = 2))
+        val isDarkMode = isSystemInDarkTheme()
+        var isMenuExpanded by remember { mutableStateOf(false) }
 
-    }
-    val transition = updateTransition(targetState = isMenuExpanded, label = null)
-    val rotateValue by transition.animateFloat(
-        transitionSpec = {
-            tween(
-                durationMillis = 300
+        val onExpandChange = {
+            isMenuExpanded = !isMenuExpanded
+        }
+
+        val setSystemTheme = {
+            settingsViewModel.radioButtonSelectionState = 0
+            settingsViewModel.changeTheme(isDarkMode)
+            settingsViewModel.set(SettingsModel(appTheme = 0))
+        }
+        val setDarkTheme = {
+            settingsViewModel.radioButtonSelectionState = 1
+            settingsViewModel.changeTheme(true)
+            settingsViewModel.set(SettingsModel(appTheme = 1))
+        }
+
+        val setLightTheme = {
+            settingsViewModel.radioButtonSelectionState = 2
+            settingsViewModel.changeTheme(false)
+            settingsViewModel.set(SettingsModel(appTheme = 2))
+
+        }
+        val transition = updateTransition(targetState = isMenuExpanded, label = null)
+        val rotateValue by transition.animateFloat(
+            transitionSpec = {
+                tween(
+                    durationMillis = 300
                 )
             },
             label = ""
         )
-    { expanded ->
-        if (expanded) 180f else 0f
-    }
-
-    Card(
-        modifier = ModifierWithExpandAnimation
-            .padding(horizontal = DefaultPadding.CardHorizontalPadding, vertical = DefaultPadding.CardVerticalPadding)
-            .fillMaxWidth()
-            .toggleable(value = isMenuExpanded) { onExpandChange() },
-        shape = CardShape.CardStandalone,
-        elevation = CardDefaults.cardElevation(2.dp)
-    ) {
-        Row(
-            modifier = Modifier
-                .padding(12.dp)
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        )
-        {
-            Text(text = "Тема приложения")
-            Icon(
-                modifier = Modifier
-                    .scale(1.5F)
-                    .background(color = MaterialTheme.colorScheme.background, shape = CircleShape)
-                    .rotate(rotateValue),
-                imageVector = ImageVector.vectorResource(id = R.drawable.ic_arrow_down_24dp),
-                contentDescription = "Arrow")
+        { expanded ->
+            if (expanded) 180f else 0f
         }
-        if (isMenuExpanded) {
+
+        Card(
+            modifier = ModifierWithExpandAnimation
+                .padding(horizontal = DefaultPadding.CardHorizontalPadding, vertical = DefaultPadding.CardVerticalPadding)
+                .fillMaxWidth()
+                .toggleable(value = isMenuExpanded) { onExpandChange() },
+            shape = CardShape.CardStandalone,
+            elevation = CardDefaults.cardElevation(2.dp)
+        ) {
             Row(
                 modifier = Modifier
-                    .padding(vertical = 2.dp, horizontal = 12.dp)
-                    .fillMaxWidth()
-                    .clickable {
-                        setSystemTheme()
-                    },
+                    .padding(12.dp)
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             )
             {
-                RadioButton(
-                    selected = settingsViewModel.radioButtonSelectionState == 0,
-                    onClick = { setSystemTheme() }
-                )
-                Text(modifier = Modifier.padding(start = 8.dp), text = "Системная тема")
+                Text(text = "Тема приложения")
+                Icon(
+                    modifier = Modifier
+                        .scale(1.5F)
+                        .background(color = MaterialTheme.colorScheme.background, shape = CircleShape)
+                        .rotate(rotateValue),
+                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_arrow_down_24dp),
+                    contentDescription = "Arrow")
             }
-
-            Row(
-                modifier = Modifier
-                    .padding(vertical = 2.dp, horizontal = 12.dp)
-                    .fillMaxWidth()
-                    .clickable {
-                        setDarkTheme()
-                    },
-                verticalAlignment = Alignment.CenterVertically
-            )
-            {
-                RadioButton(
-                    selected = settingsViewModel.radioButtonSelectionState == 1,
-                    onClick = { setDarkTheme() }
+            if (isMenuExpanded) {
+                Row(
+                    modifier = Modifier
+                        .padding(vertical = 2.dp, horizontal = 12.dp)
+                        .fillMaxWidth()
+                        .clickable {
+                            setSystemTheme()
+                        },
+                    verticalAlignment = Alignment.CenterVertically
                 )
-                Text(modifier = Modifier.padding(start = 8.dp), text = "Тёмная тема")
-            }
+                {
+                    RadioButton(
+                        selected = settingsViewModel.radioButtonSelectionState == 0,
+                        onClick = { setSystemTheme() }
+                    )
+                    Text(modifier = Modifier.padding(start = 8.dp), text = "Системная тема")
+                }
 
-            Row(
-                modifier = Modifier
-                    .padding(vertical = 2.dp, horizontal = 12.dp)
-                    .fillMaxWidth()
-                    .clickable {
-                        setLightTheme()
-                    },
-                verticalAlignment = Alignment.CenterVertically
-            )
-            {
-                RadioButton(
-                    selected = settingsViewModel.radioButtonSelectionState == 2,
-                    onClick = { setLightTheme() }
+                Row(
+                    modifier = Modifier
+                        .padding(vertical = 2.dp, horizontal = 12.dp)
+                        .fillMaxWidth()
+                        .clickable {
+                            setDarkTheme()
+                        },
+                    verticalAlignment = Alignment.CenterVertically
                 )
-                Text(modifier = Modifier.padding(start = 8.dp), text = "Светлая тема")
-            }
-        }
-    }
-}
+                {
+                    RadioButton(
+                        selected = settingsViewModel.radioButtonSelectionState == 1,
+                        onClick = { setDarkTheme() }
+                    )
+                    Text(modifier = Modifier.padding(start = 8.dp), text = "Тёмная тема")
+                }
 
-@Composable
-fun MonetSettings() {
-    Card(
-        modifier = Modifier
-            .padding(
-                horizontal = DefaultPadding.CardHorizontalPadding,
-                vertical = DefaultPadding.CardVerticalPadding
-            )
-            .fillMaxWidth(),
-        shape = CardShape.CardStandalone,
-        elevation = CardDefaults.cardElevation(2.dp)
-    ) {
-        Row(
-            modifier = Modifier
-                .padding(vertical = 5.dp, horizontal = 12.dp)
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        )
-        {
-            Text(
-                text = "MaterialYou акцент",
-
-            )
-            Switch(
-                checked = settingsViewModel.monetTheme ?: true,
-                onCheckedChange = {
-                    settingsViewModel.changeMonetUsage(isMonetTheme = it)
-                })
-        }
-    }
-}
-
-@Composable
-fun AccentSelector() {
-    var isMenuExpanded by remember {
-        mutableStateOf(false)
-    }
-    val onExpandChange = {
-        isMenuExpanded = !isMenuExpanded
-    }
-
-    val transition = updateTransition(targetState = isMenuExpanded, label = null)
-    val rotateValue by transition.animateFloat(
-        transitionSpec = {
-            tween(
-                durationMillis = 300
-            )
-        },
-        label = ""
-    )
-    { expanded ->
-        if (expanded) 180f else 0f
-    }
-    Card(
-        modifier = ModifierWithExpandAnimation
-            .padding(
-                horizontal = DefaultPadding.CardHorizontalPadding,
-                vertical = DefaultPadding.CardVerticalPadding
-            )
-            .fillMaxWidth()
-            .toggleable(value = isMenuExpanded) { onExpandChange() },
-        shape = CardShape.CardStandalone,
-        elevation = CardDefaults.cardElevation(2.dp)
-    ) {
-    Row(
-        modifier = Modifier
-            .padding(12.dp)
-            .fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    )
-    {
-        Text(text = "Цвет акцента")
-        Icon(
-            modifier = Modifier
-                .scale(1.5F)
-                .background(color = MaterialTheme.colorScheme.background, shape = CircleShape)
-                .rotate(rotateValue),
-            imageVector = ImageVector.vectorResource(id = R.drawable.ic_arrow_down_24dp),
-            contentDescription = "Arrow")
-    }
-    if (isMenuExpanded) {
-        LazyRow(modifier = Modifier.padding(12.dp)) {
-            itemsIndexed(AccentColorList.list)
-                { index, item ->
-                    ColorPickerItem(item = item, index = index)
+                Row(
+                    modifier = Modifier
+                        .padding(vertical = 2.dp, horizontal = 12.dp)
+                        .fillMaxWidth()
+                        .clickable {
+                            setLightTheme()
+                        },
+                    verticalAlignment = Alignment.CenterVertically
+                )
+                {
+                    RadioButton(
+                        selected = settingsViewModel.radioButtonSelectionState == 2,
+                        onClick = { setLightTheme() }
+                    )
+                    Text(modifier = Modifier.padding(start = 8.dp), text = "Светлая тема")
                 }
             }
         }
     }
+
+    @Composable
+    private fun MonetSettings() {
+        Card(
+            modifier = Modifier
+                .padding(
+                    horizontal = DefaultPadding.CardHorizontalPadding,
+                    vertical = DefaultPadding.CardVerticalPadding
+                )
+                .fillMaxWidth(),
+            shape = CardShape.CardStandalone,
+            elevation = CardDefaults.cardElevation(2.dp)
+        ) {
+            Row(
+                modifier = Modifier
+                    .padding(vertical = 5.dp, horizontal = 12.dp)
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            )
+            {
+                Text(
+                    text = "MaterialYou акцент",
+
+                    )
+                Switch(
+                    checked = settingsViewModel.monetTheme ?: true,
+                    onCheckedChange = {
+                        settingsViewModel.changeMonetUsage(isMonetTheme = it)
+                    })
+            }
+        }
+    }
+
+    @Composable
+    private fun AccentSelector() {
+        var isMenuExpanded by remember {
+            mutableStateOf(false)
+        }
+        val onExpandChange = {
+            isMenuExpanded = !isMenuExpanded
+        }
+
+        val transition = updateTransition(targetState = isMenuExpanded, label = null)
+        val rotateValue by transition.animateFloat(
+            transitionSpec = {
+                tween(
+                    durationMillis = 300
+                )
+            },
+            label = ""
+        )
+        { expanded ->
+            if (expanded) 180f else 0f
+        }
+        Card(
+            modifier = ModifierWithExpandAnimation
+                .padding(
+                    horizontal = DefaultPadding.CardHorizontalPadding,
+                    vertical = DefaultPadding.CardVerticalPadding
+                )
+                .fillMaxWidth()
+                .toggleable(value = isMenuExpanded) { onExpandChange() },
+            shape = CardShape.CardStandalone,
+            elevation = CardDefaults.cardElevation(2.dp)
+        ) {
+            Row(
+                modifier = Modifier
+                    .padding(12.dp)
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            )
+            {
+                Text(text = "Цвет акцента")
+                Icon(
+                    modifier = Modifier
+                        .scale(1.5F)
+                        .background(color = MaterialTheme.colorScheme.background, shape = CircleShape)
+                        .rotate(rotateValue),
+                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_arrow_down_24dp),
+                    contentDescription = "Arrow")
+            }
+            if (isMenuExpanded) {
+                LazyRow(modifier = Modifier.padding(12.dp)) {
+                    itemsIndexed(AccentColorList.list)
+                    { index, item ->
+                        ColorPickerItem(item = item, index = index)
+                    }
+                }
+            }
+        }
+    }
+
+    @Composable
+    private fun ColorPickerItem(item: AccentColorItem, index: Int) {
+        Box(
+            modifier = Modifier
+                .size(50.dp)
+                .padding(4.dp)
+                .clip(CircleShape)
+                .background(color = item.accentDark)
+                .clickable {
+                    /* prefs.accentColorPrefs = index
+                     ThemeState.changeAccentColor(item)*/
+                }
+        )
+    }
 }
 
-@Composable
-fun ColorPickerItem(item: AccentColorItem, index: Int) {
-Box(
-    modifier = Modifier
-        .size(50.dp)
-        .padding(4.dp)
-        .clip(CircleShape)
-        .background(color = item.accentDark)
-        .clickable {
-           /* prefs.accentColorPrefs = index
-            ThemeState.changeAccentColor(item)*/
-        }
-    )
-}
+
 
 /*
 @Composable
