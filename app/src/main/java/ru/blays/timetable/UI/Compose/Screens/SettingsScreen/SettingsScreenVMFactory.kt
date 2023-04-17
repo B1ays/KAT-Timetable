@@ -4,10 +4,11 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import ru.blays.timetable.data.repository.preferenceRepository.SettingsRepositoryImpl
+import ru.blays.timetable.domain.repository.MediatingRepository.MediatingRepository
 import ru.blays.timetable.domain.useCases.GetSettingsUseCase
 import ru.blays.timetable.domain.useCases.SetSettingsUseCase
 
-class SettingsScreenVMFactory(context: Context) : ViewModelProvider.Factory {
+class SettingsScreenVMFactory(context: Context, private val mediatingRepository: MediatingRepository) : ViewModelProvider.Factory {
 
     private val settingsRepositoryImpl = SettingsRepositoryImpl(
         context = context
@@ -18,6 +19,6 @@ class SettingsScreenVMFactory(context: Context) : ViewModelProvider.Factory {
     private val getSettingsUseCase = GetSettingsUseCase(settingsRepositoryInterface = settingsRepositoryImpl)
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return SettingsScreenVM(setSettingsUseCase, getSettingsUseCase) as T
+        return SettingsScreenVM(setSettingsUseCase, getSettingsUseCase, mediatingRepository) as T
     }
 }

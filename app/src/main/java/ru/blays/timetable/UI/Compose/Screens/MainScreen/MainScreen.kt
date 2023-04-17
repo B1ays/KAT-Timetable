@@ -1,5 +1,6 @@
 package ru.blays.timetable.UI.Screens
 
+import android.util.Log
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
@@ -20,16 +21,7 @@ import ru.hh.toolbar.custom_toolbar.rememberToolbarScrollBehavior
 @Composable
 fun RootElements() {
 
-    mainViewModel.mediatingRepository.callBack = {
-        when (mainViewModel.mediatingRepository.currentScreen) {
-            ScreenList.main_screen -> mainViewModel.titleText = "Главаная"
-            ScreenList.about_screen -> mainViewModel.titleText = "О приложении"
-            ScreenList.settings_screen -> mainViewModel.titleText = "Настройки"
-            ScreenList.timetable_screen ->  mainViewModel.titleText = mainViewModel.mediatingRepository.currentGroupCode
-            else -> mainViewModel.titleText = ""
-        }
-    }
-
+    observe()
 
     val scrollBehavior = rememberToolbarScrollBehavior()
 
@@ -50,6 +42,8 @@ fun RootElements() {
     }
 }
 
+
+
 @ExperimentalAnimationApi
 @Composable
 fun Frame(
@@ -68,4 +62,26 @@ fun Frame(
            Navigation()
         }
     }
+}
+
+fun observe() {
+    mainViewModel.mediatingRepository.appBarStateCallBack = { currentScreen, currentGroupCode ->
+        when (currentScreen) {
+            ScreenList.main_screen -> mainViewModel.titleText = "Главаная"
+            ScreenList.about_screen -> mainViewModel.titleText = "О приложении"
+            ScreenList.settings_screen -> mainViewModel.titleText = "Настройки"
+            ScreenList.timetable_screen -> mainViewModel.titleText = currentGroupCode
+            else -> mainViewModel.titleText = ""
+        }
+        Log.d("callBackLog", "$currentScreen $currentGroupCode")
+    }
+
+    mainViewModel.mediatingRepository.themeChangeCallBack = { isDarkMode ->
+        mainViewModel.isDarkMode = isDarkMode
+    }
+
+    mainViewModel.mediatingRepository.monetChangeCallBack = { isMonetColors ->
+        mainViewModel.monetColors = isMonetColors
+    }
+
 }

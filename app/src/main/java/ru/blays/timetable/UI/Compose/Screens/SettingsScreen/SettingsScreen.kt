@@ -39,7 +39,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import ru.blays.timetable.R
-import ru.blays.timetable.UI.Compose.mainViewModel
 import ru.blays.timetable.UI.Compose.settingsViewModel
 import ru.blays.timetable.UI.DataClasses.AccentColorItem
 import ru.blays.timetable.UI.DataClasses.AccentColorList
@@ -69,18 +68,18 @@ fun ThemeSettings() {
 
     val setSystemTheme = {
         settingsViewModel.radioButtonSelectionState = 0
-        mainViewModel.changeTheme(isDarkMode)
+        settingsViewModel.changeTheme(isDarkMode)
         settingsViewModel.set(SettingsModel(appTheme = 0))
     }
     val setDarkTheme = {
         settingsViewModel.radioButtonSelectionState = 1
-        mainViewModel.changeTheme(true)
+        settingsViewModel.changeTheme(true)
         settingsViewModel.set(SettingsModel(appTheme = 1))
     }
 
     val setLightTheme = {
         settingsViewModel.radioButtonSelectionState = 2
-        mainViewModel.changeTheme(false)
+        settingsViewModel.changeTheme(false)
         settingsViewModel.set(SettingsModel(appTheme = 2))
 
     }
@@ -202,9 +201,9 @@ fun MonetSettings() {
 
             )
             Switch(
-                checked = mainViewModel.monetColors,
+                checked = settingsViewModel.monetTheme ?: true,
                 onCheckedChange = {
-                    mainViewModel.monetColors = it
+                    settingsViewModel.changeMonetUsage(isMonetTheme = it)
                 })
         }
     }

@@ -15,7 +15,7 @@ interface TimetableRepositoryInterface {
 
     fun saveGroupList(groupsList:  List<SaveGroupsListModel>)
 
-    fun saveDaysList(timetableModel: SaveTimetableModel)
+    fun saveDaysList(timetableModel: SaveTimetableModel): String
 
     // delete list data //
     fun deleteTimetableFromBox(href: String)

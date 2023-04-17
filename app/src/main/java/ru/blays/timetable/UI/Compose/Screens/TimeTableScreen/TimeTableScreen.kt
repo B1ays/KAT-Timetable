@@ -19,6 +19,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,10 +30,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ru.blays.timetable.UI.DataClasses.CardShape
-import ru.blays.timetable.UI.DataClasses.DefaultPadding
 import ru.blays.timetable.UI.Compose.navigationViewModel
 import ru.blays.timetable.UI.Compose.timetableViewModel
+import ru.blays.timetable.UI.DataClasses.CardShape
+import ru.blays.timetable.UI.DataClasses.DefaultPadding
 import ru.blays.timetable.domain.models.GetDaysListModel
 import ru.blays.timetable.domain.models.GetSubjectsListModel
 
@@ -44,14 +45,23 @@ fun TimeTableView() {
         timetableViewModel.get(navigationViewModel.currentScreen.Key)
     }
 
-    LazyColumn(modifier = Modifier
-        .fillMaxWidth()
-    ) {
+    if (timetableViewModel.showProgress) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize(),
+            contentAlignment = Alignment.TopCenter
+        ) { CircularProgressIndicator(modifier = Modifier.fillMaxWidth(0.4F)) }
+    } else {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
 
-        val items = timetableViewModel.timetable.daysWithSubjectsList
+            val items = timetableViewModel.timetable.daysWithSubjectsList
 
-        items(items) {days ->
-            TimeTableCard(list = days)
+            items(items) { days ->
+                TimeTableCard(list = days)
+            }
         }
     }
 }

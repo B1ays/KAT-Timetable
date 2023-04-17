@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.lifecycle.ViewModelProvider
 import ru.blays.timetable.UI.Compose.ComposeElements.navigation.NavigationVM
 import ru.blays.timetable.UI.Compose.ComposeElements.navigation.NavigationVMFactory
@@ -16,7 +17,7 @@ import ru.blays.timetable.UI.Compose.Screens.TimeTableScreen.TimetableVMFactory
 import ru.blays.timetable.UI.Compose.Theme.AviakatTimetableTheme
 import ru.blays.timetable.UI.Screens.RootElements
 import ru.blays.timetable.data.models.ObjectBox.Boxes.MyObjectBox
-import ru.blays.timetable.domain.repository.MediatingRepository
+import ru.blays.timetable.domain.repository.MediatingRepository.MediatingRepository
 
 
 lateinit var mainViewModel: MainViewModel
@@ -39,12 +40,12 @@ class MainActivity : ComponentActivity() {
 
             settingsViewModel = ViewModelProvider(
                 this,
-                SettingsScreenVMFactory(this)
+                SettingsScreenVMFactory(this, mediatingRepository)
             )[SettingsScreenVM::class.java]
 
             mainViewModel = ViewModelProvider(
                 this,
-                MainViewModelFactory(mediatingRepository)
+                MainViewModelFactory(mediatingRepository, this)
             )[MainViewModel::class.java]
 
             timetableViewModel = ViewModelProvider(
@@ -70,6 +71,8 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             AviakatTimetableTheme(darkTheme = mainViewModel.isDarkMode, dynamicColor = mainViewModel.monetColors) {
+                mainViewModel.systemTheme = isSystemInDarkTheme()
+                mainViewModel.init()
                 RootElements()
             }
         }

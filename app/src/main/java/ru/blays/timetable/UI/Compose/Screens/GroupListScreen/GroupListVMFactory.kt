@@ -10,7 +10,6 @@ import ru.blays.timetable.data.models.ObjectBox.Boxes.SubjectsListBox
 import ru.blays.timetable.data.repository.timetableRepository.TimetableRepositoryImplementation
 import ru.blays.timetable.data.repository.webRepository.WebRepositoryImpl
 import ru.blays.timetable.domain.useCases.GetGroupsListUseCase
-import ru.blays.timetable.domain.useCases.ParseGroupsListUseCase
 
 class GroupListVMFactory(context: Context, objectBoxManager: BoxStore) : ViewModelProvider.Factory {
 
@@ -29,17 +28,9 @@ class GroupListVMFactory(context: Context, objectBoxManager: BoxStore) : ViewMod
 
     private val webRepositoryInterface = WebRepositoryImpl()
 
-
-    // UseCase implementation //
-
-    private val parseGroupsListUseCase = ParseGroupsListUseCase(
-        timetableRepositoryInterface = timetableRepositoryImpl
-    )
-
     private val getGroupsListUseCase = GetGroupsListUseCase(
         timetableRepositoryInterface = timetableRepositoryImpl,
-        webRepositoryInterface = webRepositoryInterface,
-        parseGroupsListUseCase = parseGroupsListUseCase
+        webRepositoryInterface = webRepositoryInterface
     )
 
     @Suppress("UNCHECKED_CAST")

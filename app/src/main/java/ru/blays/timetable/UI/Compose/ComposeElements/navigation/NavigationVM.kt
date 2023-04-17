@@ -6,7 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import ru.blays.timetable.UI.ScreenData
 import ru.blays.timetable.UI.ScreenList
-import ru.blays.timetable.domain.repository.MediatingRepository
+import ru.blays.timetable.domain.repository.MediatingRepository.MediatingRepository
 
 class NavigationVM(val mediatingRepository: MediatingRepository) : ViewModel() {
 
@@ -21,7 +21,7 @@ class NavigationVM(val mediatingRepository: MediatingRepository) : ViewModel() {
     fun changeScreen(newScreen: ScreenData) {
         currentScreen = newScreen
         mediatingRepository.currentScreen = newScreen.Screen
-        mediatingRepository.call()
+        mediatingRepository.appBarStateCall()
     }
 
 }

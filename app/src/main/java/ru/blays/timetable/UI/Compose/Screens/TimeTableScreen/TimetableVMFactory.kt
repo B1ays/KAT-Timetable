@@ -9,10 +9,8 @@ import ru.blays.timetable.data.models.ObjectBox.Boxes.GroupListBox
 import ru.blays.timetable.data.models.ObjectBox.Boxes.SubjectsListBox
 import ru.blays.timetable.data.repository.timetableRepository.TimetableRepositoryImplementation
 import ru.blays.timetable.data.repository.webRepository.WebRepositoryImpl
-import ru.blays.timetable.domain.repository.MediatingRepository
+import ru.blays.timetable.domain.repository.MediatingRepository.MediatingRepository
 import ru.blays.timetable.domain.useCases.GetTimetableUseCase
-import ru.blays.timetable.domain.useCases.ParseTimetableUseCase
-import ru.blays.timetable.domain.useCases.UpdateTimetableUseCase
 
 class TimetableVMFactory(
     context: Context,
@@ -35,24 +33,14 @@ class TimetableVMFactory(
 
     private val webRepositoryInterface = WebRepositoryImpl()
 
-    private val parseTimetableUseCase = ParseTimetableUseCase(timetableRepositoryInterface = timetableRepositoryImpl)
-
-
     // UseCase implementation //
-
     private val getTimetableUseCase = GetTimetableUseCase(
         timetableRepositoryInterface = timetableRepositoryImpl,
-        webRepositoryInterface = webRepositoryInterface,
-        parseTimetableUseCase = parseTimetableUseCase)
-
-    private val updateTimetableUseCase = UpdateTimetableUseCase(
-        timetableRepositoryInterface = timetableRepositoryImpl
-    )
-
+        webRepositoryInterface = webRepositoryInterface)
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return TimetableScreenVM(getTimetableUseCase, updateTimetableUseCase, mediatingRepository) as T
+        return TimetableScreenVM(getTimetableUseCase, mediatingRepository) as T
     }
 
 }

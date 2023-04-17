@@ -37,6 +37,7 @@ class TimetableRepositoryImplementation(
         return getGroupListBox
     }
 
+
     override fun getDaysList(href: String): GetTimetableModel {
         val query = groupListBox.query(GroupListBox_.href.equal(href)).build().find()[0]
 
@@ -92,33 +93,38 @@ class TimetableRepositoryImplementation(
         groupListBox.put(groupList)
     }
 
-    override fun saveDaysList(timetableModel: SaveTimetableModel) {
-        val groupRow = groupListBox.query(GroupListBox_.href.equal(timetableModel.href)).build().find()
+    override fun saveDaysList(timetableModel: SaveTimetableModel): String {
+        val groupRow = groupListBox.query(GroupListBox_.href.equal(timetableModel.href)).build().find()[0]
 
-        val subjectsList = mutableListOf<SubjectsListBox>()
         val getDaysListModel = timetableModel.boxModel
 
-        getDaysListModel.subjects.forEach { subjects ->
-            subjectsList.add(
-                SubjectsListBox(
-                    position = subjects.position,
-                    subgroups = subjects.subgroups,
-                    subject = subjects.subject,
-                    lecturer = subjects.lecturer,
-                    auditory = subjects.auditory
+        val daysList = mutableListOf<DaysInTimeTableBox>()
+
+        getDaysListModel.forEach { days ->
+            val day = DaysInTimeTableBox(day = days.day,
+            href = days.href)
+
+            val subjectsList = mutableListOf<SubjectsListBox>()
+
+            days.subjects.forEach { subjects ->
+                subjectsList.add(
+                    SubjectsListBox(
+                        position = subjects.position,
+                        subgroups = subjects.subgroups,
+                        subject = subjects.subject,
+                        lecturer = subjects.lecturer,
+                        auditory = subjects.auditory
+                    )
                 )
-            )
+            }
+            day.subjects.addAll(subjectsList)
+            daysList.add(day)
         }
 
-        val daysList = DaysInTimeTableBox(
-            day = timetableModel.boxModel.day,
-            href = timetableModel.boxModel.href
-        )
-        daysList.subjects.addAll(subjectsList)
-
-        groupRow[0].days.add(daysList)
-        groupRow[0].updateTime = timetableModel.updateTime
+        groupRow.days.addAll(daysList)
+        groupRow.updateTime = timetableModel.updateTime
         groupListBox.put(groupRow)
+        return groupRow.groupCode
     }
 
     override fun deleteTimetableFromBox(href: String) {

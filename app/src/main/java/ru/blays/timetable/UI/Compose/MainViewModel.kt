@@ -4,9 +4,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import ru.blays.timetable.domain.repository.MediatingRepository
+import ru.blays.timetable.domain.repository.MediatingRepository.MediatingRepository
+import ru.blays.timetable.domain.useCases.GetSettingsUseCase
 
-class MainViewModel(val mediatingRepository: MediatingRepository) : ViewModel() {
+class MainViewModel(
+    val mediatingRepository: MediatingRepository,
+    getSettingsUseCase: GetSettingsUseCase
+) : ViewModel() {
 
     // collapsing app bar state
     private var _favoriteButtonChecked by mutableStateOf(false)
@@ -16,13 +20,14 @@ class MainViewModel(val mediatingRepository: MediatingRepository) : ViewModel() 
     private var _subtitleText by mutableStateOf("")
     private var _subtitleVisible by mutableStateOf(false)
 
-
+    private val initialSettings = getSettingsUseCase.execut()
 
     // floating menu state
     private var _isMenuExpanded by mutableStateOf(false)
 
     // theme state
     var isDarkMode by mutableStateOf(false)
+    var systemTheme = true
     var monetColors by mutableStateOf(false)
 
     // floating menu state change
@@ -57,10 +62,14 @@ class MainViewModel(val mediatingRepository: MediatingRepository) : ViewModel() 
         get() = _subtitleVisible
         set(value) { _subtitleVisible = value }
 
-    fun changeTheme(isDarkMode: Boolean) {
 
-        this.isDarkMode = isDarkMode
+    fun init() {
+        isDarkMode = when(initialSettings.appTheme) {
+            0 -> systemTheme
+            1 -> true
+            2 -> false
+            else -> systemTheme
+        }
+        monetColors = initialSettings.monetTheme ?: false
     }
-
-
 }
