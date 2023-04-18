@@ -14,7 +14,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
-
+import ru.blays.timetable.UI.DataClasses.BuildedTheme
 
 
 private val DarkColorScheme = darkColorScheme(
@@ -44,6 +44,7 @@ fun AviakatTimetableTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,
+    buildedTheme: BuildedTheme,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
@@ -51,8 +52,8 @@ fun AviakatTimetableTheme(
             val context = LocalContext.current
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
+        darkTheme -> buildedTheme.darkColorScheme
+        else -> buildedTheme.lightColorScheme
     }
     val view = LocalView.current
     if (!view.isInEditMode) {

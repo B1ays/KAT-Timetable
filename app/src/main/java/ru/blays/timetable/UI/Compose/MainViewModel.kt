@@ -4,6 +4,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import ru.blays.timetable.UI.DataClasses.AccentColorList
+import ru.blays.timetable.UI.DataClasses.buildTheme
 import ru.blays.timetable.domain.useCases.GetSettingsUseCase
 
 class MainViewModel(
@@ -27,6 +29,9 @@ class MainViewModel(
     var isDarkMode by mutableStateOf(false)
     var systemTheme = true
     var monetColors by mutableStateOf(false)
+
+    private val initialAccent = AccentColorList.list[initialSettings.accentColor!!]
+    var buildedTheme by mutableStateOf(buildTheme(colorDark = initialAccent.accentDark, lightColor = initialAccent.accentLight))
 
     // floating menu state change
     var isMenuExpanded: Boolean

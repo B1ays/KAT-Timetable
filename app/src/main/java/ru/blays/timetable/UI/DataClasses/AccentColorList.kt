@@ -31,8 +31,8 @@ object AccentColorList {
         ),
         AccentColorItem(
             title = "Ораньжевый",
-            accentDark = Color(0xFFFF5722),
-            accentLight = Color(0xFFAD3109)
+            accentDark = Color(0xFFE76840),
+            accentLight = Color(0xFFA22C06)
         ),
         AccentColorItem(
             title = "Жёлтый",
@@ -41,12 +41,12 @@ object AccentColorList {
         ),
         AccentColorItem(
             title = "Фиолетовый",
-            accentDark = Color(0xFF673AB7),
+            accentDark = Color(0xFF724BB8),
             accentLight = Color(0xFF411F7C)
         ),
         AccentColorItem(
             title = "Зелёный",
-            accentDark = Color(0xFF4CAF50),
+            accentDark = Color(0xFF4DA551),
             accentLight = Color(0xFF226B25)
         )
     )

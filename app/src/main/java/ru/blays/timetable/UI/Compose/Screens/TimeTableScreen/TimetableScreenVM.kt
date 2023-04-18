@@ -32,8 +32,8 @@ class TimetableScreenVM(
         showProgress = true
         withContext(Dispatchers.IO) {
             getTimetableUseCase.execut(href = href).run {
-                if (this.success) timetable = this
-                showProgress = !this.success
+                if (success) timetable = this
+                showProgress = !success
                 currentHref = href
                 Log.d("getLog", "return: $this")
             }
@@ -43,8 +43,8 @@ class TimetableScreenVM(
     suspend fun update() = coroutineScope {
         showProgress = true
         getTimetableUseCase.execut(href = currentHref, isUpdate = true).run {
-            if (this.success) timetable = this
-            showProgress = !this.success
+            if (success) timetable = this
+            showProgress = !success
             Log.d("getLog", "return: $this")
         }
     }

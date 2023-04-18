@@ -6,7 +6,6 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -45,7 +44,6 @@ import ru.blays.timetable.UI.DataClasses.AccentColorList
 import ru.blays.timetable.UI.DataClasses.Animations.ModifierWithExpandAnimation
 import ru.blays.timetable.UI.DataClasses.CardShape
 import ru.blays.timetable.UI.DataClasses.DefaultPadding
-import ru.blays.timetable.domain.models.SettingsModel
 
 class SettingsScreen(private val settingsViewModel: SettingsScreenVM) {
 
@@ -61,31 +59,14 @@ class SettingsScreen(private val settingsViewModel: SettingsScreenVM) {
     @Composable
     private fun ThemeSettings() {
 
-        val isDarkMode = isSystemInDarkTheme()
         var isMenuExpanded by remember { mutableStateOf(false) }
 
         val onExpandChange = {
             isMenuExpanded = !isMenuExpanded
         }
 
-        val setSystemTheme = {
-            settingsViewModel.radioButtonSelectionState = 0
-            settingsViewModel.changeTheme(isDarkMode)
-            settingsViewModel.set(SettingsModel(appTheme = 0))
-        }
-        val setDarkTheme = {
-            settingsViewModel.radioButtonSelectionState = 1
-            settingsViewModel.changeTheme(true)
-            settingsViewModel.set(SettingsModel(appTheme = 1))
-        }
-
-        val setLightTheme = {
-            settingsViewModel.radioButtonSelectionState = 2
-            settingsViewModel.changeTheme(false)
-            settingsViewModel.set(SettingsModel(appTheme = 2))
-
-        }
         val transition = updateTransition(targetState = isMenuExpanded, label = null)
+
         val rotateValue by transition.animateFloat(
             transitionSpec = {
                 tween(
@@ -129,14 +110,14 @@ class SettingsScreen(private val settingsViewModel: SettingsScreenVM) {
                         .padding(vertical = 2.dp, horizontal = 12.dp)
                         .fillMaxWidth()
                         .clickable {
-                            setSystemTheme()
+                            settingsViewModel.changeTheme(0)
                         },
                     verticalAlignment = Alignment.CenterVertically
                 )
                 {
                     RadioButton(
-                        selected = settingsViewModel.radioButtonSelectionState == 0,
-                        onClick = { setSystemTheme() }
+                        selected = settingsViewModel.themeSelectionState == 0,
+                        onClick = { settingsViewModel.changeTheme(0) }
                     )
                     Text(modifier = Modifier.padding(start = 8.dp), text = "Системная тема")
                 }
@@ -146,14 +127,14 @@ class SettingsScreen(private val settingsViewModel: SettingsScreenVM) {
                         .padding(vertical = 2.dp, horizontal = 12.dp)
                         .fillMaxWidth()
                         .clickable {
-                            setDarkTheme()
+                            settingsViewModel.changeTheme(1)
                         },
                     verticalAlignment = Alignment.CenterVertically
                 )
                 {
                     RadioButton(
-                        selected = settingsViewModel.radioButtonSelectionState == 1,
-                        onClick = { setDarkTheme() }
+                        selected = settingsViewModel.themeSelectionState == 1,
+                        onClick = { settingsViewModel.changeTheme(1) }
                     )
                     Text(modifier = Modifier.padding(start = 8.dp), text = "Тёмная тема")
                 }
@@ -163,14 +144,14 @@ class SettingsScreen(private val settingsViewModel: SettingsScreenVM) {
                         .padding(vertical = 2.dp, horizontal = 12.dp)
                         .fillMaxWidth()
                         .clickable {
-                            setLightTheme()
+                            settingsViewModel.changeTheme(2)
                         },
                     verticalAlignment = Alignment.CenterVertically
                 )
                 {
                     RadioButton(
-                        selected = settingsViewModel.radioButtonSelectionState == 2,
-                        onClick = { setLightTheme() }
+                        selected = settingsViewModel.themeSelectionState == 2,
+                        onClick = { settingsViewModel.changeTheme(2) }
                     )
                     Text(modifier = Modifier.padding(start = 8.dp), text = "Светлая тема")
                 }
@@ -280,8 +261,7 @@ class SettingsScreen(private val settingsViewModel: SettingsScreenVM) {
                 .clip(CircleShape)
                 .background(color = item.accentDark)
                 .clickable {
-                    /* prefs.accentColorPrefs = index
-                     ThemeState.changeAccentColor(item)*/
+                     settingsViewModel.changeAccentColor(index)
                 }
         )
     }

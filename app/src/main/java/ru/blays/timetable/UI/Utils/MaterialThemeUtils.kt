@@ -7,13 +7,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import material.util.color.scheme.Scheme
 
-
-fun createDarkTheme(color: Color): ColorScheme {
-    return Scheme.darkContent(color.toArgb()).toDarkThemeColorScheme()
-}
-
-fun createLightTheme(color: Color): ColorScheme {
-    return Scheme.lightContent(color.toArgb()).toLightThemeColorScheme()
+fun buildTheme(colorDark: Color, lightColor: Color): BuildedTheme {
+    return BuildedTheme(
+        lightColorScheme = Scheme.lightContent(colorDark.toArgb()).toLightThemeColorScheme(),
+        darkColorScheme = Scheme.darkContent(colorDark.toArgb()).toDarkThemeColorScheme()
+    )
 }
 
 private fun Scheme.toDarkThemeColorScheme(): ColorScheme {
@@ -83,3 +81,8 @@ private fun Scheme.toLightThemeColorScheme(): ColorScheme {
         scrim = Color(scrim),
     )
 }
+
+data class BuildedTheme(
+    val lightColorScheme: ColorScheme,
+    val darkColorScheme: ColorScheme
+)

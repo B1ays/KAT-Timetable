@@ -16,6 +16,8 @@ import ru.blays.timetable.UI.Compose.Screens.SettingsScreen.SettingsScreenVMFact
 import ru.blays.timetable.UI.Compose.Screens.TimeTableScreen.TimetableScreenVM
 import ru.blays.timetable.UI.Compose.Screens.TimeTableScreen.TimetableVMFactory
 import ru.blays.timetable.UI.Compose.Theme.AviakatTimetableTheme
+import ru.blays.timetable.UI.DataClasses.AccentColorList
+import ru.blays.timetable.UI.DataClasses.buildTheme
 import ru.blays.timetable.UI.ScreenList
 import ru.blays.timetable.UI.Screens.RootElements
 import ru.blays.timetable.data.models.ObjectBox.Boxes.MyObjectBox
@@ -78,7 +80,9 @@ class MainActivity : ComponentActivity() {
                 navigationViewModel,
                 settingsViewModel
             )
-            AviakatTimetableTheme(darkTheme = mainViewModel.isDarkMode, dynamicColor = mainViewModel.monetColors) {
+            AviakatTimetableTheme(darkTheme = mainViewModel.isDarkMode, dynamicColor = mainViewModel.monetColors,
+                mainViewModel.buildedTheme
+            ) {
                 mainViewModel.systemTheme = isSystemInDarkTheme()
                 mainViewModel.init()
                 RootElements(
@@ -110,6 +114,14 @@ fun InitApp(
             else -> systemTheme
         }
         monetColors = initialSettings.monetTheme ?: true
+
+
+        /*with(AccentColorList.list[mainViewModel.initialSettings.accentColor!!]) {
+            if (!initialSettings.monetTheme!!) buildedTheme?.value = buildTheme(
+                colorDark = accentDark,
+                lightColor = accentLight
+            )
+        }*/
     }
 
     GlobalObserver(
@@ -135,6 +147,25 @@ fun GlobalObserver(
     mainViewModel.subtitleVisible = mainViewModel.favoriteButtonVisible
 
     // observe appBar title
+
+    with(mainViewModel) {
+        isDarkMode = when (settingsViewModel.themeSelectionState) {
+            0 -> systemTheme
+            1 -> true
+            2 -> false
+            else -> systemTheme
+        }
+    }
+
+    mainViewModel.monetColors = (settingsViewModel.monetTheme ?: mainViewModel.initialSettings.monetTheme)!!
+
+    with(AccentColorList.list[settingsViewModel.accentColorIndex ?: mainViewModel.initialSettings.accentColor!!]) {
+        if (!settingsViewModel.monetTheme!!) mainViewModel.buildedTheme = buildTheme(
+            colorDark = accentDark,
+            lightColor = accentLight
+        )
+    }
+
     with(mainViewModel) {
         when(navigationViewModel.currentScreen.Screen) {
             ScreenList.MAIN_SCREEN -> titleText = "Главная"
