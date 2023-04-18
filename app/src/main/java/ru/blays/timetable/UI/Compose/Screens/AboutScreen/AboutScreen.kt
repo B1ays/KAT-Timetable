@@ -6,12 +6,15 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -44,9 +47,13 @@ import ru.blays.timetable.UI.DataClasses.DefaultPadding
 class AboutScreen {
     @Composable
     fun Create() {
+        val scrollState = rememberScrollState()
         Column(
-            modifier = Modifier.padding(10.dp)
-        )
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(10.dp)
+                .verticalScroll(state = scrollState)
+            )
         {
             HeadItem()
             AboutAuthor()
@@ -57,7 +64,7 @@ class AboutScreen {
     private fun HeadItem() {
         val headText =
             "Приложение предназначено для удобного просмотра расписания, даже без интернета." +
-                    "\nРазработано для всех студентов авиационного техникума.\nПриложение является учебным проектом с целью, как можно детальнее изучить разработку андроид приложений. Так что, если найдёте какие-то проблемы - пишите.\nПриложение будет улчшаться так быстро, как это возможно"
+                    "\nРазработано для всех студентов авиационного техникума.\nПриложение является учебным проектом с целью, как можно детальнее изучить разработку андроид приложений. Так что, если найдёте какие-то проблемы - пишите.\nПриложение будет улучшаться так быстро, как это возможно"
         var isExpanded by remember { mutableStateOf(false) }
         val onExpandChange = {
             isExpanded = !isExpanded
@@ -78,7 +85,10 @@ class AboutScreen {
 
             Card(
                 modifier = Modifier
-                    .padding(horizontal = DefaultPadding.CardHorizontalPadding, vertical = DefaultPadding.CardVerticalPadding)
+                    .padding(
+                        horizontal = DefaultPadding.CardHorizontalPadding,
+                        vertical = DefaultPadding.CardVerticalPadding
+                    )
                     .fillMaxWidth(),
                 shape = CardShape.CardStart
             ) {
@@ -122,7 +132,10 @@ class AboutScreen {
 
             Card(
                 modifier = Modifier
-                    .padding(horizontal = DefaultPadding.CardHorizontalPadding, vertical = DefaultPadding.CardVerticalPadding)
+                    .padding(
+                        horizontal = DefaultPadding.CardHorizontalPadding,
+                        vertical = DefaultPadding.CardVerticalPadding
+                    )
                     .fillMaxWidth(),
                 shape = CardShape.CardMid
             ) {
@@ -150,7 +163,10 @@ class AboutScreen {
 
             Card(
                 modifier = Animations.ModifierWithExpandAnimation
-                    .padding(horizontal = DefaultPadding.CardHorizontalPadding, vertical = DefaultPadding.CardVerticalPadding)
+                    .padding(
+                        horizontal = DefaultPadding.CardHorizontalPadding,
+                        vertical = DefaultPadding.CardVerticalPadding
+                    )
                     .fillMaxWidth(),
                 shape = CardShape.CardEnd
             ) {
@@ -197,7 +213,10 @@ class AboutScreen {
     private fun AuthorNick() {
         Card(
             modifier = Modifier
-                .padding(horizontal = DefaultPadding.CardHorizontalPadding, vertical = DefaultPadding.CardVerticalPadding)
+                .padding(
+                    horizontal = DefaultPadding.CardHorizontalPadding,
+                    vertical = DefaultPadding.CardVerticalPadding
+                )
                 .fillMaxWidth(),
             shape = CardShape.CardStart
         ) {
