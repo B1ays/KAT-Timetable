@@ -115,7 +115,7 @@ class FloatingMenu(
                             horizontalArrangement = Arrangement.End
                         ) {
 
-                            if (mainViewModel.mediatingRepository.currentScreen == ScreenList.timetable_screen) FloatingMenuAction(item = floatingMenuActions.refresh)
+                            if (navigationViewModel.currentScreen.Screen == ScreenList.TIMETABLE_SCREEN) FloatingMenuAction(item = floatingMenuActions.refresh)
                             FloatingMenuAction(item = floatingMenuActions.close)
                         }
                     }
@@ -204,21 +204,21 @@ class FloatingMenu(
     inner class FloatingMenuItems {
         private val iconPath = androidx.compose.material.icons.Icons.Rounded
         val Items = listOf(
-            FloatingMenuItemsModel(title = "Настройки", iconPath.Settings, ScreenList.settings_screen) {
-                navigationViewModel.changeScreen(ScreenData(ScreenList.settings_screen))
+            FloatingMenuItemsModel(title = "Настройки", iconPath.Settings, ScreenList.SETTINGS_SCREEN) {
+                navigationViewModel.changeScreen(ScreenData(ScreenList.SETTINGS_SCREEN))
             },
-            FloatingMenuItemsModel(title = "Избранное", iconPath.Star, ScreenList.timetable_screen) {
+            FloatingMenuItemsModel(title = "Избранное", iconPath.Star, ScreenList.TIMETABLE_SCREEN) {
                 /*if (AppBarState.currentFavoriteTimetable != "no") {
                     ScreenState.changeScreen(
                         ScreenData(
-                            ScreenList.timetable_screen,
+                            ScreenList.TIMETABLE_SCREEN,
                             AppBarState.currentFavoriteTimetable
                         )
                     )
                 }*/
             },
-            FloatingMenuItemsModel(title = "О приложении", iconPath.Info, ScreenList.about_screen) {
-                navigationViewModel.changeScreen(ScreenData(ScreenList.about_screen))
+            FloatingMenuItemsModel(title = "О приложении", iconPath.Info, ScreenList.ABOUT_SCREEN) {
+                navigationViewModel.changeScreen(ScreenData(ScreenList.ABOUT_SCREEN))
             }
         )
     }

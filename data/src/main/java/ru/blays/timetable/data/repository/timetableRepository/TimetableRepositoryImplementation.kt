@@ -39,43 +39,50 @@ class TimetableRepositoryImplementation(
 
 
     override fun getDaysList(href: String): GetTimetableModel {
-        val query = groupListBox.query(GroupListBox_.href.equal(href)).build().find()[0]
 
-        val daysListBox = query.days
-        val getDaysListModel = mutableListOf<GetDaysListModel>()
+        val query = groupListBox.query(GroupListBox_.href.equal(href)).build().find()
 
-        daysListBox.forEach { days ->
+        if (query[0].days.isNotEmpty()) {
+            val groupObject = query[0]
+            val daysListBox = groupObject.days
+            val getDaysListModel = mutableListOf<GetDaysListModel>()
 
-            val subjectsListBox = days.subjects
-            val getSubjectsListModel = mutableListOf<GetSubjectsListModel>()
+            daysListBox.forEach { days ->
 
-            subjectsListBox.forEach { subjects ->
-                getSubjectsListModel.add(
-                    GetSubjectsListModel(
-                        position = subjects.position,
-                        subgroups = subjects.subgroups,
-                        subject = subjects.subject,
-                        lecturer = subjects.lecturer,
-                        auditory = subjects.auditory
+                val subjectsListBox = days.subjects
+                val getSubjectsListModel = mutableListOf<GetSubjectsListModel>()
+
+                subjectsListBox.forEach { subjects ->
+                    getSubjectsListModel.add(
+                        GetSubjectsListModel(
+                            position = subjects.position,
+                            subgroups = subjects.subgroups,
+                            subject = subjects.subject,
+                            lecturer = subjects.lecturer,
+                            auditory = subjects.auditory
+                        )
+                    )
+                }
+
+                getDaysListModel.add(
+                    GetDaysListModel(
+                        day = days.day,
+                        href = days.href,
+                        subjects = getSubjectsListModel
                     )
                 )
             }
 
-            getDaysListModel.add(
-                GetDaysListModel(
-                    day = days.day,
-                    href = days.href,
-                    subjects = getSubjectsListModel
-                )
+            return GetTimetableModel(
+                daysWithSubjectsList = getDaysListModel,
+                href = groupObject.href,
+                updateDate = groupObject.updateTime,
+                groupCode = groupObject.groupCode,
+                success = true
             )
+        } else {
+            return GetTimetableModel(success = false)
         }
-
-        return GetTimetableModel(
-            daysWithSubjectsList = getDaysListModel,
-            href = query.href,
-            updateDate = query.updateTime,
-            groupCode = query.groupCode
-        )
     }
 
     override fun saveGroupList(groupsList: List<SaveGroupsListModel>) {
@@ -94,6 +101,7 @@ class TimetableRepositoryImplementation(
     }
 
     override fun saveDaysList(timetableModel: SaveTimetableModel): String {
+
         val groupRow = groupListBox.query(GroupListBox_.href.equal(timetableModel.href)).build().find()[0]
 
         val getDaysListModel = timetableModel.boxModel
@@ -124,6 +132,7 @@ class TimetableRepositoryImplementation(
         groupRow.days.addAll(daysList)
         groupRow.updateTime = timetableModel.updateTime
         groupListBox.put(groupRow)
+
         return groupRow.groupCode
     }
 

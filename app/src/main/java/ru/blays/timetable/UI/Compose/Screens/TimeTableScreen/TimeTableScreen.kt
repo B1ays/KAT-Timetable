@@ -27,6 +27,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -38,6 +39,7 @@ import ru.blays.timetable.domain.models.GetDaysListModel
 import ru.blays.timetable.domain.models.GetSubjectsListModel
 
 class TimeTableScreen(private val timetableViewModel: TimetableScreenVM, private val navigationViewModel: NavigationVM) {
+
     @ExperimentalAnimationApi
     @Composable
     fun Create() {
@@ -49,9 +51,16 @@ class TimeTableScreen(private val timetableViewModel: TimetableScreenVM, private
         if (timetableViewModel.showProgress) {
             Box(
                 modifier = Modifier
-                    .fillMaxSize(),
+                    .fillMaxSize()
+                    .padding(36.dp),
                 contentAlignment = Alignment.TopCenter
-            ) { CircularProgressIndicator(modifier = Modifier.fillMaxWidth(0.4F)) }
+            ) { CircularProgressIndicator(
+                modifier = Modifier
+                    .fillMaxWidth(0.4F),
+                strokeWidth = 6.dp,
+                strokeCap = StrokeCap.Round
+                )
+            }
         } else {
             LazyColumn(
                 modifier = Modifier

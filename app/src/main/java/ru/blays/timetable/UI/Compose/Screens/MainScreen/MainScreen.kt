@@ -17,7 +17,6 @@ import ru.blays.timetable.UI.Compose.Screens.GroupListScreen.GroupListScreenVM
 import ru.blays.timetable.UI.Compose.Screens.SettingsScreen.SettingsScreenVM
 import ru.blays.timetable.UI.Compose.Screens.TimeTableScreen.TimetableScreenVM
 import ru.blays.timetable.UI.ComposeElements.Navigation
-import ru.blays.timetable.UI.ScreenList
 import ru.hh.toolbar.custom_toolbar.rememberToolbarScrollBehavior
 
 @ExperimentalAnimationApi
@@ -29,8 +28,6 @@ fun RootElements(
     navigationViewModel: NavigationVM,
     settingsViewModel: SettingsScreenVM
 ) {
-
-    observe(mainViewModel)
 
     val scrollBehavior = rememberToolbarScrollBehavior()
 
@@ -98,25 +95,4 @@ fun Frame(
            )
         }
     }
-}
-
-fun observe(mainViewModel: MainViewModel) {
-    mainViewModel.mediatingRepository.appBarStateCallBack = { currentScreen, currentGroupCode ->
-        when (currentScreen) {
-            ScreenList.main_screen -> mainViewModel.titleText = "Главаная"
-            ScreenList.about_screen -> mainViewModel.titleText = "О приложении"
-            ScreenList.settings_screen -> mainViewModel.titleText = "Настройки"
-            ScreenList.timetable_screen -> mainViewModel.titleText = currentGroupCode
-            else -> mainViewModel.titleText = ""
-        }
-    }
-
-    mainViewModel.mediatingRepository.themeChangeCallBack = { isDarkMode ->
-        mainViewModel.isDarkMode = isDarkMode
-    }
-
-    mainViewModel.mediatingRepository.monetChangeCallBack = { isMonetColors ->
-        mainViewModel.monetColors = isMonetColors
-    }
-
 }

@@ -34,6 +34,8 @@ class GroupListScreen(private val groupListViewModel: GroupListScreenVM, private
     @Composable
     fun Create() {
 
+        groupListViewModel.get()
+
         LazyColumn{
             itemsIndexed(groupListViewModel.groupList) { _, item ->
                 SimpleCard(getGroupListModel = item)
@@ -68,7 +70,7 @@ class GroupListScreen(private val groupListViewModel: GroupListScreenVM, private
                     .clickable {
                         navigationViewModel.changeScreen(
                             ScreenData(
-                                Screen = ScreenList.timetable_screen,
+                                Screen = ScreenList.TIMETABLE_SCREEN,
                                 Key = getGroupListModel.href ?: ""
                             )
                         )

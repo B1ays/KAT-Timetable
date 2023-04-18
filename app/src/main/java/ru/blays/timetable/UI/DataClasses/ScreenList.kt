@@ -5,10 +5,8 @@ data class ScreenData(
     var Key: String = ""
 )
 object ScreenList {
-    const val main_screen = "MAIN_SCREEN"
-    const val timetable_screen = "TIMETABLE_SCREEN"
-    const val settings_screen = "SETTINGS_SCREEN"
-    const val about_screen = "ABOUT_SCREEN"
-    const val update_TimeTable = "UPDATE"
-    const val progress_screen = "PROGRESS_SCREEN"
+    const val MAIN_SCREEN = "main_screen"
+    const val TIMETABLE_SCREEN = "timetable_screen"
+    const val SETTINGS_SCREEN = "settings_screen"
+    const val ABOUT_SCREEN = "about_screen"
 }

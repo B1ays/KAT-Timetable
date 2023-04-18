@@ -12,15 +12,22 @@ class GetTimetableUseCase(
     private val timetableRepositoryInterface: TimetableRepositoryInterface,
     private val webRepositoryInterface: WebRepositoryInterface) {
 
-    suspend fun execut(href: String, isUpdate: Boolean = false) : Pair<GetTimetableModel, Boolean> {
-        val timetable = timetableRepositoryInterface.getDaysList(href = href)
+    suspend fun execut(href: String, isUpdate: Boolean = false) : GetTimetableModel {
 
-        return if (timetable.daysWithSubjectsList.isNotEmpty() && !isUpdate) {
-            Pair(timetable, false)
-        } else {
-            val htmlBody = webRepositoryInterface.getHTMLBody(href)
-            Pair(parseTimetable(htmlBody!!, href), false)
+        var timetable = timetableRepositoryInterface.getDaysList(href = href)
+
+        if (!timetable.success || isUpdate) {
+
+            timetable = try {
+                val htmlBody = webRepositoryInterface.getHTMLBody(href = href)
+                parseTimetable(htmlBody!!, href)
+            } catch (_ : Exception) {
+                GetTimetableModel(success = false)
+            }
         }
+
+        return timetable
+
     }
 
     private fun parseTimetable(doc: Document, href: String): GetTimetableModel {
@@ -164,12 +171,16 @@ class GetTimetableUseCase(
 
         val groupCode = timetableRepositoryInterface.saveDaysList(timetableModel)
 
-        return GetTimetableModel(href = href, updateDate = updateTime, groupCode = groupCode, daysWithSubjectsList = getDaysListModel)
+        return GetTimetableModel(href = href,
+            updateDate = updateTime,
+            groupCode = groupCode,
+            daysWithSubjectsList = getDaysListModel,
+            success = true
+        )
     }
 
     data class Range(
         val rangeStart: Int,
         val rangeEnd: Int
     )
-
 }

@@ -14,10 +14,9 @@ class GroupListScreenVM(private val getGroupsListUseCase: GetGroupsListUseCase) 
 
     var groupList by mutableStateOf(listOf<GetGroupListModel>())
 
-    init {
+    fun get() {
         CoroutineScope(Dispatchers.IO).launch {
             groupList = getGroupsListUseCase.execut()
         }
     }
-
 }

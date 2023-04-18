@@ -9,12 +9,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.withContext
 import ru.blays.timetable.domain.models.GetTimetableModel
-import ru.blays.timetable.domain.repository.MediatingRepository.MediatingRepository
 import ru.blays.timetable.domain.useCases.GetTimetableUseCase
 
 class TimetableScreenVM(
-    private val getTimetableUseCase: GetTimetableUseCase,
-    private val mediatingRepository: MediatingRepository
+    private val getTimetableUseCase: GetTimetableUseCase
 ) : ViewModel() {
 
     private var currentHref = ""
@@ -34,21 +32,20 @@ class TimetableScreenVM(
         showProgress = true
         withContext(Dispatchers.IO) {
             getTimetableUseCase.execut(href = href).run {
-                timetable = this.first
-                showProgress = this.second
-                Log.d("getLog", "showProgress: $showProgress")
+                if (this.success) timetable = this
+                showProgress = !this.success
+                currentHref = href
+                Log.d("getLog", "return: $this")
             }
-            mediatingRepository.currentGroupCode = timetable.groupCode
-            currentHref = timetable.href
-            mediatingRepository.appBarStateCall()
         }
     }
 
     suspend fun update() = coroutineScope {
         showProgress = true
-        getTimetableUseCase.execut(href = currentHref, isUpdate = true).apply {
-            timetable = this.first
-            showProgress = this.second
+        getTimetableUseCase.execut(href = currentHref, isUpdate = true).run {
+            if (this.success) timetable = this
+            showProgress = !this.success
+            Log.d("getLog", "return: $this")
         }
     }
 }

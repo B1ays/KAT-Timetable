@@ -1,7 +1,7 @@
 package ru.blays.timetable.domain.repository.MediatingRepository
 
 class MediatingRepository {
-
+/*
 
 
     // appBar sate
@@ -22,5 +22,5 @@ class MediatingRepository {
 
     //monet CallBack
     var monetChangeCallBack: (Boolean) -> Unit = {_ ->}
-    fun monetChangeCall() { monetChangeCallBack(isMonetTheme) }
+    fun monetChangeCall() { monetChangeCallBack(isMonetTheme) }*/
 }

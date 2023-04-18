@@ -43,6 +43,6 @@ val onBack: (NavigationVM) -> Unit = {
         it.changeScreen(backStack[backStack.lastIndex-1])
         backStack.removeLast()
     } else {
-        it.changeScreen(ScreenData(ScreenList.main_screen))
+        it.changeScreen(ScreenData(ScreenList.MAIN_SCREEN))
     }
 }

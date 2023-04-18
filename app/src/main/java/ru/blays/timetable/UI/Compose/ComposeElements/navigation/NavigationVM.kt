@@ -6,13 +6,12 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import ru.blays.timetable.UI.ScreenData
 import ru.blays.timetable.UI.ScreenList
-import ru.blays.timetable.domain.repository.MediatingRepository.MediatingRepository
 
-class NavigationVM(val mediatingRepository: MediatingRepository) : ViewModel() {
+class NavigationVM() : ViewModel() {
 
-    var currentScreen by mutableStateOf(ScreenData(ScreenList.main_screen))
+    var currentScreen by mutableStateOf(ScreenData(ScreenList.MAIN_SCREEN))
 
-    val backStack = mutableListOf(ScreenData(ScreenList.main_screen, ""))
+    val backStack = mutableListOf(ScreenData(ScreenList.MAIN_SCREEN, ""))
 
     fun addToBackStack(currentScreen: ScreenData) {
         backStack.add(currentScreen)
@@ -20,8 +19,6 @@ class NavigationVM(val mediatingRepository: MediatingRepository) : ViewModel() {
 
     fun changeScreen(newScreen: ScreenData) {
         currentScreen = newScreen
-        mediatingRepository.currentScreen = newScreen.Screen
-        mediatingRepository.appBarStateCall()
     }
 
 }

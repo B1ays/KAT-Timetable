@@ -4,11 +4,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import ru.blays.timetable.domain.repository.MediatingRepository.MediatingRepository
 import ru.blays.timetable.domain.useCases.GetSettingsUseCase
 
 class MainViewModel(
-    val mediatingRepository: MediatingRepository,
     getSettingsUseCase: GetSettingsUseCase
 ) : ViewModel() {
 
@@ -20,7 +18,7 @@ class MainViewModel(
     private var _subtitleText by mutableStateOf("")
     private var _subtitleVisible by mutableStateOf(false)
 
-    private val initialSettings = getSettingsUseCase.execut()
+    val initialSettings = getSettingsUseCase.execut()
 
     // floating menu state
     private var _isMenuExpanded by mutableStateOf(false)

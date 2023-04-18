@@ -20,36 +20,33 @@ fun Navigation(
     settingsViewModel: SettingsScreenVM
 ) {
 
-    if (navigationViewModel.backStack.last() != navigationViewModel.currentScreen && navigationViewModel.currentScreen.Screen != ScreenList.update_TimeTable) {
+    if (navigationViewModel.backStack.last() != navigationViewModel.currentScreen) {
         navigationViewModel.addToBackStack(navigationViewModel.currentScreen)
     }
 
     when(navigationViewModel.currentScreen.Screen) {
-        ScreenList.main_screen -> {
-            val screen = GroupListScreen(
+        ScreenList.MAIN_SCREEN -> {
+            GroupListScreen(
                 groupListViewModel = groupListViewModel,
                 navigationViewModel = navigationViewModel
-            )
-            screen.Create()
+            ).run { Create() }
         }
-        ScreenList.timetable_screen -> {
+        ScreenList.TIMETABLE_SCREEN -> {
             BackPressHandler(onBackPressed = { onBack(navigationViewModel) })
-            val screen = TimeTableScreen(
+            TimeTableScreen(
                 timetableViewModel = timetableViewModel,
-                navigationViewModel = navigationViewModel)
-            screen.Create()
+                navigationViewModel = navigationViewModel
+            ).run { Create() }
         }
-        ScreenList.settings_screen -> {
+        ScreenList.SETTINGS_SCREEN -> {
             BackPressHandler(onBackPressed = { onBack(navigationViewModel) })
-            val screen = SettingsScreen(
+            SettingsScreen(
                 settingsViewModel = settingsViewModel
-            )
-            screen.Create()
+            ).run { Create() }
         }
-        ScreenList.about_screen -> {
+        ScreenList.ABOUT_SCREEN -> {
             BackPressHandler(onBackPressed = { onBack(navigationViewModel) })
-            val screen = AboutScreen()
-            screen.Create()
+            AboutScreen().run { Create() }
         }
     }
 }
