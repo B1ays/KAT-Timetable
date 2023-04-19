@@ -2,25 +2,16 @@ package ru.blays.AppUpdater
 
 import android.content.Context
 import android.net.Uri
-import androidx.core.content.FileProvider
 import com.aurora.store.data.installer.NativeInstaller
-import java.io.File
 
 class UpdateChecker(private val context: Context, private val applicationId: String) {
 
-    suspend fun checkUpdate() {
-        val fileUri = FileProvider.getUriForFile(
-            context,
-            "ru.blays.timetable.provider",
-            File(context.filesDir.path.plus("/test.apk")
-            )
-        )
+    fun checkUpdate() {
 
-        install(fileUri)
+        AndroidDownloader(context = context).run {
+            downloadFile("https://github.com/B1ays/KAT-Timetable/releases/download/1.1.0_build3/KAT.-.Timetable.1.1.0_build3.apk")
+        }
     }
-
-
-
 
     private fun install(uri: Uri) {
         NativeInstaller(context = context).run {

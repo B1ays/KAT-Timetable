@@ -11,9 +11,6 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.ViewModelProvider
 import io.objectbox.BoxStore
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import ru.blays.AppUpdater.UpdateChecker
 import ru.blays.timetable.UI.Compose.ComposeElements.navigation.NavigationVM
 import ru.blays.timetable.UI.Compose.ComposeElements.navigation.NavigationVMFactory
@@ -84,7 +81,7 @@ class MainActivity : ComponentActivity() {
         }
 
         UpdateChecker(applicationContext.applicationContext, /*BuildConfig.APPLICATION_ID*/ "com.speedsoftware.sqleditor").run {
-           CoroutineScope(Dispatchers.IO).launch { checkUpdate() }
+            checkUpdate()
        }
 
         setContent {
@@ -117,13 +114,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-    }
 }
 
 @Composable
