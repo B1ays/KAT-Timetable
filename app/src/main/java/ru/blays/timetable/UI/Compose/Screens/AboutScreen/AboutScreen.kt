@@ -40,14 +40,15 @@ import ru.blays.timetable.BuildConfig
 import ru.blays.timetable.R
 import ru.blays.timetable.UI.DataClasses.Animations
 import ru.blays.timetable.UI.DataClasses.CardShape
-import ru.blays.timetable.UI.DataClasses.Contact
-import ru.blays.timetable.UI.DataClasses.ContactList
 import ru.blays.timetable.UI.DataClasses.DefaultPadding
 
 class AboutScreen {
+
     @Composable
     fun Create() {
         val scrollState = rememberScrollState()
+
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -188,6 +189,9 @@ class AboutScreen {
 
     @Composable
     private fun AboutAuthor() {
+
+        val contactList = ContactList().List
+
         Column {
             Text(
                 modifier = Modifier
@@ -199,11 +203,11 @@ class AboutScreen {
             )
 
             AuthorNick()
-            for (i in ContactList.List.indices) {
-                if (i < ContactList.List.lastIndex) {
-                    ContactItem(contact = ContactList.List[i], CardShape.CardMid)
-                } else if (i == ContactList.List.lastIndex) {
-                    ContactItem(contact = ContactList.List[i], CardShape.CardEnd)
+            for (i in contactList.indices) {
+                if (i < contactList.lastIndex) {
+                    ContactItem(contact = contactList[i], CardShape.CardMid)
+                } else if (i == contactList.lastIndex) {
+                    ContactItem(contact = contactList[i], CardShape.CardEnd)
                 }
             }
         }
@@ -263,5 +267,18 @@ class AboutScreen {
                 }
             }
         }
+    }
+    data class Contact(
+        val iconID: Int,
+        val name: String,
+        val link: String
+    )
+
+    inner class ContactList {
+        val List = listOf(
+            Contact(iconID = R.drawable.ic_vk, "Вконтакте", "https://vk.com/b1ays"),
+            Contact(iconID = R.drawable.ic_telegram, "Telegram", "https://t.me/B1ays"),
+            Contact(iconID = R.drawable.ic_4pda, "4PDA", "https://4pda.to/forum/index.php?showuser=7576426")
+        )
     }
 }
