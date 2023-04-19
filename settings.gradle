@@ -19,3 +19,4 @@ rootProject.name = "Aviakat timetable"
 include ':app'
 include ':domain'
 include ':data'
+include ':AppUpdater'

@@ -1,7 +1,9 @@
 package ru.blays.timetable.UI.Compose
 
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -9,6 +11,10 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.ViewModelProvider
 import io.objectbox.BoxStore
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import ru.blays.AppUpdater.UpdateChecker
 import ru.blays.timetable.UI.Compose.ComposeElements.navigation.NavigationVM
 import ru.blays.timetable.UI.Compose.ComposeElements.navigation.NavigationVMFactory
 import ru.blays.timetable.UI.Compose.MainActivity.ObjectBox.objectBoxManager
@@ -65,13 +71,21 @@ class MainActivity : ComponentActivity() {
         SettingsScreenVMFactory(this)
         )[SettingsScreenVM::class.java]
     }
-    
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         if (actionBar != null) {
             actionBar!!.hide()
         }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            checkPermission(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES, 1234)
+        }
+
+        UpdateChecker(applicationContext.applicationContext, /*BuildConfig.APPLICATION_ID*/ "com.speedsoftware.sqleditor").run {
+           CoroutineScope(Dispatchers.IO).launch { checkUpdate() }
+       }
 
         setContent {
             InitApp(
@@ -95,6 +109,20 @@ class MainActivity : ComponentActivity() {
                 )
             }
         }
+    }
+    private fun checkPermission(permission: String, requestCode: Int) {
+        if (this.checkSelfPermission(permission) == PackageManager.PERMISSION_DENIED) {
+            // Requesting the permission
+            this.requestPermissions(arrayOf(permission), requestCode)
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 }
 
