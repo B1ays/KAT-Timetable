@@ -6,11 +6,16 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import ru.blays.timetable.UI.DataClasses.AccentColorList
 import ru.blays.timetable.UI.DataClasses.buildTheme
+import ru.blays.timetable.domain.models.SettingsModel
 import ru.blays.timetable.domain.useCases.GetSettingsUseCase
+import ru.blays.timetable.domain.useCases.SetSettingsUseCase
 
 class MainViewModel(
-    getSettingsUseCase: GetSettingsUseCase
+    private val getSettingsUseCase: GetSettingsUseCase,
+    private val settingsUseCase: SetSettingsUseCase
 ) : ViewModel() {
+
+    val initialSettings = getSettingsUseCase.execut()
 
     // collapsing app bar state
     private var _favoriteButtonChecked by mutableStateOf(false)
@@ -20,7 +25,7 @@ class MainViewModel(
     private var _subtitleText by mutableStateOf("")
     private var _subtitleVisible by mutableStateOf(false)
 
-    val initialSettings = getSettingsUseCase.execut()
+    val favoriteHref by mutableStateOf(initialSettings.favorite)
 
     // floating menu state
     private var _isMenuExpanded by mutableStateOf(false)
@@ -64,6 +69,10 @@ class MainViewModel(
     var subtitleVisible : Boolean
         get() = _subtitleVisible
         set(value) { _subtitleVisible = value }
+
+    fun setAsFavorite(href: String) {
+        settingsUseCase.execut(SettingsModel(favorite = href))
+    }
 
 
     fun init() {

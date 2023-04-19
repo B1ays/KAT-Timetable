@@ -37,19 +37,17 @@ fun RootElements(
                 scrollBehavior.nestedScrollConnection
             ),
         topBar = {
-            val appBar = CollapsingAppBar(
+            CollapsingAppBar(
                 mainViewModel = mainViewModel,
                 navigationViewModel = navigationViewModel
-            )
-            appBar.Create(scrollBehavior)
+            ).run { Create(scrollBehavior) }
         },
         floatingActionButton = {
-            val floatingMenu = FloatingMenu(
+            FloatingMenu(
                 mainViewModel = mainViewModel,
                 navigationViewModel = navigationViewModel,
                 timetableViewModel = timetableViewModel
-            )
-            floatingMenu.Create()
+            ).run { Create() }
         }
     )
     {
@@ -63,8 +61,6 @@ fun RootElements(
         )
     }
 }
-
-
 
 @ExperimentalAnimationApi
 @Composable
@@ -83,9 +79,6 @@ fun Frame(
     )
     {
         MaterialTheme {
-        /*if(AlertDialogState.isOpen) {
-                CustomAlertDialog(message = AlertDialogState.text)
-            }*/
            Navigation(
             mainViewModel,
             timetableViewModel,

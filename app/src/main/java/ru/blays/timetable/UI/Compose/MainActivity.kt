@@ -7,8 +7,10 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.ViewModelProvider
+import io.objectbox.BoxStore
 import ru.blays.timetable.UI.Compose.ComposeElements.navigation.NavigationVM
 import ru.blays.timetable.UI.Compose.ComposeElements.navigation.NavigationVMFactory
+import ru.blays.timetable.UI.Compose.MainActivity.ObjectBox.objectBoxManager
 import ru.blays.timetable.UI.Compose.Screens.GroupListScreen.GroupListScreenVM
 import ru.blays.timetable.UI.Compose.Screens.GroupListScreen.GroupListVMFactory
 import ru.blays.timetable.UI.Compose.Screens.SettingsScreen.SettingsScreenVM
@@ -20,15 +22,12 @@ import ru.blays.timetable.UI.DataClasses.AccentColorList
 import ru.blays.timetable.UI.DataClasses.buildTheme
 import ru.blays.timetable.UI.ScreenList
 import ru.blays.timetable.UI.Screens.RootElements
-import ru.blays.timetable.data.models.ObjectBox.Boxes.MyObjectBox
 
 @ExperimentalAnimationApi
 class MainActivity : ComponentActivity() {
 
-    private val objectBoxManager by lazy {
-        MyObjectBox.builder()
-            .androidContext(applicationContext.applicationContext)
-            .build()
+    internal object ObjectBox {
+        lateinit var objectBoxManager: BoxStore
     }
 
     private val mainViewModel by lazy {
@@ -68,6 +67,11 @@ class MainActivity : ComponentActivity() {
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        if (savedInstanceState == null) {
+
+        }
+
         if (actionBar != null) {
             actionBar!!.hide()
         }
@@ -141,12 +145,11 @@ fun GlobalObserver(
     navigationViewModel: NavigationVM,
     settingsViewModel: SettingsScreenVM
 ) {
-    // observe navigateBackButton visible
+    // observe appBar state
     mainViewModel.navigateBackButtonVisible = navigationViewModel.currentScreen.Screen != ScreenList.MAIN_SCREEN
     mainViewModel.favoriteButtonVisible = navigationViewModel.currentScreen.Screen == ScreenList.TIMETABLE_SCREEN
+    mainViewModel.favoriteButtonChecked = navigationViewModel.currentScreen.Key == mainViewModel.favoriteHref
     mainViewModel.subtitleVisible = mainViewModel.favoriteButtonVisible
-
-    // observe appBar title
 
     with(mainViewModel) {
         isDarkMode = when (settingsViewModel.themeSelectionState) {
@@ -155,15 +158,6 @@ fun GlobalObserver(
             2 -> false
             else -> systemTheme
         }
-    }
-
-    mainViewModel.monetColors = (settingsViewModel.monetTheme ?: mainViewModel.initialSettings.monetTheme)!!
-
-    with(AccentColorList.list[settingsViewModel.accentColorIndex ?: mainViewModel.initialSettings.accentColor!!]) {
-        if (!settingsViewModel.monetTheme!!) mainViewModel.buildedTheme = buildTheme(
-            colorDark = accentDark,
-            lightColor = accentLight
-        )
     }
 
     with(mainViewModel) {
@@ -177,4 +171,17 @@ fun GlobalObserver(
             }
         }
     }
+
+    // observe theme
+
+    mainViewModel.monetColors = (settingsViewModel.monetTheme ?: mainViewModel.initialSettings.monetTheme)!!
+
+    with(AccentColorList.list[settingsViewModel.accentColorIndex ?: mainViewModel.initialSettings.accentColor!!]) {
+        if (!settingsViewModel.monetTheme!!) mainViewModel.buildedTheme = buildTheme(
+            colorDark = accentDark,
+            lightColor = accentLight
+        )
+    }
+
+
 }

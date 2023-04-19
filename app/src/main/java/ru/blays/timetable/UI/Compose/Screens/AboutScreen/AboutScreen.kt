@@ -71,7 +71,7 @@ class AboutScreen {
         }
         val modifier = Modifier.padding(6.dp)
 
-        val intent = Intent(/* action = */ Intent.ACTION_VIEW, /* uri = */ Uri.parse("https://t.me/+cV-dnkBU_rtjYjhi"))
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://t.me/+cV-dnkBU_rtjYjhi"))
         val context = LocalContext.current
 
         Column {

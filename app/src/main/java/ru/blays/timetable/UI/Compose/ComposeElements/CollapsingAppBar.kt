@@ -48,8 +48,7 @@ class CollapsingAppBar(private val mainViewModel: MainViewModel, private val nav
                     IconToggleButton(
                         checked = mainViewModel.favoriteButtonChecked,
                         onCheckedChange = {
-                            /*prefs.favoriteTimetablePrefs = ScreenState.currentScreen.Key
-                            AppBarState.currentFavoriteTimetable = ScreenState.currentScreen.Key*/
+                            mainViewModel.setAsFavorite(navigationViewModel.currentScreen.Key)
                         }
                     ) {
                         val tint by animateColorAsState(
