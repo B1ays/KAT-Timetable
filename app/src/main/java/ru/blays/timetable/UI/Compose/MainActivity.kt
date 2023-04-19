@@ -1,5 +1,6 @@
 package ru.blays.timetable.UI.Compose
 
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -68,10 +69,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (savedInstanceState == null) {
-
-        }
-
         if (actionBar != null) {
             actionBar!!.hide()
         }
@@ -119,13 +116,6 @@ fun InitApp(
         }
         monetColors = initialSettings.monetTheme ?: true
 
-
-        /*with(AccentColorList.list[mainViewModel.initialSettings.accentColor!!]) {
-            if (!initialSettings.monetTheme!!) buildedTheme?.value = buildTheme(
-                colorDark = accentDark,
-                lightColor = accentLight
-            )
-        }*/
     }
 
     GlobalObserver(
@@ -177,11 +167,9 @@ fun GlobalObserver(
     mainViewModel.monetColors = (settingsViewModel.monetTheme ?: mainViewModel.initialSettings.monetTheme)!!
 
     with(AccentColorList.list[settingsViewModel.accentColorIndex ?: mainViewModel.initialSettings.accentColor!!]) {
-        if (!settingsViewModel.monetTheme!!) mainViewModel.buildedTheme = buildTheme(
+        if (!settingsViewModel.monetTheme!! || Build.VERSION.SDK_INT <= Build.VERSION_CODES.S) mainViewModel.buildedTheme = buildTheme(
             colorDark = accentDark,
             lightColor = accentLight
         )
     }
-
-
 }

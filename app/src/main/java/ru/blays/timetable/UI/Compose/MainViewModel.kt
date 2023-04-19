@@ -25,7 +25,7 @@ class MainViewModel(
     private var _subtitleText by mutableStateOf("")
     private var _subtitleVisible by mutableStateOf(false)
 
-    val favoriteHref by mutableStateOf(initialSettings.favorite)
+    var favoriteHref by mutableStateOf(initialSettings.favorite)
 
     // floating menu state
     private var _isMenuExpanded by mutableStateOf(false)
@@ -71,6 +71,7 @@ class MainViewModel(
         set(value) { _subtitleVisible = value }
 
     fun setAsFavorite(href: String) {
+        favoriteHref = href
         settingsUseCase.execut(SettingsModel(favorite = href))
     }
 
