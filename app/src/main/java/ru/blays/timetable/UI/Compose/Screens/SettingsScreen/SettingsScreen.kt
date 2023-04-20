@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -20,6 +21,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -28,6 +30,7 @@ import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -38,6 +41,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import ru.blays.timetable.R
@@ -60,11 +64,12 @@ class SettingsScreen(private val settingsViewModel: SettingsScreenVM) {
                 .fillMaxSize()
                 .padding(10.dp)
                 .verticalScroll(state = scrollState)
-            )
+        )
         {
             ThemeSettings()
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) MonetSettings()
             AccentSelector()
+            UpdateCheck()
         }
     }
 
@@ -93,7 +98,10 @@ class SettingsScreen(private val settingsViewModel: SettingsScreenVM) {
 
         Card(
             modifier = ModifierWithExpandAnimation
-                .padding(horizontal = DefaultPadding.CardHorizontalPadding, vertical = DefaultPadding.CardVerticalPadding)
+                .padding(
+                    horizontal = DefaultPadding.CardHorizontalPadding,
+                    vertical = DefaultPadding.CardVerticalPadding
+                )
                 .fillMaxWidth()
                 .toggleable(value = isMenuExpanded) { onExpandChange() },
             shape = CardShape.CardStandalone,
@@ -111,10 +119,14 @@ class SettingsScreen(private val settingsViewModel: SettingsScreenVM) {
                 Icon(
                     modifier = Modifier
                         .scale(1.5F)
-                        .background(color = MaterialTheme.colorScheme.background, shape = CircleShape)
+                        .background(
+                            color = MaterialTheme.colorScheme.background,
+                            shape = CircleShape
+                        )
                         .rotate(rotateValue),
                     imageVector = ImageVector.vectorResource(id = R.drawable.ic_arrow_down_24dp),
-                    contentDescription = "Arrow")
+                    contentDescription = "Arrow"
+                )
             }
             if (isMenuExpanded) {
                 Row(
@@ -248,10 +260,14 @@ class SettingsScreen(private val settingsViewModel: SettingsScreenVM) {
                 Icon(
                     modifier = Modifier
                         .scale(1.5F)
-                        .background(color = MaterialTheme.colorScheme.background, shape = CircleShape)
+                        .background(
+                            color = MaterialTheme.colorScheme.background,
+                            shape = CircleShape
+                        )
                         .rotate(rotateValue),
                     imageVector = ImageVector.vectorResource(id = R.drawable.ic_arrow_down_24dp),
-                    contentDescription = "Arrow")
+                    contentDescription = "Arrow"
+                )
             }
             if (isMenuExpanded) {
                 LazyRow(modifier = Modifier.padding(12.dp)) {
@@ -273,12 +289,59 @@ class SettingsScreen(private val settingsViewModel: SettingsScreenVM) {
                 .clip(CircleShape)
                 .background(color = item.accentDark)
                 .clickable {
-                     settingsViewModel.changeAccentColor(index)
+                    settingsViewModel.changeAccentColor(index)
                 }
         )
     }
-}
 
+    @Composable
+    private fun UpdateCheck() {
+
+        val context = LocalContext.current
+
+        LaunchedEffect(key1 = true) {
+            settingsViewModel.updateCheck()
+        }
+
+        if (settingsViewModel.isUpdateAvailable) {
+            Card(
+                modifier = Modifier
+                    .padding(
+                        horizontal = DefaultPadding.CardHorizontalPadding,
+                        vertical = DefaultPadding.CardVerticalPadding
+                    )
+                    .fillMaxWidth(),
+                shape = CardShape.CardStandalone,
+                elevation = CardDefaults.cardElevation(2.dp)
+            ) {
+
+                Spacer(modifier = Modifier.padding(vertical = 4.dp))
+
+                Text(
+                    modifier = Modifier.padding(horizontal = 12.dp),
+                    text = "Новая версия: " + settingsViewModel.versionName
+                )
+                Text(
+                    modifier = Modifier.padding(horizontal = 12.dp),
+                    text = "Код версии: " + settingsViewModel.versionCode.toString()
+                )
+                Text(
+                    modifier = Modifier.padding(horizontal = 12.dp),
+                    text = "Список изменений: " + settingsViewModel.changelog
+                )
+
+
+                Button(
+                    modifier = Modifier
+                        .padding(12.dp),
+                    onClick = { settingsViewModel.downloadNewVersion(context) }
+                ) {
+                    Text(text = "Загрузить и установить")
+                }
+            }
+        }
+    }
+}
 
 
 /*

@@ -1,9 +1,11 @@
 package ru.blays.timetable.UI.Compose
 
+import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -11,7 +13,10 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.ViewModelProvider
 import io.objectbox.BoxStore
-import ru.blays.AppUpdater.UpdateChecker
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import ru.blays.AppUpdater.web.api.HttpClient
 import ru.blays.timetable.UI.Compose.ComposeElements.navigation.NavigationVM
 import ru.blays.timetable.UI.Compose.ComposeElements.navigation.NavigationVMFactory
 import ru.blays.timetable.UI.Compose.MainActivity.ObjectBox.objectBoxManager
@@ -77,12 +82,15 @@ class MainActivity : ComponentActivity() {
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            checkPermission(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES, 1234)
+            checkPermissions(arrayOf(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES, Manifest.permission.MANAGE_EXTERNAL_STORAGE), 1234)
         }
 
-        UpdateChecker(applicationContext.applicationContext, /*BuildConfig.APPLICATION_ID*/ "com.speedsoftware.sqleditor").run {
-            checkUpdate()
-       }
+        Log.d("HTTP_request_log", "start request")
+
+        CoroutineScope(Dispatchers.IO).launch {
+
+            Log.d("HTTP_request_log", "end request")
+        }
 
         setContent {
             InitApp(
@@ -107,13 +115,16 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-    private fun checkPermission(permission: String, requestCode: Int) {
-        if (this.checkSelfPermission(permission) == PackageManager.PERMISSION_DENIED) {
+    private fun checkPermissions(permission: Array<String>, requestCode: Int) {
+        val needToRequest = mutableListOf<String>()
+        permission.forEach {
+            if (this.checkSelfPermission(it) == PackageManager.PERMISSION_DENIED) {
             // Requesting the permission
-            this.requestPermissions(arrayOf(permission), requestCode)
+            needToRequest.add(it)
+            }
         }
+        this.requestPermissions(needToRequest.toTypedArray(), requestCode)
     }
-
 }
 
 @Composable

@@ -19,6 +19,7 @@ class AndroidDownloader(
             .addRequestHeader("Authorization", "Bearer <token>")
             .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "update.apk")
 
+
         return downloadManager.enqueue(request)
     }
 }

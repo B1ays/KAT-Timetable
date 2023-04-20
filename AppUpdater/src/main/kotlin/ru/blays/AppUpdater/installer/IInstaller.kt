@@ -22,6 +22,6 @@ package ru.blays.AppUpdater.installer
 import android.net.Uri
 
 interface IInstaller {
-    fun install(uri: Uri, applicationId: String)
+    fun install(uri: Uri)
     fun uninstall(packageName: String)
 }

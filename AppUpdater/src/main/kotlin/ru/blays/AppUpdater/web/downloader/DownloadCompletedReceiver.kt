@@ -16,8 +16,7 @@ class DownloadCompletedReceiver: BroadcastReceiver() {
                 val uri = downloadManager?.getUriForDownloadedFile(id)
                 NativeInstaller(context = context!!).run {
                     install(
-                        uri = uri!!,
-                        applicationId = "ru.blays.timetable"
+                        uri = uri!!
                     )}
                 println("Download with ID $id finished!")
             }

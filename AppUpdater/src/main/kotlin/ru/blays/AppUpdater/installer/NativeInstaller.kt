@@ -26,12 +26,12 @@ import ru.blays.AppUpdater.installer.InstallerBase
 
 class NativeInstaller(context: Context) : InstallerBase(context) {
 
-    override fun install(uri: Uri, applicationId: String) {
-        xInstall(applicationId, uri)
+    override fun install(uri: Uri) {
+        xInstall(uri)
     }
 
     @Suppress("DEPRECATION")
-    private fun xInstall(packageName: String, uri: Uri) {
+    private fun xInstall(uri: Uri) {
 
         val intent = Intent(Intent.ACTION_INSTALL_PACKAGE)
         intent.data = uri
