@@ -1,6 +1,7 @@
 package ru.blays.timetable.UI.ComposeElements
 
 import android.os.Build
+import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
@@ -43,6 +44,7 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import ru.blays.timetable.R
 import ru.blays.timetable.UI.Compose.Screens.SettingsScreen.SettingsScreenVM
@@ -304,32 +306,86 @@ class SettingsScreen(private val settingsViewModel: SettingsScreenVM) {
         }
 
         if (settingsViewModel.isUpdateAvailable) {
+            
+            val textModifier = Modifier.padding(horizontal = 12.dp)
+            
             Card(
                 modifier = Modifier
                     .padding(
                         horizontal = DefaultPadding.CardHorizontalPadding,
                         vertical = DefaultPadding.CardVerticalPadding
                     )
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                    .animateContentSize(),
                 shape = CardShape.CardStandalone,
                 elevation = CardDefaults.cardElevation(2.dp)
             ) {
 
                 Spacer(modifier = Modifier.padding(vertical = 4.dp))
 
+                Text(modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, style = MaterialTheme.typography.titleLarge, text = "Доступна новая версия")
+
+                Spacer(modifier = Modifier.padding(vertical = 4.dp))
+
                 Text(
-                    modifier = Modifier.padding(horizontal = 12.dp),
+                    modifier = textModifier,
                     text = "Новая версия: " + settingsViewModel.versionName
                 )
+
+                Spacer(modifier = Modifier.padding(vertical = 4.dp))
+
                 Text(
-                    modifier = Modifier.padding(horizontal = 12.dp),
+                    modifier = textModifier,
                     text = "Код версии: " + settingsViewModel.versionCode.toString()
                 )
-                Text(
-                    modifier = Modifier.padding(horizontal = 12.dp),
-                    text = "Список изменений: " + settingsViewModel.changelog
-                )
 
+                Spacer(modifier = Modifier.padding(vertical = 4.dp))
+
+                if (settingsViewModel.isChangelogShowed) {
+
+                    Text(
+                        modifier = textModifier,
+                        text = "Изменено:", style = MaterialTheme.typography.titleMedium
+                    )
+
+                    Text(
+                        modifier = textModifier,
+                        text = settingsViewModel.changed
+                    )
+
+                    Spacer(modifier = Modifier.padding(vertical = 4.dp))
+
+                    Text(
+                        modifier = textModifier,
+                        text = "Добавлено:", style = MaterialTheme.typography.titleMedium
+                    )
+
+                    Text(
+                        modifier = textModifier,
+                        text = settingsViewModel.added
+                    )
+
+                    Spacer(modifier = Modifier.padding(vertical = 4.dp))
+
+                    Text(
+                        modifier = textModifier,
+                        text = "Удалено:", style = MaterialTheme.typography.titleMedium
+                    )
+
+                    Text(
+                        modifier = textModifier,
+                        text = settingsViewModel.deleted
+                    )
+                }
+
+                Text(modifier = textModifier
+                    .clip(CircleShape)
+                    .toggleable(value = settingsViewModel.isChangelogShowed) {
+                        settingsViewModel.isChangelogShowed = it
+                    },
+                    text = if (settingsViewModel.isChangelogShowed) "Скрыть..." else "Показать список изменений...",
+                    color = MaterialTheme.colorScheme.primary
+                )
 
                 Button(
                     modifier = Modifier

@@ -1,6 +1,7 @@
 package ru.blays.timetable.UI.Compose.Screens.SettingsScreen
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -11,6 +12,7 @@ import ru.blays.AppUpdater.UpdateChecker
 import ru.blays.AppUpdater.dataClasses.GetInfoResult
 import ru.blays.AppUpdater.web.api.HttpClient
 import ru.blays.AppUpdater.web.api.JsonSerializer
+import ru.blays.timetable.BuildConfig
 import ru.blays.timetable.UI.DataClasses.AccentColorList
 import ru.blays.timetable.domain.models.SettingsModel
 import ru.blays.timetable.domain.useCases.GetSettingsUseCase
@@ -28,7 +30,7 @@ class SettingsScreenVM(
         setSettingsUseCase.execut(settingsModel)
     }
 
-    fun get() : SettingsModel {
+    fun get(): SettingsModel {
         return getSettingsUseCase.execut()
     }
 
@@ -49,7 +51,7 @@ class SettingsScreenVM(
         setSettingsUseCase.execut(SettingsModel(monetTheme = isMonetTheme))
     }
 
-    var themeSelectionState by  mutableStateOf(settings.appTheme)
+    var themeSelectionState by mutableStateOf(settings.appTheme)
 
     var accentColorIndex by mutableStateOf(settings.accentColor)
 
@@ -57,10 +59,15 @@ class SettingsScreenVM(
 
     var versionName by mutableStateOf("")
     var versionCode by mutableStateOf(0)
-    var changelog by mutableStateOf("")
+    var changed by mutableStateOf("")
+    var added by mutableStateOf("")
+    var deleted by mutableStateOf("")
+
     private var url = ""
 
     var isUpdateAvailable by mutableStateOf(false)
+
+    var isChangelogShowed by mutableStateOf(false)
 
     fun downloadNewVersion(context: Context) {
         UpdateChecker(context).run {
@@ -78,13 +85,16 @@ class SettingsScreenVM(
         if (result.status) {
             val jsonSerializer = JsonSerializer()
             val updateInfo = jsonSerializer.fromJsonToClass(result.json ?: "")
+            Log.d("serializationLog", updateInfo.toString())
             if (updateInfo != null) {
                 versionName = updateInfo.versionName
                 versionCode = updateInfo.versionCode
-                changelog = updateInfo.changelog
+                changed = updateInfo.changed
+                added = updateInfo.added
+                deleted = updateInfo.deleted
                 url = updateInfo.url
-                isUpdateAvailable = true
             }
+            if (versionCode > BuildConfig.VERSION_CODE) isUpdateAvailable = true
         }
     }
 }
