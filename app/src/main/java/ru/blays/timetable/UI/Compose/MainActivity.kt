@@ -16,7 +16,6 @@ import io.objectbox.BoxStore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import ru.blays.AppUpdater.web.api.HttpClient
 import ru.blays.timetable.UI.Compose.ComposeElements.navigation.NavigationVM
 import ru.blays.timetable.UI.Compose.ComposeElements.navigation.NavigationVMFactory
 import ru.blays.timetable.UI.Compose.MainActivity.ObjectBox.objectBoxManager
@@ -81,9 +80,21 @@ class MainActivity : ComponentActivity() {
             actionBar!!.hide()
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            checkPermissions(arrayOf(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES, Manifest.permission.MANAGE_EXTERNAL_STORAGE), 1234)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            checkPermissions(
+                arrayOf(
+                    Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES,
+                    Manifest.permission.MANAGE_EXTERNAL_STORAGE
+                ), 1234
+            )
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            checkPermissions(
+                arrayOf(
+                    Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                ), 1234)
         }
+
 
         Log.d("HTTP_request_log", "start request")
 

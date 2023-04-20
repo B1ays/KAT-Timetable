@@ -46,10 +46,6 @@
                 <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
             </intent-filter>
         </receiver>
-        <receiver android:name="ru.blays.AppUpdater.web.downloader.Receiver" android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.COLUMN_STATUS" />
-            </intent-filter>
-        </receiver>
+        <receiver android:name="ru.blays.AppUpdater.installer.InstallReceiver" android:exported="true"/>
     </application>
 </manifest>

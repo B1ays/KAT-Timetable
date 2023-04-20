@@ -11,7 +11,7 @@ android {
         applicationId "ru.blays.timetable"
         minSdk 24
         targetSdk 33
-        versionCode 4
+        versionCode 6
         versionName "1.1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -27,7 +27,7 @@ android {
             zipAlignEnabled true
             crunchPngs true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            versionNameSuffix '_build4'
+            versionNameSuffix '_build6'
             signingConfig signingConfigs.debug
             multiDexEnabled false
         }

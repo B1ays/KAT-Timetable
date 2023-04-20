@@ -4,7 +4,7 @@ import android.app.DownloadManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.aurora.store.data.installer.NativeInstaller
+import com.aurora.store.data.installer.Installer
 
 class DownloadCompletedReceiver: BroadcastReceiver() {
 
@@ -14,7 +14,7 @@ class DownloadCompletedReceiver: BroadcastReceiver() {
             if(id != -1L) {
                 val downloadManager = context?.getSystemService(DownloadManager::class.java)
                 val uri = downloadManager?.getUriForDownloadedFile(id)
-                NativeInstaller(context = context!!).run {
+                Installer(context = context!!).run {
                     install(
                         uri = uri!!
                     )}

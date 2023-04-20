@@ -15,10 +15,11 @@ class AndroidDownloader(
         val request = DownloadManager.Request(url.toUri())
             .setMimeType("application/vnd.android.package-archive")
             .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-            .setTitle("Загрузка обновления")
-            .addRequestHeader("Authorization", "Bearer <token>")
+            .setDescription("Загрузка обновления")
+            .setTitle("Кат - Расписание")
+            /*.addRequestHeader("Authorization", "Bearer <token>")*/
             .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "update.apk")
-
+        /*Log.d("pathLog", "DownloadPathIs: ${context.filesDir.path}")*/
 
         return downloadManager.enqueue(request)
     }
