@@ -1,5 +1,8 @@
 package ru.blays.AppUpdater.dataClasses
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class UpdateInfoModel(
     val versionName: String,
     val versionCode: Int,

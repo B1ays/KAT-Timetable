@@ -81,20 +81,30 @@ class SettingsScreenVM(
 
         val httpClient = HttpClient()
         result = httpClient.get()
+        Log.d("HTTP_request_log", result.json ?: "Json is null")
 
         if (result.status) {
-            val jsonSerializer = JsonSerializer()
-            val updateInfo = jsonSerializer.fromJsonToClass(result.json ?: "")
-            Log.d("serializationLog", updateInfo.toString())
-            if (updateInfo != null) {
-                versionName = updateInfo.versionName
-                versionCode = updateInfo.versionCode
-                changed = updateInfo.changed
-                added = updateInfo.added
-                deleted = updateInfo.deleted
-                url = updateInfo.url
-            }
-            if (versionCode > BuildConfig.VERSION_CODE) isUpdateAvailable = true
+            try {
+
+
+                val jsonSerializer = JsonSerializer()
+                val updateInfo = jsonSerializer.fromJsonToClass(result.json ?: "")
+                Log.d(
+                    "serializationLog", updateInfo.toString()
+                )
+                if (updateInfo != null) {
+                    versionName = updateInfo.versionName
+                    versionCode = updateInfo.versionCode
+                    changed = updateInfo.changed
+                    added = updateInfo.added
+                    deleted = updateInfo.deleted
+                    url = updateInfo.url
+                }
+                if (versionCode > BuildConfig.VERSION_CODE) isUpdateAvailable = true
+            } catch (e: Exception) {
+                Log.d(
+                "serializationLog",  "$e"
+            ) }
         }
     }
 }

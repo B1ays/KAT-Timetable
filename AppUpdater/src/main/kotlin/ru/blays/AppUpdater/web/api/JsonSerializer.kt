@@ -1,11 +1,12 @@
 package ru.blays.AppUpdater.web.api
 
-import com.google.gson.Gson
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 import ru.blays.AppUpdater.dataClasses.UpdateInfoModel
 
 class JsonSerializer {
 
-    fun fromJsonToClass(json: String): UpdateInfoModel? {
-        return Gson().fromJson(json, UpdateInfoModel::class.java)
+    fun fromJsonToClass(json: String): UpdateInfoModel {
+        return Json.decodeFromString(string = json)
     }
 }
