@@ -22,7 +22,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material.icons.rounded.Menu
-import androidx.compose.material.icons.rounded.Refresh
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material.icons.rounded.Star
 import androidx.compose.material3.Card
@@ -36,9 +35,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import ru.blays.timetable.UI.Compose.ComposeElements.navigation.NavigationVM
 import ru.blays.timetable.UI.Compose.MainViewModel
 import ru.blays.timetable.UI.Compose.Screens.TimeTableScreen.TimetableScreenVM
@@ -114,8 +110,7 @@ class FloatingMenu(
                                 .fillMaxWidth(),
                             horizontalArrangement = Arrangement.End
                         ) {
-
-                            if (navigationViewModel.currentScreen.Screen == ScreenList.TIMETABLE_SCREEN) FloatingMenuAction(item = floatingMenuActions.refresh)
+                            /*if (navigationViewModel.currentScreen.Screen == ScreenList.TIMETABLE_SCREEN) FloatingMenuAction(item = floatingMenuActions.refresh)*/
                             FloatingMenuAction(item = floatingMenuActions.close)
                         }
                     }
@@ -224,9 +219,9 @@ class FloatingMenu(
     }
 
     inner class FloatingMenuActions {
-        val refresh = FloatingMenuActionsModel(Icons.Rounded.Refresh) {
-            CoroutineScope(context = Dispatchers.IO).launch { timetableViewModel.update() }
-        }
+        /*val refresh = FloatingMenuActionsModel(Icons.Rounded.Refresh) {
+            CoroutineScope(Dispatchers.IO).launch { timetableViewModel.update() }
+        }*/
         val close = FloatingMenuActionsModel(Icons.Rounded.Close) {
             mainViewModel.isMenuExpanded = !mainViewModel.isMenuExpanded
         }

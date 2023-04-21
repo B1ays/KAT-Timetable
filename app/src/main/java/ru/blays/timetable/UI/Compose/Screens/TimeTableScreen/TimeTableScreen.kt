@@ -1,5 +1,6 @@
 package ru.blays.timetable.UI.ComposeElements
 
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.MutableTransitionState
@@ -17,9 +18,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,10 +29,12 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import ru.blays.timetable.UI.Compose.ComposeElements.navigation.NavigationVM
 import ru.blays.timetable.UI.Compose.Screens.TimeTableScreen.TimetableScreenVM
 import ru.blays.timetable.UI.DataClasses.CardShape
@@ -38,43 +42,38 @@ import ru.blays.timetable.UI.DataClasses.DefaultPadding
 import ru.blays.timetable.domain.models.GetDaysListModel
 import ru.blays.timetable.domain.models.GetSubjectsListModel
 
+@ExperimentalMaterialApi
 class TimeTableScreen(private val timetableViewModel: TimetableScreenVM, private val navigationViewModel: NavigationVM) {
 
     @ExperimentalAnimationApi
     @Composable
     fun Create() {
 
+        val pullRefreshState = rememberPullRefreshState(
+            refreshing = timetableViewModel.isRefreshing,
+            onRefresh = { CoroutineScope(Dispatchers.IO).launch {
+                Log.d("updateLog", "Pull refresh event")
+                timetableViewModel.update() }
+            }
+        )
+
         LaunchedEffect(key1 = true) {
             timetableViewModel.get(navigationViewModel.currentScreen.Key)
         }
 
-        if (timetableViewModel.showProgress) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(36.dp),
-                contentAlignment = Alignment.TopCenter
-            ) { CircularProgressIndicator(
-                modifier = Modifier
-                    .fillMaxWidth(0.4F),
-                strokeWidth = 6.dp,
-                strokeCap = StrokeCap.Round
-                )
-            }
-        } else {
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxWidth()
-            ) {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
 
-                val items = timetableViewModel.timetable.daysWithSubjectsList
+            val items = timetableViewModel.timetable.daysWithSubjectsList
 
-                items(items) { days ->
-                    TimeTableCard(list = days)
-                }
+            items(items) { days ->
+                TimeTableCard(list = days)
             }
         }
     }
+
 
     @ExperimentalAnimationApi
     @Composable

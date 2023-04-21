@@ -6,7 +6,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.withContext
 import ru.blays.timetable.domain.models.GetTimetableModel
 import ru.blays.timetable.domain.useCases.GetTimetableUseCase
@@ -26,26 +25,25 @@ class TimetableScreenVM(
         )
     )
 
-    var showProgress by mutableStateOf(false)
+    var isRefreshing by mutableStateOf(false)
 
     suspend fun get(href: String) {
-        showProgress = true
+        isRefreshing = true
         withContext(Dispatchers.IO) {
             getTimetableUseCase.execut(href = href).run {
                 if (success) timetable = this
-                showProgress = !success
+                isRefreshing = !success
                 currentHref = href
-                Log.d("getLog", "return: $this")
             }
         }
     }
 
-    suspend fun update() = coroutineScope {
-        showProgress = true
+    suspend fun update() {
+        Log.d("updateLog", "Update event")
+        isRefreshing = true
         getTimetableUseCase.execut(href = currentHref, isUpdate = true).run {
             if (success) timetable = this
-            showProgress = !success
-            Log.d("getLog", "return: $this")
+            isRefreshing = !success
         }
     }
 }

@@ -1,6 +1,7 @@
 package ru.blays.timetable.UI.ComposeElements
 
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import ru.blays.timetable.UI.Compose.ComposeElements.navigation.NavigationVM
 import ru.blays.timetable.UI.Compose.MainViewModel
@@ -10,6 +11,7 @@ import ru.blays.timetable.UI.Compose.Screens.TimeTableScreen.TimetableScreenVM
 import ru.blays.timetable.UI.ScreenList
 import ru.blays.timetable.UI.Screens.AboutScreen
 
+@OptIn(ExperimentalMaterialApi::class)
 @ExperimentalAnimationApi
 @Composable
 fun Navigation(
