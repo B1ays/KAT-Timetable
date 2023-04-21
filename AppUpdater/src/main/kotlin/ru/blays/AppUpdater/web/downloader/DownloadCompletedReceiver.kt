@@ -4,6 +4,7 @@ import android.app.DownloadManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import com.aurora.store.data.installer.Installer
 
 class DownloadCompletedReceiver: BroadcastReceiver() {
@@ -14,11 +15,16 @@ class DownloadCompletedReceiver: BroadcastReceiver() {
             if(id != -1L) {
                 val downloadManager = context?.getSystemService(DownloadManager::class.java)
                 val uri = downloadManager?.getUriForDownloadedFile(id)
-                Installer(context = context!!).run {
-                    install(
-                        uri = uri!!
-                    )}
-                println("Download with ID $id finished!")
+                if (uri != null) {
+                    Installer(context = context).run {
+                        install(
+                            uri = uri
+                        )
+                    }
+                    Log.i( "AppUpdater","Download with ID $id finished!")
+                } else {
+                    Log.w("AppUpdater", "Download failed")
+                }
             }
         }
     }
