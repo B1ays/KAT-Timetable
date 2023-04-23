@@ -1,7 +1,7 @@
 package ru.blays.AppUpdater
 
-import android.content.Context
 import android.util.Log
+import androidx.core.app.ComponentActivity
 import androidx.lifecycle.MutableLiveData
 import ru.blays.AppUpdater.dataClasses.GetInfoResult
 import ru.blays.AppUpdater.dataClasses.UpdateInfoModel
@@ -9,13 +9,15 @@ import ru.blays.AppUpdater.web.api.HttpClient
 import ru.blays.AppUpdater.web.api.JsonSerializer
 import ru.blays.AppUpdater.web.downloader.OkHttpDownloader
 
-class UpdateChecker(private val context: Context, private val versionCode: Int) {
+class UpdateChecker(private val context: ComponentActivity, private val versionCode: Int) {
 
     val downloadStatus = MutableLiveData<String>()
 
     val updateInfo = MutableLiveData<UpdateInfoModel>()
 
     lateinit var downloadProgress: MutableLiveData<Float>
+
+    lateinit var status: MutableLiveData<String>
 
     var isUpdateAvailable = MutableLiveData<Boolean>()
 
@@ -28,7 +30,7 @@ class UpdateChecker(private val context: Context, private val versionCode: Int) 
         result = httpClient.get()
 
         if (result.status) {
-            Log.d("AppUpdater", result.json.toString())
+           /* Log.d("AppUpdater", result.json.toString())*/
             try {
                 val jsonSerializer = JsonSerializer()
                 val jsonSerializerResult = jsonSerializer.fromJsonToClass(result.json ?: "")
@@ -49,11 +51,13 @@ class UpdateChecker(private val context: Context, private val versionCode: Int) 
     fun downloadUpdate() {
         val okHttpDownloader = OkHttpDownloader(context = context)
 
-        Log.d("OkHttpDownloader", "Start")
+        /*Log.d("OkHttpDownloader", "Start")*/
 
         downloadProgress = okHttpDownloader.progressLiveData
 
-        okHttpDownloader.downloadFile(updateInfo.value!!.url)
+        status = okHttpDownloader.status
+
+        okHttpDownloader.downloadFile(updateInfo.value!!.url, fileName = "КАТ - Расписание" + updateInfo.value!!.versionName)
 
     }
 }

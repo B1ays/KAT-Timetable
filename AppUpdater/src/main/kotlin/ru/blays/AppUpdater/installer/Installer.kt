@@ -20,27 +20,30 @@
 package ru.blays.AppUpdater
 
 import android.app.PendingIntent
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageInstaller
 import android.net.Uri
+import android.os.Build
 import android.util.Log
+import androidx.core.app.ComponentActivity
 import androidx.documentfile.provider.DocumentFile
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.blays.AppUpdater.installer.InstallReceiver
 import ru.blays.AppUpdater.installer.InstallerBase
 
-class Installer(context: Context) : InstallerBase(context) {
+class Installer(context: ComponentActivity) : InstallerBase(context) {
 
     override fun install(uri: Uri) {
-        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             Log.d("InstallerLog", "Session installer")
-            CoroutineScope(Dispatchers.IO).launch { coroutineInstaller(uri) }
-        } else {*/
+            CoroutineScope(Dispatchers.IO).launch { installCoroutine(uri) }
+        } else {
             Log.d("InstallerLog", "Native installer")
             nativeInstaller(uri)
-        /*}*/
+        }
     }
 
 
@@ -56,11 +59,12 @@ class Installer(context: Context) : InstallerBase(context) {
         context.startActivity(intent)
     }
 
-    private suspend fun coroutineInstaller(apkUri: Uri) =
+    private suspend fun installCoroutine(apkUri: Uri) =
         withContext(Dispatchers.IO) {
 
-            val NAME = "mostly-unused"
-            val PI_INSTALL = 3439
+            val NAME = "blaysInstaller"
+
+            val PI_INSTALL = 1989
 
             val installer = context.packageManager.packageInstaller
             val resolver = context.contentResolver

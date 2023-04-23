@@ -65,14 +65,8 @@ class UpdateInfo(private val context: ComponentActivity) {
     }
 
 
-    fun checkUpdate() {
-
-        CoroutineScope(Dispatchers.IO).launch {
-            updateChecker.check()
-        }
-
-
-
+    fun checkUpdate() = CoroutineScope(Dispatchers.IO).launch {
+        updateChecker.check()
     }
 
     @Composable
@@ -119,6 +113,15 @@ class UpdateInfo(private val context: ComponentActivity) {
 
                             updateChecker.downloadProgress.observe(context) { progress ->
                                 downloadProgress = progress
+                            }
+
+                            updateChecker.status.observe(context) { status ->
+                                when (status) {
+                                    Status.START_REQUEST -> {}
+                                    Status.START_DOWNLOAD -> {}
+                                    Status.END_DOWNLOAD -> { isUpdateDialogShow = false }
+                                    Status.ERROR -> {}
+                                }
                             }
 
                             /*Column(

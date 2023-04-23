@@ -1,8 +1,7 @@
 package ru.blays.AppUpdater.web.downloader
 
-import android.content.Context
 import android.os.Environment
-import android.util.Log
+import androidx.core.app.ComponentActivity
 import androidx.core.content.FileProvider
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.CoroutineScope
@@ -17,7 +16,7 @@ import java.io.File
 import java.io.FileOutputStream
 import kotlin.random.Random
 
-class OkHttpDownloader(private val context: Context) : Downloader {
+class OkHttpDownloader(private val context: ComponentActivity) : Downloader {
 
     internal object Status {
         const val START_REQUEST = "START_REQUEST"
@@ -26,9 +25,11 @@ class OkHttpDownloader(private val context: Context) : Downloader {
         const val ERROR = "ERROR"
     }
 
+    val status = MutableLiveData<String>()
+
     val progressLiveData = MutableLiveData<Float>()
 
-    override fun downloadFile(url: String) {
+    override fun downloadFile(url: String, fileName: String) {
 
 
         val client = OkHttpClient()
@@ -41,7 +42,7 @@ class OkHttpDownloader(private val context: Context) : Downloader {
 
             try {
 
-                /*this@OkHttpDownloader.postValue(Status.START_REQUEST)*/
+                status.postValue(Status.START_REQUEST)
 
                 client.newCall(request).execute().use { response ->
                     if (!response.isSuccessful) {
@@ -55,19 +56,19 @@ class OkHttpDownloader(private val context: Context) : Downloader {
                         Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
                         "update${Random.nextInt(from = 1, until = 1000)}.apk"
                     )
-                    Log.d("OkHttpDownloader", "save to $file")
+                    /*Log.d("OkHttpDownloader", "save to $file")*/
 
                     val uri = FileProvider.getUriForFile(context, "ru.blays.timetable.provider", file)
-                    Log.d("OkHttpDownloader", "uri: $uri")
+                    /*Log.d("OkHttpDownloader", "uri: $uri")*/
 
-                    /*this@OkHttpDownloader.postValue(Status.START_DOWNLOAD)*/
+                    status.postValue(Status.START_DOWNLOAD)
 
                     val inputStream = response.body.byteStream()
                     val outputStream = FileOutputStream(file)
 
 
                     val fileSize = response.body.contentLength()
-                    Log.d("OkHttpDownloader", "file size: $fileSize")
+                    /*Log.d("OkHttpDownloader", "file size: $fileSize")*/
 
                     val buffer = ByteArray(1024)
                     var bytesRead: Int
@@ -81,11 +82,11 @@ class OkHttpDownloader(private val context: Context) : Downloader {
                     }
                     inputStream.close()
                     outputStream.close()
-                    /*this@OkHttpDownloader.postValue(Status.END_DOWNLOAD)*/
+                    status.postValue(Status.END_DOWNLOAD)
                     Installer(context).install(uri)
                 }
             } catch (e: IOException) {
-                /*this@OkHttpDownloader.postValue(Status.ERROR)*/
+                status.postValue(Status.ERROR)
                 println("Ошибка подключения: $e")
             }
         }
