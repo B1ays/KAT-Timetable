@@ -17,19 +17,16 @@
  *
  */
 
-package com.aurora.store.data.installer
+package ru.blays.AppUpdater
 
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageInstaller
 import android.net.Uri
-import android.os.Build
 import android.util.Log
 import androidx.documentfile.provider.DocumentFile
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.blays.AppUpdater.installer.InstallReceiver
 import ru.blays.AppUpdater.installer.InstallerBase
@@ -37,13 +34,13 @@ import ru.blays.AppUpdater.installer.InstallerBase
 class Installer(context: Context) : InstallerBase(context) {
 
     override fun install(uri: Uri) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             Log.d("InstallerLog", "Session installer")
             CoroutineScope(Dispatchers.IO).launch { coroutineInstaller(uri) }
-        } else {
+        } else {*/
             Log.d("InstallerLog", "Native installer")
             nativeInstaller(uri)
-        }
+        /*}*/
     }
 
 

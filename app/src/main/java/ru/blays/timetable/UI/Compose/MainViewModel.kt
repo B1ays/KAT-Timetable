@@ -76,6 +76,7 @@ class MainViewModel(
     }
 
 
+
     fun init() {
         isDarkMode = when(initialSettings.appTheme) {
             0 -> systemTheme

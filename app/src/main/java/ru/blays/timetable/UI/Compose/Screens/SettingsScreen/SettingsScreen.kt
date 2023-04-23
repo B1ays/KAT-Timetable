@@ -1,7 +1,6 @@
 package ru.blays.timetable.UI.ComposeElements
 
 import android.os.Build
-import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
@@ -11,7 +10,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -22,7 +20,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -31,7 +28,6 @@ import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -42,9 +38,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import ru.blays.timetable.R
 import ru.blays.timetable.UI.Compose.Screens.SettingsScreen.SettingsScreenVM
@@ -71,7 +65,6 @@ class SettingsScreen(private val settingsViewModel: SettingsScreenVM) {
             ThemeSettings()
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) MonetSettings()
             AccentSelector()
-            UpdateCheck()
         }
     }
 
@@ -294,108 +287,6 @@ class SettingsScreen(private val settingsViewModel: SettingsScreenVM) {
                     settingsViewModel.changeAccentColor(index)
                 }
         )
-    }
-
-    @Composable
-    private fun UpdateCheck() {
-
-        val context = LocalContext.current
-
-        LaunchedEffect(key1 = true) {
-            settingsViewModel.updateCheck()
-        }
-
-        if (settingsViewModel.isUpdateAvailable) {
-            
-            val textModifier = Modifier.padding(horizontal = 12.dp)
-            
-            Card(
-                modifier = Modifier
-                    .padding(
-                        horizontal = DefaultPadding.CardHorizontalPadding,
-                        vertical = DefaultPadding.CardVerticalPadding
-                    )
-                    .fillMaxWidth()
-                    .animateContentSize(),
-                shape = CardShape.CardStandalone,
-                elevation = CardDefaults.cardElevation(2.dp)
-            ) {
-
-                Spacer(modifier = Modifier.padding(vertical = 4.dp))
-
-                Text(modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, style = MaterialTheme.typography.titleLarge, text = "Доступна новая версия")
-
-                Spacer(modifier = Modifier.padding(vertical = 4.dp))
-
-                Text(
-                    modifier = textModifier,
-                    text = "Новая версия: " + settingsViewModel.versionName
-                )
-
-                Spacer(modifier = Modifier.padding(vertical = 4.dp))
-
-                Text(
-                    modifier = textModifier,
-                    text = "Код версии: " + settingsViewModel.versionCode.toString()
-                )
-
-                Spacer(modifier = Modifier.padding(vertical = 4.dp))
-
-                if (settingsViewModel.isChangelogShowed) {
-
-                    Text(
-                        modifier = textModifier,
-                        text = "Изменено:", style = MaterialTheme.typography.titleMedium
-                    )
-
-                    Text(
-                        modifier = textModifier,
-                        text = settingsViewModel.changed
-                    )
-
-                    Spacer(modifier = Modifier.padding(vertical = 4.dp))
-
-                    Text(
-                        modifier = textModifier,
-                        text = "Добавлено:", style = MaterialTheme.typography.titleMedium
-                    )
-
-                    Text(
-                        modifier = textModifier,
-                        text = settingsViewModel.added
-                    )
-
-                    Spacer(modifier = Modifier.padding(vertical = 4.dp))
-
-                    Text(
-                        modifier = textModifier,
-                        text = "Удалено:", style = MaterialTheme.typography.titleMedium
-                    )
-
-                    Text(
-                        modifier = textModifier,
-                        text = settingsViewModel.deleted
-                    )
-                }
-
-                Text(modifier = textModifier
-                    .clip(CircleShape)
-                    .toggleable(value = settingsViewModel.isChangelogShowed) {
-                        settingsViewModel.isChangelogShowed = it
-                    },
-                    text = if (settingsViewModel.isChangelogShowed) "Скрыть..." else "Показать список изменений...",
-                    color = MaterialTheme.colorScheme.primary
-                )
-
-                Button(
-                    modifier = Modifier
-                        .padding(12.dp),
-                    onClick = { settingsViewModel.downloadNewVersion(context) }
-                ) {
-                    Text(text = "Загрузить и установить")
-                }
-            }
-        }
     }
 }
 
