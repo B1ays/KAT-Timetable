@@ -38,12 +38,12 @@ class UpdateChecker(private val context: ComponentActivity, private val versionC
                 updateInfo.postValue(jsonSerializerResult)
                 /*Log.d("serializationLog2", updateInfo.value.toString())*/
 
-                if ((updateInfo.value?.versionCode ?: Int.MAX_VALUE) > versionCode) {
+                if (jsonSerializerResult.versionCode > versionCode) {
                     isUpdateAvailable.postValue(true)
                 }
 
             } catch (e: Exception) {
-                Log.w("serializationLog", "$e")
+                Log.w("SerializationLog", "$e")
             }
         }
     }
@@ -57,7 +57,7 @@ class UpdateChecker(private val context: ComponentActivity, private val versionC
 
         status = okHttpDownloader.status
 
-        okHttpDownloader.downloadFile(updateInfo.value!!.url, fileName = "КАТ - Расписание" + updateInfo.value!!.versionName)
+        okHttpDownloader.downloadFile(updateInfo.value!!.url, fileName = "КАТ-Расписание_${updateInfo.value!!.versionName}(${updateInfo.value!!.versionCode})")
 
     }
 }

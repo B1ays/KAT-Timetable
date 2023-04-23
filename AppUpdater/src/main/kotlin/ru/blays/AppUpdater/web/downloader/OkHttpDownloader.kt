@@ -1,11 +1,14 @@
 package ru.blays.AppUpdater.web.downloader
 
 import android.os.Environment
+import android.os.Environment.DIRECTORY_DOWNLOADS
+import android.util.Log
 import androidx.core.app.ComponentActivity
 import androidx.core.content.FileProvider
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -14,7 +17,6 @@ import ru.blays.AppUpdater.Downloader
 import ru.blays.AppUpdater.Installer
 import java.io.File
 import java.io.FileOutputStream
-import kotlin.random.Random
 
 class OkHttpDownloader(private val context: ComponentActivity) : Downloader {
 
@@ -30,7 +32,6 @@ class OkHttpDownloader(private val context: ComponentActivity) : Downloader {
     val progressLiveData = MutableLiveData<Float>()
 
     override fun downloadFile(url: String, fileName: String) {
-
 
         val client = OkHttpClient()
 
@@ -52,14 +53,21 @@ class OkHttpDownloader(private val context: ComponentActivity) : Downloader {
                         )
                     }
 
-                    val file = File(
-                        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
-                        "update${Random.nextInt(from = 1, until = 1000)}.apk"
-                    )
-                    /*Log.d("OkHttpDownloader", "save to $file")*/
+                    val file = File(Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS), "$fileName.apk")
+                    /*Log.d("Downloader", "file exists: ${file.exists()}")*/
 
                     val uri = FileProvider.getUriForFile(context, "ru.blays.timetable.provider", file)
                     /*Log.d("OkHttpDownloader", "uri: $uri")*/
+
+                    if (file.exists()) {
+                        status.postValue(Status.END_DOWNLOAD)
+                        Installer(context).install(uri)
+                        Log.i("Downloader", "file already exists")
+                        this.cancel()
+                        return@launch
+                    }
+
+                    Log.i("Downloader", "download update")
 
                     status.postValue(Status.START_DOWNLOAD)
 
@@ -87,7 +95,7 @@ class OkHttpDownloader(private val context: ComponentActivity) : Downloader {
                 }
             } catch (e: IOException) {
                 status.postValue(Status.ERROR)
-                println("Ошибка подключения: $e")
+                Log.w("Downloader", "Ошибка подключения: $e")
             }
         }
     }

@@ -43,10 +43,6 @@ fun RootElements(
     updateDialog: UpdateInfo
 ) {
 
-    updateDialog.run {
-        checkUpdate()
-        UpdateInfoAlertDialog()
-    }
 
     val scrollBehavior = rememberToolbarScrollBehavior()
 
@@ -89,7 +85,8 @@ fun RootElements(
                 timetableViewModel,
                 groupListViewModel,
                 navigationViewModel,
-                settingsViewModel
+                settingsViewModel,
+                updateDialog
             )
         }
         PullRefreshIndicator(
@@ -108,7 +105,8 @@ fun Frame(
     timetableViewModel: TimetableScreenVM,
     groupListViewModel: GroupListScreenVM,
     navigationViewModel: NavigationVM,
-    settingsViewModel: SettingsScreenVM
+    settingsViewModel: SettingsScreenVM,
+    updateDialog: UpdateInfo
 ) {
     Surface(
         modifier = Modifier
@@ -117,6 +115,12 @@ fun Frame(
     )
     {
         MaterialTheme {
+
+            updateDialog.run {
+                checkUpdate()
+                UpdateInfoAlertDialog()
+            }
+
            Navigation(
             mainViewModel,
             timetableViewModel,
