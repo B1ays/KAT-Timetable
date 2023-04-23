@@ -53,6 +53,8 @@ class UpdateInfo(private val context: ComponentActivity) {
 
     private var downloadStatus: String? = null
 
+    var isUpdateChecked = false
+
     init {
 
         updateChecker.updateInfo.observe(context) { updateInfo ->
@@ -66,7 +68,10 @@ class UpdateInfo(private val context: ComponentActivity) {
 
 
     fun checkUpdate() = CoroutineScope(Dispatchers.IO).launch {
-        updateChecker.check()
+        if (!isUpdateChecked) {
+            updateChecker.check()
+            isUpdateChecked = true
+        }
     }
 
     @Composable

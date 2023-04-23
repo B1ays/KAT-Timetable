@@ -34,7 +34,7 @@ class UpdateChecker(private val context: ComponentActivity, private val versionC
             try {
                 val jsonSerializer = JsonSerializer()
                 val jsonSerializerResult = jsonSerializer.fromJsonToClass(result.json ?: "")
-                /*Log.d("serializationLog1", jsonSerializerResult.toString())*/
+                Log.d("serializationLog1", jsonSerializerResult.toString())
                 updateInfo.postValue(jsonSerializerResult)
                 /*Log.d("serializationLog2", updateInfo.value.toString())*/
 

@@ -33,6 +33,7 @@ import ru.blays.timetable.UI.ComposeElements.Navigation
 import ru.blays.timetable.UI.ScreenList
 import ru.hh.toolbar.custom_toolbar.rememberToolbarScrollBehavior
 
+@OptIn(ExperimentalMaterialApi::class)
 @ExperimentalAnimationApi
 @Composable
 fun RootElements(
@@ -138,11 +139,9 @@ fun Frame(
     {
         MaterialTheme {
 
-            if (!mainViewModel.isUpdateChecked)
             updateDialog.run {
                 checkUpdate()
                 UpdateInfoAlertDialog()
-                mainViewModel.isUpdateChecked = true
             }
 
            Navigation(
