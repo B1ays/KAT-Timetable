@@ -3,15 +3,15 @@
   "versionCode": 6,
   "changed": [
     
-    "Переработанна система самообновления"
-    "Исправлено множество багов"
+    "Переработанна система самообновления",
+    "Исправлено множество багов",
     "Улучшено Pull-to-refresh обновление странциц"
 
   ],
 
   "added": [],
 
-  "deleted": []
+  "deleted": [],
   
   "url": "https://github.com/B1ays/KAT-Timetable/releases/download/1.1.0_build6/app-release.apk"
 }
