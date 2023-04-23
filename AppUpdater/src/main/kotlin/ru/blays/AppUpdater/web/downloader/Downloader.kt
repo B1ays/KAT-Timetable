@@ -1,5 +1,5 @@
 package ru.blays.AppUpdater
 
 interface Downloader {
-    fun downloadFile(url: String): Long
+    fun downloadFile(url: String, fileName: String)
 }

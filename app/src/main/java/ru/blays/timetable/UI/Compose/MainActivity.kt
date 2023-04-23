@@ -5,7 +5,6 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -13,9 +12,7 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.ViewModelProvider
 import io.objectbox.BoxStore
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import ru.blays.timetable.UI.Compose.ComposeElements.UpdateInfo
 import ru.blays.timetable.UI.Compose.ComposeElements.navigation.NavigationVM
 import ru.blays.timetable.UI.Compose.ComposeElements.navigation.NavigationVMFactory
 import ru.blays.timetable.UI.Compose.MainActivity.ObjectBox.objectBoxManager
@@ -73,6 +70,8 @@ class MainActivity : ComponentActivity() {
         )[SettingsScreenVM::class.java]
     }
 
+    private val updateDialog = UpdateInfo(this)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -95,14 +94,6 @@ class MainActivity : ComponentActivity() {
                 ), 1234)
         }
 
-
-        Log.d("HTTP_request_log", "start request")
-
-        CoroutineScope(Dispatchers.IO).launch {
-
-            Log.d("HTTP_request_log", "end request")
-        }
-
         setContent {
             InitApp(
                 mainViewModel,
@@ -111,6 +102,7 @@ class MainActivity : ComponentActivity() {
                 navigationViewModel,
                 settingsViewModel
             )
+
             AviakatTimetableTheme(darkTheme = mainViewModel.isDarkMode, dynamicColor = mainViewModel.monetColors,
                 mainViewModel.buildedTheme
             ) {
@@ -121,11 +113,13 @@ class MainActivity : ComponentActivity() {
                     timetableViewModel,
                     groupListViewModel,
                     navigationViewModel,
-                    settingsViewModel
+                    settingsViewModel,
+                    updateDialog
                 )
             }
         }
     }
+
     private fun checkPermissions(permission: Array<String>, requestCode: Int) {
         val needToRequest = mutableListOf<String>()
         permission.forEach {
@@ -203,7 +197,6 @@ fun GlobalObserver(
     }
 
     // observe theme
-
     mainViewModel.monetColors = (settingsViewModel.monetTheme ?: mainViewModel.initialSettings.monetTheme)!!
 
     with(AccentColorList.list[settingsViewModel.accentColorIndex ?: mainViewModel.initialSettings.accentColor!!]) {

@@ -23,6 +23,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ru.blays.timetable.UI.Compose.ComposeElements.CollapsingAppBar
 import ru.blays.timetable.UI.Compose.ComposeElements.FloatingMenu
+import ru.blays.timetable.UI.Compose.ComposeElements.UpdateInfo
 import ru.blays.timetable.UI.Compose.ComposeElements.navigation.NavigationVM
 import ru.blays.timetable.UI.Compose.MainViewModel
 import ru.blays.timetable.UI.Compose.Screens.GroupListScreen.GroupListScreenVM
@@ -38,8 +39,14 @@ fun RootElements(
     timetableViewModel: TimetableScreenVM,
     groupListViewModel: GroupListScreenVM,
     navigationViewModel: NavigationVM,
-    settingsViewModel: SettingsScreenVM
+    settingsViewModel: SettingsScreenVM,
+    updateDialog: UpdateInfo
 ) {
+
+    updateDialog.run {
+        checkUpdate()
+        UpdateInfoAlertDialog()
+    }
 
     val scrollBehavior = rememberToolbarScrollBehavior()
 

@@ -6,6 +6,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -47,8 +48,7 @@ class AboutScreen {
     @Composable
     fun Create() {
         val scrollState = rememberScrollState()
-
-
+        
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -57,6 +57,7 @@ class AboutScreen {
             )
         {
             HeadItem()
+            Spacer(modifier = Modifier.padding(vertical = 4.dp))
             AboutAuthor()
         }
     }
@@ -155,6 +156,37 @@ class AboutScreen {
                     TextButton(onClick = { context.startActivity(intent) } ) {
                         Text(
                             text = "Канал в Telegram",
+                            modifier = Modifier
+                                .padding(start = 4.dp)
+                        )
+                    }
+                }
+            }
+
+            Card(
+                modifier = Modifier
+                    .padding(
+                        horizontal = DefaultPadding.CardHorizontalPadding,
+                        vertical = DefaultPadding.CardVerticalPadding
+                    )
+                    .fillMaxWidth(),
+                shape = CardShape.CardMid
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                )
+                {
+                    Image(
+                        imageVector = ImageVector.vectorResource(id = R.drawable.ic_github), contentDescription = "Icon",
+                        modifier = Modifier.size(32.dp),
+                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary))
+
+                    TextButton(onClick = { context.startActivity(intent) } ) {
+                        Text(
+                            text = "Исходный код на GitHub",
                             modifier = Modifier
                                 .padding(start = 4.dp)
                         )
