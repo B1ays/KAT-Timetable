@@ -138,9 +138,11 @@ fun Frame(
     {
         MaterialTheme {
 
+            if (!mainViewModel.isUpdateChecked)
             updateDialog.run {
                 checkUpdate()
                 UpdateInfoAlertDialog()
+                mainViewModel.isUpdateChecked = true
             }
 
            Navigation(

@@ -38,6 +38,8 @@ class MainViewModel(
     private val initialAccent = AccentColorList.list[initialSettings.accentColor!!]
     var buildedTheme by mutableStateOf(buildTheme(colorDark = initialAccent.accentDark, lightColor = initialAccent.accentLight))
 
+    var isUpdateChecked = false
+
     // floating menu state change
     var isMenuExpanded: Boolean
         get() = _isMenuExpanded
