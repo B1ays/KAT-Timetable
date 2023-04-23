@@ -18,8 +18,12 @@ class GetGroupsListUseCase(
         val groupsList = timetableRepositoryInterface.getGroupList()
 
         return groupsList.ifEmpty {
-            val htmlBody = webRepositoryInterface.getHTMLBody(groupsListPadeHref)
-            parseGroupList(htmlBody!!)
+            try {
+                val htmlBody = webRepositoryInterface.getHTMLBody(groupsListPadeHref)
+                parseGroupList(htmlBody!!)
+            } catch (_: Exception) {
+                emptyList()
+            }
         }
     }
 
