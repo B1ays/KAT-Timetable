@@ -124,26 +124,20 @@ class UpdateInfo(private val context: ComponentActivity) {
                                 }
                             }
 
-                            /*Column(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .wrapContentHeight()
-                            ) {*/
-                                Spacer(modifier = Modifier.height(8.dp))
+                            Spacer(modifier = Modifier.height(8.dp))
 
-                                LinearProgressIndicator(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    progress = downloadProgress
-                                )
+                            LinearProgressIndicator(
+                                modifier = Modifier.fillMaxWidth(),
+                                progress = downloadProgress
+                            )
 
-                                Spacer(modifier = Modifier.height(4.dp))
+                            Spacer(modifier = Modifier.height(4.dp))
 
-                                Text(
-                                    text = "Прогресс: ${(downloadProgress * 100).toInt()}%",
-                                    textAlign = TextAlign.End,
-                                    modifier = Modifier.fillMaxWidth()
-                                )
-                            /*}*/
+                            Text(
+                                text = "Прогресс: ${(downloadProgress * 100).toInt()}%",
+                                textAlign = TextAlign.End,
+                                modifier = Modifier.fillMaxWidth()
+                            )
 
                         } else {
                             val textStyle = MaterialTheme.typography.titleMedium
@@ -154,23 +148,29 @@ class UpdateInfo(private val context: ComponentActivity) {
                             Text(text = "Код версии: ${updateInfo?.versionCode}", style = textStyle)
                             Spacer(modifier = Modifier.height(4.dp))
 
-                            Text(text = "Изменено:", style = textStyle)
-                            for (text in updateInfo?.changed!!) {
-                                Text(text = "• $text", modifier = Modifier.padding(vertical = 2.dp))
+                            if (updateInfo?.changed!!.isNotEmpty()) {
+                                Text(text = "Изменено:", style = textStyle)
+                                for (text in updateInfo?.changed!!) {
+                                    Text(text = "• $text", modifier = Modifier.padding(vertical = 2.dp))
+                                }
+                                Spacer(modifier = Modifier.height(4.dp))
                             }
-                            Spacer(modifier = Modifier.height(4.dp))
 
-                            Text(text = "Добавлено:", style = textStyle)
-                            for (text in updateInfo?.added!!) {
-                                Text(text = "• $text", modifier = Modifier.padding(vertical = 2.dp))
+                            if (updateInfo?.added!!.isNotEmpty()) {
+                                Text(text = "Добавлено:", style = textStyle)
+                                for (text in updateInfo?.added!!) {
+                                    Text(text = "• $text", modifier = Modifier.padding(vertical = 2.dp))
+                                }
+                                Spacer(modifier = Modifier.height(4.dp))
                             }
-                            Spacer(modifier = Modifier.height(4.dp))
 
-                            Text(text = "Удалено:", style = textStyle)
-                            for (text in updateInfo?.deleted!!) {
-                                Text(text = "• $text", modifier = Modifier.padding(vertical = 2.dp))
+                            if (updateInfo?.deleted!!.isNotEmpty()) {
+                                Text(text = "Удалено:", style = textStyle)
+                                for (text in updateInfo?.deleted!!) {
+                                    Text(text = "• $text", modifier = Modifier.padding(vertical = 2.dp))
+                                }
+                                Spacer(modifier = Modifier.height(4.dp))
                             }
-                            Spacer(modifier = Modifier.height(4.dp))
                         }
 
                         Row(
