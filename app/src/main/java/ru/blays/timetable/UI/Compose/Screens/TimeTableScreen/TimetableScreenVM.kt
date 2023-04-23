@@ -25,7 +25,7 @@ class TimetableScreenVM(
         )
     )
 
-    var isRefreshing by mutableStateOf(false)
+    var isRefreshing by mutableStateOf(true)
 
     suspend fun get(href: String) {
         isRefreshing = true

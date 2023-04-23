@@ -30,6 +30,7 @@ import ru.blays.timetable.UI.Compose.Screens.GroupListScreen.GroupListScreenVM
 import ru.blays.timetable.UI.Compose.Screens.SettingsScreen.SettingsScreenVM
 import ru.blays.timetable.UI.Compose.Screens.TimeTableScreen.TimetableScreenVM
 import ru.blays.timetable.UI.ComposeElements.Navigation
+import ru.blays.timetable.UI.ScreenList
 import ru.hh.toolbar.custom_toolbar.rememberToolbarScrollBehavior
 
 @ExperimentalAnimationApi
@@ -46,19 +47,39 @@ fun RootElements(
 
     val scrollBehavior = rememberToolbarScrollBehavior()
 
-    val isRefreshing = timetableViewModel.isRefreshing
+    val isRefreshing = when (navigationViewModel.currentScreen.Screen) {
+        ScreenList.TIMETABLE_SCREEN -> { timetableViewModel.isRefreshing }
+        ScreenList.MAIN_SCREEN -> { groupListViewModel.isRefreshing }
+        else -> { false }
+    }
+        timetableViewModel.isRefreshing
+
 
     val pullRefreshState = rememberPullRefreshState(
         refreshing = isRefreshing,
         onRefresh = {
-            CoroutineScope(Dispatchers.IO).launch {
-                Log.d("updateLog", "Pull refresh event")
-                timetableViewModel.update()
+            when(navigationViewModel.currentScreen.Screen) {
+                ScreenList.TIMETABLE_SCREEN -> {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        Log.d("updateLog", "Pull refresh event")
+                        timetableViewModel.update()
+                    }
+                }
+                ScreenList.MAIN_SCREEN -> {
+                    groupListViewModel.get()
+                }
             }
+
         }
     )
 
-    Box(modifier = if (mainViewModel.favoriteButtonVisible) Modifier.pullRefresh(pullRefreshState) else Modifier) {
+    Box(
+        modifier = if (
+            navigationViewModel.currentScreen.Screen == ScreenList.TIMETABLE_SCREEN ||
+            navigationViewModel.currentScreen.Screen == ScreenList.MAIN_SCREEN)
+            Modifier.pullRefresh(pullRefreshState)
+            else Modifier
+    ) {
         Scaffold(
             modifier = Modifier
                 .nestedScroll(
@@ -92,7 +113,8 @@ fun RootElements(
         PullRefreshIndicator(
             isRefreshing,
             pullRefreshState,
-            Modifier.align(Alignment.TopCenter)
+            Modifier.align(Alignment.TopCenter),
+            contentColor = MaterialTheme.colorScheme.primary
         )
     }
 }

@@ -12,11 +12,14 @@ import ru.blays.timetable.domain.useCases.GetGroupsListUseCase
 
 class GroupListScreenVM(private val getGroupsListUseCase: GetGroupsListUseCase) : ViewModel() {
 
+    var isRefreshing by mutableStateOf(true)
+
     var groupList by mutableStateOf(listOf<GetGroupListModel>())
 
     fun get() {
         CoroutineScope(Dispatchers.IO).launch {
             groupList = getGroupsListUseCase.execut()
+            isRefreshing = groupList.isEmpty()
         }
     }
 }
