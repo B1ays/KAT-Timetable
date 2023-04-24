@@ -65,6 +65,7 @@ class SettingsScreen(private val settingsViewModel: SettingsScreenVM) {
             ThemeSettings()
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) MonetSettings()
             AccentSelector()
+            FirstScreenSetting()
         }
     }
 
@@ -287,6 +288,44 @@ class SettingsScreen(private val settingsViewModel: SettingsScreenVM) {
                     settingsViewModel.changeAccentColor(index)
                 }
         )
+    }
+
+
+    @Composable
+    private fun FirstScreenSetting() {
+        Card(
+            modifier = Modifier
+                .padding(
+                    horizontal = DefaultPadding.CardHorizontalPadding,
+                    vertical = DefaultPadding.CardVerticalPadding
+                )
+                .fillMaxWidth(),
+            shape = CardShape.CardStandalone,
+            elevation = CardDefaults.cardElevation(2.dp)
+        ) {
+            Row(
+                modifier = Modifier
+                    .padding(vertical = 5.dp, horizontal = 12.dp)
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            )
+            {
+                Column(modifier = Modifier
+                    .fillMaxWidth(0.6F)
+                ) {
+                    Text(text = "Начинать с избранного", style = MaterialTheme.typography.titleMedium)
+                    Text(text = "Сделать избранное расписание первым экраном приложения", style = MaterialTheme.typography.bodySmall)
+                }
+
+                Switch(
+                    checked = settingsViewModel.openFavoriteOnStart ?: false,
+                    onCheckedChange = {
+                        settingsViewModel.changeFirstScreen(openFavoriteOnStart = it)
+                    }
+                )
+            }
+        }
     }
 }
 

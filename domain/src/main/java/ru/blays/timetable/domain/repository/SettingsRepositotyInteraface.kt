@@ -12,4 +12,6 @@ interface SettingsRepositoryInterface {
 
     var firstStart: Boolean
 
+    var  openFavoriteOnStart: Boolean
+
 }

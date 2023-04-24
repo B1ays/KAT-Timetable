@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import ru.blays.timetable.UI.ScreenData
 import ru.blays.timetable.UI.ScreenList
 
-class NavigationVM() : ViewModel() {
+class NavigationVM : ViewModel() {
 
     var currentScreen by mutableStateOf(ScreenData(ScreenList.MAIN_SCREEN))
 

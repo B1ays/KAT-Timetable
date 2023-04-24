@@ -14,8 +14,8 @@ class SettingsScreenVM(
     private val getSettingsUseCase: GetSettingsUseCase
 ) : ViewModel() {
 
-    private var settings = get()
-
+    var settings = get()
+        private set
 
     fun set(settingsModel: SettingsModel) {
         setSettingsUseCase.execut(settingsModel)
@@ -37,6 +37,11 @@ class SettingsScreenVM(
         }
     }
 
+    fun changeFirstScreen(openFavoriteOnStart: Boolean) {
+        this.openFavoriteOnStart = openFavoriteOnStart
+        set(SettingsModel(openFavoriteOnStart = openFavoriteOnStart))
+    }
+
     fun changeMonetUsage(isMonetTheme: Boolean) {
         monetTheme = isMonetTheme
         setSettingsUseCase.execut(SettingsModel(monetTheme = isMonetTheme))
@@ -48,16 +53,5 @@ class SettingsScreenVM(
 
     var monetTheme by mutableStateOf(settings.monetTheme)
 
-    var versionName by mutableStateOf("")
-    var versionCode by mutableStateOf(0)
-    var changed by mutableStateOf("")
-    var added by mutableStateOf("")
-    var deleted by mutableStateOf("")
-
-    private var url = ""
-
-    var isUpdateAvailable by mutableStateOf(false)
-
-    var isChangelogShowed by mutableStateOf(false)
-
+    var openFavoriteOnStart by mutableStateOf(settings.openFavoriteOnStart)
 }

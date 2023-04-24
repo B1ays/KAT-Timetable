@@ -25,6 +25,7 @@ import ru.blays.timetable.UI.Compose.Screens.TimeTableScreen.TimetableVMFactory
 import ru.blays.timetable.UI.Compose.Theme.AviakatTimetableTheme
 import ru.blays.timetable.UI.DataClasses.AccentColorList
 import ru.blays.timetable.UI.DataClasses.buildTheme
+import ru.blays.timetable.UI.ScreenData
 import ru.blays.timetable.UI.ScreenList
 import ru.blays.timetable.UI.Screens.RootElements
 
@@ -140,16 +141,24 @@ fun InitApp(
     navigationViewModel: NavigationVM,
     settingsViewModel: SettingsScreenVM
 ) {
-    with(mainViewModel) {
-        systemTheme = isSystemInDarkTheme()
-        isDarkMode = when(initialSettings.appTheme) {
-            0 -> systemTheme
-            1 -> true
-            2 -> false
-            else -> systemTheme
-        }
-        monetColors = initialSettings.monetTheme ?: true
+    if (mainViewModel.isInit) {
 
+        with(mainViewModel) {
+            systemTheme = isSystemInDarkTheme()
+            isDarkMode = when (initialSettings.appTheme) {
+                0 -> systemTheme
+                1 -> true
+                2 -> false
+                else -> systemTheme
+            }
+
+            monetColors = initialSettings.monetTheme ?: true
+
+            if (mainViewModel.initialSettings.openFavoriteOnStart == true && mainViewModel.favoriteHref != null && mainViewModel.favoriteHref != "no") {
+                navigationViewModel.changeScreen(ScreenData(ScreenList.TIMETABLE_SCREEN, mainViewModel.favoriteHref!!))
+            }
+
+        }
     }
 
     GlobalObserver(
@@ -159,6 +168,9 @@ fun InitApp(
         navigationViewModel,
         settingsViewModel
     )
+
+    mainViewModel.isInit = false
+
 }
 
 @Composable

@@ -8,6 +8,7 @@ import ru.blays.timetable.UI.Compose.MainViewModel
 import ru.blays.timetable.UI.Compose.Screens.GroupListScreen.GroupListScreenVM
 import ru.blays.timetable.UI.Compose.Screens.SettingsScreen.SettingsScreenVM
 import ru.blays.timetable.UI.Compose.Screens.TimeTableScreen.TimetableScreenVM
+import ru.blays.timetable.UI.ScreenData
 import ru.blays.timetable.UI.ScreenList
 import ru.blays.timetable.UI.Screens.AboutScreen
 
@@ -24,6 +25,10 @@ fun Navigation(
 
     if (navigationViewModel.backStack.last() != navigationViewModel.currentScreen) {
         navigationViewModel.addToBackStack(navigationViewModel.currentScreen)
+    }
+
+    if (mainViewModel.isInit && mainViewModel.initialSettings.openFavoriteOnStart == true && mainViewModel.favoriteHref != "no" && mainViewModel.favoriteHref != null) {
+        navigationViewModel.changeScreen(newScreen = ScreenData(ScreenList.TIMETABLE_SCREEN, mainViewModel.favoriteHref!!))
     }
 
     when(navigationViewModel.currentScreen.Screen) {

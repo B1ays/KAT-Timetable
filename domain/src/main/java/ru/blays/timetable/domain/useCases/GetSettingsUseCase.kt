@@ -12,9 +12,10 @@ class GetSettingsUseCase(private val settingsRepositoryInterface: SettingsReposi
         val monetTheme = settingsRepositoryInterface.monetTheme
         val favorite = settingsRepositoryInterface.favorite
         val firstStart = settingsRepositoryInterface.firstStart
+        val openFavoriteOnStart = settingsRepositoryInterface.openFavoriteOnStart
 
         return SettingsModel(
-            appTheme, monetTheme, accentColor, favorite, firstStart
+            appTheme, monetTheme, accentColor, favorite, firstStart, openFavoriteOnStart
         )
     }
 }

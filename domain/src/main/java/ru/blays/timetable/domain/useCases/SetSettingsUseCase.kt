@@ -29,5 +29,9 @@ class SetSettingsUseCase(private val settingsRepositoryInterface: SettingsReposi
         if (settingsModel.firstStart != null) {
             settingsRepositoryInterface.firstStart = settingsModel.firstStart
         }
+
+        if (settingsModel.openFavoriteOnStart!= null) {
+            settingsRepositoryInterface.openFavoriteOnStart = settingsModel.openFavoriteOnStart
+        }
     }
 }

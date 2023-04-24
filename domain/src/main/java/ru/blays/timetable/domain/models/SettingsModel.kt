@@ -5,5 +5,6 @@ data class SettingsModel(
     val monetTheme: Boolean? = null,
     val accentColor: Int? = null,
     val favorite: String? = null,
-    val firstStart: Boolean? = null
+    val firstStart: Boolean? = null,
+    val openFavoriteOnStart: Boolean? = null,
 )

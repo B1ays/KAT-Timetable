@@ -11,7 +11,6 @@ object CardShape {
 }
 
 object DefaultPadding {
-
     val CardVerticalPadding = 3.dp
     val CardHorizontalPadding = 12.dp
 }

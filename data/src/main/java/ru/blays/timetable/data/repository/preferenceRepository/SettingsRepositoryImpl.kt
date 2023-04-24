@@ -9,6 +9,7 @@ private const val APP_THEME_MONET = "MonetTheme"
 private const val APP_THEME_ACCENT = "AccentColor"
 private const val FIRST_START = "FirstStart"
 private const val FAVORITE_TIMETABLE = "Favorite"
+private const val OPEN_FAVORITE_ON_START = "StartOnFavorite"
 
 
 class SettingsRepositoryImpl(context: Context) : SettingsRepositoryInterface {
@@ -34,5 +35,8 @@ class SettingsRepositoryImpl(context: Context) : SettingsRepositoryInterface {
     override var firstStart: Boolean
         get() = preferences.getBoolean(FIRST_START, false)
         set(value) = preferences.edit().putBoolean(FIRST_START, value).apply()
+    override var openFavoriteOnStart: Boolean
+        get() = preferences.getBoolean(OPEN_FAVORITE_ON_START, false)
+        set(value) = preferences.edit().putBoolean(OPEN_FAVORITE_ON_START, value).apply()
 
 }
