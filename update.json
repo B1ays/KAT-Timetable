@@ -1,17 +1,16 @@
 {
-  "versionName": "1.1.0_build6",
-  "versionCode": 6,
-  "changed": [
+  "versionName": "1.1.0_build7",
+  "versionCode": 7,
+  "changed": [],
+
+  "added": [
     
-    "Переработанна система самообновления",
-    "Исправлено множество багов",
-    "Улучшено Pull-to-refresh обновление странциц"
+    "Опция \"сделать избранное расписание стартовой странцей\"",
+    "Описание пунктов настроек"
 
   ],
 
-  "added": [],
-
   "deleted": [],
   
-  "url": "https://github.com/B1ays/KAT-Timetable/releases/download/1.1.0_build6/app-release.apk"
+  "url": "https://github.com/B1ays/KAT-Timetable/releases/download/1.1.0_build7/app-release.apk"
 }
