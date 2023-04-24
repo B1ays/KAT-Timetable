@@ -16,7 +16,11 @@
 
 # **Скриншоты**
 
-<a href="https://ibb.co/3kNtq3q"><img src="https://i.ibb.co/3kNtq3q/Screenshot-20230411-162009.png" alt="Screenshot-20230411-162009" border="0"></a> <a href="https://ibb.co/Y0zTz5W"><img src="https://i.ibb.co/Y0zTz5W/Screenshot-20230411-162005.png" alt="Screenshot-20230411-162005" border="0"></a> <a href="https://ibb.co/DDNM5F3"><img src="https://i.ibb.co/DDNM5F3/Screenshot-20230411-161952.png" alt="Screenshot-20230411-161952" border="0"></a> <a href="https://ibb.co/TgZ39dj"><img src="https://i.ibb.co/TgZ39dj/Screenshot-20230411-053215.png" alt="Screenshot-20230411-053215" border="0"></a> <a href="https://ibb.co/TLY5czp"><img src="https://i.ibb.co/TLY5czp/Screenshot-20230410-225409.png" alt="Screenshot-20230410-225409" border="0"></a> <a href="https://ibb.co/HtmMFJP"><img src="https://i.ibb.co/HtmMFJP/Screenshot-20230410-213554.png" alt="Screenshot-20230410-213554" border="0"></a> <a href="https://ibb.co/ZKjLchm"><img src="https://i.ibb.co/ZKjLchm/Screenshot-20230410-225437.png" alt="Screenshot-20230410-225437" border="0"></a>
+<a href="https://ibb.co/3kNtq3q"><img src="https://raw.githubusercontent.com/B1ays/KAT-Timetable/Stable/images/Promo1.png" border="0"></a>
+<a href="https://ibb.co/3kNtq3q"><img src="https://raw.githubusercontent.com/B1ays/KAT-Timetable/Stable/images/Promo2.png" border="0"></a>
+<a href="https://ibb.co/3kNtq3q"><img src="https://raw.githubusercontent.com/B1ays/KAT-Timetable/Stable/images/Promo3.png" border="0"></a>
+<a href="https://ibb.co/3kNtq3q"><img src="https://raw.githubusercontent.com/B1ays/KAT-Timetable/Stable/images/Promo4.png" border="0"></a>
+<a href="https://ibb.co/3kNtq3q"><img src="https://raw.githubusercontent.com/B1ays/KAT-Timetable/Stable/images/Promo5.png" border="0"></a>
 
 # **Требования**
 
