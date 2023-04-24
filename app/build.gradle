@@ -11,7 +11,7 @@ android {
         applicationId "ru.blays.timetable"
         minSdk 24
         targetSdk 33
-        versionCode 6
+        versionCode 7
         versionName "1.1.0"
         compileSdkPreview "UpsideDownCake"
 
@@ -28,11 +28,11 @@ android {
             zipAlignEnabled true
             crunchPngs true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            versionNameSuffix '_build6'
-            signingConfig signingConfigs.debug
+            versionNameSuffix '_build7'
             multiDexEnabled false
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_18
         targetCompatibility JavaVersion.VERSION_18
