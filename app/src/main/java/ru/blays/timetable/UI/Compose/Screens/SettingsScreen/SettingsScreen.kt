@@ -111,7 +111,10 @@ class SettingsScreen(private val settingsViewModel: SettingsScreenVM) {
                 verticalAlignment = Alignment.CenterVertically
             )
             {
-                Text(text = "Тема приложения")
+                Text(
+                    text = "Тема приложения", 
+                    style = MaterialTheme.typography.titleMedium
+                )
                 Icon(
                     modifier = Modifier
                         .scale(1.5F)
@@ -199,10 +202,18 @@ class SettingsScreen(private val settingsViewModel: SettingsScreenVM) {
                 verticalAlignment = Alignment.CenterVertically
             )
             {
-                Text(
-                    text = "MaterialYou акцент",
-
+                Column(modifier = Modifier
+                    .fillMaxWidth(0.6F)
+                ) {
+                    Text(
+                        text = "MaterialYou акцент",
+                        style = MaterialTheme.typography.titleMedium
                     )
+                    Text(
+                        text = "Устанавливает источник цветовой схемы приложения",
+                        style = MaterialTheme.typography.bodySmall
+                    )
+                }
                 Switch(
                     checked = settingsViewModel.monetTheme ?: true,
                     onCheckedChange = {
@@ -252,7 +263,18 @@ class SettingsScreen(private val settingsViewModel: SettingsScreenVM) {
                 verticalAlignment = Alignment.CenterVertically
             )
             {
-                Text(text = "Цвет акцента")
+                Column(modifier = Modifier
+                    .fillMaxWidth(0.6F)
+                ) {
+                    Text(
+                        text = "Цвет акцента",
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                    Text(
+                        text = "Генерирует тему приложения на основе выбранного цвета",
+                        style = MaterialTheme.typography.bodySmall
+                    )
+                }
                 Icon(
                     modifier = Modifier
                         .scale(1.5F)
@@ -314,8 +336,14 @@ class SettingsScreen(private val settingsViewModel: SettingsScreenVM) {
                 Column(modifier = Modifier
                     .fillMaxWidth(0.6F)
                 ) {
-                    Text(text = "Начинать с избранного", style = MaterialTheme.typography.titleMedium)
-                    Text(text = "Сделать избранное расписание первым экраном приложения", style = MaterialTheme.typography.bodySmall)
+                    Text(
+                        text = "Начинать с избранного",
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                    Text(
+                        text = "Сделать избранное расписание первым экраном приложения",
+                        style = MaterialTheme.typography.bodySmall
+                    )
                 }
 
                 Switch(
