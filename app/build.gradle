@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'com.google.devtools.ksp' version '1.8.20-1.0.11'
 }
 
 android {
@@ -73,6 +74,14 @@ dependencies {
 
     // material-color-utilities
     implementation(files("libs/material-color-util.jar"))
+
+    // Rebugger
+    implementation 'com.github.theapache64:rebugger:1.0.0-alpha02'
+
+    // Compose Destinations
+
+    implementation 'com.github.raamcosta:compose-destinations:1.9.42-beta'
+    ksp 'io.github.raamcosta.compose-destinations:ksp:1.9.42-beta'
 
     // Debug
     testImplementation 'junit:junit:4.13.2'

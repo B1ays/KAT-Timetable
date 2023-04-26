@@ -12,25 +12,36 @@ class GetTimetableUseCase(
     private val timetableRepositoryInterface: TimetableRepositoryInterface,
     private val webRepositoryInterface: WebRepositoryInterface) {
 
-    suspend fun execut(href: String, isUpdate: Boolean = false) : GetTimetableModel {
+    suspend fun execut(href: String, source: Int, isUpdate: Boolean = false) : GetTimetableModel {
 
-        var timetable = timetableRepositoryInterface.getDaysList(href = href)
+        var timetable = when (source) {
+            0 -> timetableRepositoryInterface.getDaysForLecturer(href = href)
+            1 -> timetableRepositoryInterface.getDaysForGroup(href = href)
+            2 -> timetableRepositoryInterface.getDaysForAuditory(href = href)
+            else -> GetTimetableModel(success = false)
+        }
+
 
         if (!timetable.success || isUpdate) {
 
             timetable = try {
                 val htmlBody = webRepositoryInterface.getHTMLBody(href = href)
-                parseTimetable(htmlBody!!, href)
-            } catch (_ : Exception) {
+                parseTimetable(htmlBody!!, href, source)
+            } catch (e : Exception) {
+                println(e)
                 GetTimetableModel(success = false)
             }
         }
+
+        /*println(timetable)*/
 
         return timetable
 
     }
 
-    private fun parseTimetable(doc: Document, href: String): GetTimetableModel {
+    private fun parseTimetable(doc: Document, href: String, source: Int): GetTimetableModel {
+
+        println("start parsing")
 
         timetableRepositoryInterface.deleteTimetableFromBox(href)
 
@@ -90,9 +101,9 @@ class GetTimetableUseCase(
                                 val sid = GetSubjectsListModel(
                                     position = position,
                                     subgroups = subgroups,
-                                    subject = subject,
-                                    lecturer = lecturer,
-                                    auditory = auditory
+                                    title = subject,
+                                    subtitle1 = lecturer,
+                                    subtitle2 = auditory
                                 )
 
                                 day.subjects.add(sid)
@@ -122,17 +133,17 @@ class GetTimetableUseCase(
                             val sid1 = GetSubjectsListModel(
                                 position = position1,
                                 subgroups = subgroups1,
-                                subject = subject1,
-                                lecturer = lecturer1,
-                                auditory = auditory1
+                                title = subject1,
+                                subtitle1 = lecturer1,
+                                subtitle2 = auditory1
                             )
 
                             val sid2 = GetSubjectsListModel(
                                 position = position2,
                                 subgroups = subgroups2,
-                                subject = subject2,
-                                lecturer = lecturer2,
-                                auditory = auditory2
+                                title = subject2,
+                                subtitle1 = lecturer2,
+                                subtitle2 = auditory2
                             )
                             // Добавить в БД предмет для обеих подгрупп
                             day.subjects.add(sid1)
@@ -151,9 +162,9 @@ class GetTimetableUseCase(
                             val sid = GetSubjectsListModel(
                                 position = position,
                                 subgroups = subgroups,
-                                subject = subject,
-                                lecturer = lecturer,
-                                auditory = auditory
+                                title = subject,
+                                subtitle1 = lecturer,
+                                subtitle2 = auditory
                             )
 
                             day.subjects.add(sid)
@@ -163,20 +174,35 @@ class GetTimetableUseCase(
             }
             getDaysListModel.add(day)
         }
+
+        println("End parsing")
+
         val timetableModel = SaveTimetableModel(
             boxModel = getDaysListModel,
             href = href,
             updateTime = updateTime
         )
 
-        val groupCode = timetableRepositoryInterface.saveDaysList(timetableModel)
+        println(source)
+        val groupCode = when(source) {
+            0 -> timetableRepositoryInterface.saveDaysListForLecturer(timetableModel)
+            1 -> timetableRepositoryInterface.saveDaysListForGroup(timetableModel)
+            2 -> timetableRepositoryInterface.saveDaysListForAuditory(timetableModel)
+            else -> ""
+        }
 
-        return GetTimetableModel(href = href,
+        println(groupCode)
+
+        val getModel = GetTimetableModel(href = href,
             updateDate = updateTime,
             groupCode = groupCode,
             daysWithSubjectsList = getDaysListModel,
             success = true
         )
+
+        println(getModel)
+
+        return getModel
     }
 
     data class Range(

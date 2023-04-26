@@ -32,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.theapache64.rebugger.Rebugger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -61,17 +62,23 @@ class TimeTableScreen(private val timetableViewModel: TimetableScreenVM, private
             timetableViewModel.get(navigationViewModel.currentScreen.Key)
         }
 
+        val items = timetableViewModel.timetable.daysWithSubjectsList
+
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
         ) {
 
-            val items = timetableViewModel.timetable.daysWithSubjectsList
 
             items(items) { days ->
                 TimeTableCard(list = days)
             }
         }
+        Rebugger(trackMap = mapOf(
+            "list" to items,
+            "isRefreshing" to timetableViewModel.isRefreshing,
+
+        ))
     }
 
 
@@ -164,7 +171,7 @@ class TimeTableScreen(private val timetableViewModel: TimetableScreenVM, private
                     {
                         Text(
                             modifier = Modifier.fillMaxWidth(),
-                            text = subject.subject,
+                            text = subject.title,
                             textAlign = TextAlign.Center
                         )
                         Row(
@@ -175,13 +182,13 @@ class TimeTableScreen(private val timetableViewModel: TimetableScreenVM, private
                             Text(
                                 modifier = Modifier
                                     .fillMaxWidth(0.7F),
-                                text = subject.lecturer,
+                                text = subject.subtitle1,
                                 textAlign = TextAlign.Start
                             )
                             Text(
                                 modifier = Modifier
                                     .fillMaxWidth(),
-                                text = subject.auditory,
+                                text = subject.subtitle2,
                                 textAlign = TextAlign.End
                             )
                         }

@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:4059071221475403987",
-      "lastPropertyId": "4:3337871729629334679",
+      "lastPropertyId": "6:6757603189929956343",
       "name": "DaysInTimeTableBox",
       "properties": [
         {
@@ -31,6 +31,22 @@
           "type": 11,
           "flags": 520,
           "relationTarget": "GroupListBox"
+        },
+        {
+          "id": "5:202805865842497275",
+          "name": "lecturerId",
+          "indexId": "3:6657777748905982605",
+          "type": 11,
+          "flags": 520,
+          "relationTarget": "LecturersListBox"
+        },
+        {
+          "id": "6:6757603189929956343",
+          "name": "auditoryId",
+          "indexId": "4:5289569619790673266",
+          "type": 11,
+          "flags": 520,
+          "relationTarget": "AuditoryListBox"
         }
       ],
       "relations": []
@@ -110,10 +126,68 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "4:3562262132180571831",
+      "lastPropertyId": "4:7882845604256218390",
+      "name": "AuditoryListBox",
+      "properties": [
+        {
+          "id": "1:2761968869632383166",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:2111772563206089160",
+          "name": "number",
+          "type": 9
+        },
+        {
+          "id": "3:3220878375580318366",
+          "name": "href",
+          "type": 9
+        },
+        {
+          "id": "4:7882845604256218390",
+          "name": "updateTime",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "5:3739306398856985252",
+      "lastPropertyId": "4:7347132429270325979",
+      "name": "LecturersListBox",
+      "properties": [
+        {
+          "id": "1:3567575740927580876",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:5832593595444822354",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "3:4634730396335415583",
+          "name": "href",
+          "type": 9
+        },
+        {
+          "id": "4:7347132429270325979",
+          "name": "updateTime",
+          "type": 9
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "3:972075591307406553",
-  "lastIndexId": "2:3807729654547055166",
+  "lastEntityId": "5:3739306398856985252",
+  "lastIndexId": "4:5289569619790673266",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
   "modelVersion": 5,

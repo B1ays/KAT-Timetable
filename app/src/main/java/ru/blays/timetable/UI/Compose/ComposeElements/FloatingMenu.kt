@@ -203,14 +203,14 @@ class FloatingMenu(
                 navigationViewModel.changeScreen(ScreenData(ScreenList.SETTINGS_SCREEN))
             },
             FloatingMenuItemsModel(title = "Избранное", iconPath.Star, ScreenList.TIMETABLE_SCREEN) {
-                if (mainViewModel.favoriteHref != "no" && mainViewModel.favoriteHref != null) {
+               /* if (mainViewModel.favoriteHref != "no" && mainViewModel.favoriteHref != null) {
                     navigationViewModel.changeScreen(
                         ScreenData(
                             ScreenList.TIMETABLE_SCREEN,
                             mainViewModel.favoriteHref!!
                         )
                     )
-                }
+                }*/
             },
             FloatingMenuItemsModel(title = "О приложении", iconPath.Info, ScreenList.ABOUT_SCREEN) {
                 navigationViewModel.changeScreen(ScreenData(ScreenList.ABOUT_SCREEN))

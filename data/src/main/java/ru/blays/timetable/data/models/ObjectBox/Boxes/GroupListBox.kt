@@ -13,6 +13,7 @@ data class GroupListBox (
     var href: String = "",
     var updateTime: String = ""
     ) {
+
     @Backlink(to = "group")
     lateinit var days: ToMany<DaysInTimeTableBox>
 }

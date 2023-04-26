@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import ru.blays.timetable.UI.DataClasses.AccentColorList
+import ru.blays.timetable.UI.DataClasses.BuildedTheme
 import ru.blays.timetable.UI.DataClasses.buildTheme
 import ru.blays.timetable.domain.models.SettingsModel
 import ru.blays.timetable.domain.useCases.GetSettingsUseCase
@@ -37,6 +38,7 @@ class MainViewModel(
 
     private val initialAccent = AccentColorList.list[initialSettings.accentColor!!]
     var buildedTheme by mutableStateOf(buildTheme(colorDark = initialAccent.accentDark, lightColor = initialAccent.accentLight))
+        private set
 
     var isInit = true
 
@@ -73,11 +75,18 @@ class MainViewModel(
         get() = _subtitleVisible
         set(value) { _subtitleVisible = value }
 
+
     fun setAsFavorite(href: String) {
         favoriteHref = href
         settingsUseCase.execut(SettingsModel(favorite = href))
     }
 
+
+
+
+    fun changeBuildedTheme(newBuildedTheme: BuildedTheme) {
+        buildedTheme = newBuildedTheme
+    }
 
 
     fun init() {

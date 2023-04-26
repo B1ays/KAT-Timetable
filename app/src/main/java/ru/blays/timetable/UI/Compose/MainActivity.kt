@@ -11,23 +11,23 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.ViewModelProvider
+import com.theapache64.rebugger.Rebugger
 import io.objectbox.BoxStore
 import ru.blays.timetable.UI.Compose.ComposeElements.UpdateInfo
 import ru.blays.timetable.UI.Compose.ComposeElements.navigation.NavigationVM
 import ru.blays.timetable.UI.Compose.ComposeElements.navigation.NavigationVMFactory
 import ru.blays.timetable.UI.Compose.MainActivity.ObjectBox.objectBoxManager
-import ru.blays.timetable.UI.Compose.Screens.GroupListScreen.GroupListScreenVM
 import ru.blays.timetable.UI.Compose.Screens.GroupListScreen.GroupListVMFactory
+import ru.blays.timetable.UI.Compose.Screens.GroupListScreen.SimpleListScreenVM
 import ru.blays.timetable.UI.Compose.Screens.SettingsScreen.SettingsScreenVM
 import ru.blays.timetable.UI.Compose.Screens.SettingsScreen.SettingsScreenVMFactory
 import ru.blays.timetable.UI.Compose.Screens.TimeTableScreen.TimetableScreenVM
 import ru.blays.timetable.UI.Compose.Screens.TimeTableScreen.TimetableVMFactory
 import ru.blays.timetable.UI.Compose.Theme.AviakatTimetableTheme
-import ru.blays.timetable.UI.DataClasses.AccentColorList
-import ru.blays.timetable.UI.DataClasses.buildTheme
 import ru.blays.timetable.UI.ScreenData
 import ru.blays.timetable.UI.ScreenList
 import ru.blays.timetable.UI.Screens.RootElements
+import ru.blays.timetable.UI.TimetableKey
 
 @ExperimentalAnimationApi
 class MainActivity : ComponentActivity() {
@@ -54,7 +54,7 @@ class MainActivity : ComponentActivity() {
         ViewModelProvider(
         this,
         GroupListVMFactory(this, objectBoxManager)
-        )[GroupListScreenVM::class.java]
+        )[SimpleListScreenVM::class.java]
     }
 
     private val navigationViewModel by lazy {
@@ -104,7 +104,9 @@ class MainActivity : ComponentActivity() {
                 settingsViewModel
             )
 
-            AviakatTimetableTheme(darkTheme = mainViewModel.isDarkMode, dynamicColor = mainViewModel.monetColors,
+            AviakatTimetableTheme(
+                darkTheme = mainViewModel.isDarkMode,
+                dynamicColor = mainViewModel.monetColors,
                 mainViewModel.buildedTheme
             ) {
                 mainViewModel.systemTheme = isSystemInDarkTheme()
@@ -118,6 +120,14 @@ class MainActivity : ComponentActivity() {
                     updateDialog
                 )
             }
+            Rebugger(composableName = "MainActivity", trackMap = mapOf(
+                "mainViewModel" to mainViewModel,
+                "timetableViewModel" to timetableViewModel,
+                "groupListViewModel" to groupListViewModel,
+                "navigationViewModel" to navigationViewModel,
+                "settingsViewModel" to settingsViewModel,
+                "updateDialog" to updateDialog
+            ))
         }
     }
 
@@ -137,7 +147,7 @@ class MainActivity : ComponentActivity() {
 fun InitApp(
     mainViewModel: MainViewModel,
     timetableViewModel: TimetableScreenVM,
-    groupListViewModel: GroupListScreenVM,
+    groupListViewModel: SimpleListScreenVM,
     navigationViewModel: NavigationVM,
     settingsViewModel: SettingsScreenVM
 ) {
@@ -155,66 +165,22 @@ fun InitApp(
             monetColors = initialSettings.monetTheme ?: true
 
             if (mainViewModel.initialSettings.openFavoriteOnStart == true && mainViewModel.favoriteHref != null && mainViewModel.favoriteHref != "no") {
-                navigationViewModel.changeScreen(ScreenData(ScreenList.TIMETABLE_SCREEN, mainViewModel.favoriteHref!!))
+                navigationViewModel.changeScreen(
+                    ScreenData(
+                        ScreenList.TIMETABLE_SCREEN,
+                        TimetableKey(0, mainViewModel.favoriteHref!!)
+                    )
+                )
             }
-
+            Rebugger(trackMap = mapOf(
+                "systemTheme" to systemTheme,
+                "monetColors" to monetColors,
+                "isDarkMode" to isDarkMode
+            ))
         }
     }
-
-    GlobalObserver(
-        mainViewModel,
-        timetableViewModel,
-        groupListViewModel,
-        navigationViewModel,
-        settingsViewModel
-    )
-
     mainViewModel.isInit = false
 
+
 }
 
-@Composable
-fun GlobalObserver(
-    mainViewModel: MainViewModel,
-    timetableViewModel: TimetableScreenVM,
-    groupListViewModel: GroupListScreenVM,
-    navigationViewModel: NavigationVM,
-    settingsViewModel: SettingsScreenVM
-) {
-    // observe appBar state
-    mainViewModel.navigateBackButtonVisible = navigationViewModel.currentScreen.Screen != ScreenList.MAIN_SCREEN
-    mainViewModel.favoriteButtonVisible = navigationViewModel.currentScreen.Screen == ScreenList.TIMETABLE_SCREEN
-    mainViewModel.favoriteButtonChecked = navigationViewModel.currentScreen.Key == mainViewModel.favoriteHref
-    mainViewModel.subtitleVisible = mainViewModel.favoriteButtonVisible
-
-    with(mainViewModel) {
-        isDarkMode = when (settingsViewModel.themeSelectionState) {
-            0 -> systemTheme
-            1 -> true
-            2 -> false
-            else -> systemTheme
-        }
-    }
-
-    with(mainViewModel) {
-        when(navigationViewModel.currentScreen.Screen) {
-            ScreenList.MAIN_SCREEN -> titleText = "Главная"
-            ScreenList.ABOUT_SCREEN -> titleText = "О приложении"
-            ScreenList.SETTINGS_SCREEN -> titleText = "Настройки"
-            ScreenList.TIMETABLE_SCREEN -> {
-                subtitleText = timetableViewModel.timetable.updateDate
-                titleText = timetableViewModel.timetable.groupCode
-            }
-        }
-    }
-
-    // observe theme
-    mainViewModel.monetColors = (settingsViewModel.monetTheme ?: mainViewModel.initialSettings.monetTheme)!!
-
-    with(AccentColorList.list[settingsViewModel.accentColorIndex ?: mainViewModel.initialSettings.accentColor!!]) {
-        if (!settingsViewModel.monetTheme!! || Build.VERSION.SDK_INT <= Build.VERSION_CODES.S) mainViewModel.buildedTheme = buildTheme(
-            colorDark = accentDark,
-            lightColor = accentLight
-        )
-    }
-}

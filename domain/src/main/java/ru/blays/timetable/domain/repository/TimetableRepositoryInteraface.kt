@@ -1,23 +1,38 @@
 package ru.blays.timetable.domain.repository
 
-import ru.blays.timetable.domain.models.GetGroupListModel
+import ru.blays.timetable.domain.models.GetSimpleListModel
 import ru.blays.timetable.domain.models.GetTimetableModel
-import ru.blays.timetable.domain.models.SaveGroupsListModel
+import ru.blays.timetable.domain.models.SaveSimpleListModel
 import ru.blays.timetable.domain.models.SaveTimetableModel
 
 interface TimetableRepositoryInterface {
 
-    fun getGroupList(): List<GetGroupListModel>
+    fun getGroupList(): List<GetSimpleListModel>
 
-    fun getDaysList(href: String):  GetTimetableModel
+    fun getLecturersList(): List<GetSimpleListModel>
+
+    fun getAuditoryList(): List<GetSimpleListModel>
+
+    fun getDaysForGroup(href: String):  GetTimetableModel
+
+    fun getDaysForAuditory(href: String): GetTimetableModel
+
+    fun getDaysForLecturer(href: String): GetTimetableModel
 
     // save values //
 
-    fun saveGroupList(groupsList:  List<SaveGroupsListModel>)
+    fun saveGroupList(groupsList:  List<SaveSimpleListModel>)
 
-    fun saveDaysList(timetableModel: SaveTimetableModel): String
+    fun saveLecturersList(lecturersList: MutableList<SaveSimpleListModel>)
+
+    fun saveAuditoryList(auditoryList: MutableList<SaveSimpleListModel>)
+
+    fun saveDaysListForGroup(timetableModel: SaveTimetableModel): String
+
+    fun saveDaysListForLecturer(timetableModel: SaveTimetableModel): String
+
+    fun saveDaysListForAuditory(timetableModel: SaveTimetableModel): String
 
     // delete list data //
     fun deleteTimetableFromBox(href: String)
-
 }

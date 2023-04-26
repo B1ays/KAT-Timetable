@@ -1,25 +1,26 @@
 package ru.blays.timetable.domain.useCases
 
 import org.jsoup.nodes.Document
-import ru.blays.timetable.domain.models.GetGroupListModel
-import ru.blays.timetable.domain.models.SaveGroupsListModel
+import ru.blays.timetable.domain.models.GetSimpleListModel
+import ru.blays.timetable.domain.models.SaveSimpleListModel
 import ru.blays.timetable.domain.repository.TimetableRepositoryInterface
 import ru.blays.timetable.domain.repository.WebRepositoryInterface
-
-const val groupsListPadeHref = "cg.htm"
 
 class GetGroupsListUseCase(
     private val timetableRepositoryInterface: TimetableRepositoryInterface,
     private val webRepositoryInterface: WebRepositoryInterface
     ) {
 
-    suspend fun execut() : List<GetGroupListModel> {
+    private val groupsListPageHref = "cg.htm"
+
+    suspend fun execut() : List<GetSimpleListModel> {
 
         val groupsList = timetableRepositoryInterface.getGroupList()
 
         return groupsList.ifEmpty {
             try {
-                val htmlBody = webRepositoryInterface.getHTMLBody(groupsListPadeHref)
+                val htmlBody = webRepositoryInterface.getHTMLBody(groupsListPageHref)
+                println("Get groups List")
                 parseGroupList(htmlBody!!)
             } catch (_: Exception) {
                 emptyList()
@@ -27,19 +28,19 @@ class GetGroupsListUseCase(
         }
     }
 
-    private fun parseGroupList(doc: Document) : List<GetGroupListModel> {
+    private fun parseGroupList(doc: Document) : List<GetSimpleListModel> {
 
         val tr = doc.select("tr")
 
-        val groupsList = mutableListOf<SaveGroupsListModel>()
+        val groupsList = mutableListOf<SaveSimpleListModel>()
 
         tr.forEach { it1 ->
             if (it1.select(".ur").toString() != "") {
                 val gr = it1.select(".z0")
                 val href = gr.attr("href")
                 groupsList.add(
-                    SaveGroupsListModel(
-                        groupCode = gr.text(),
+                    SaveSimpleListModel(
+                        name = gr.text(),
                         href = href
                     )
                 )
@@ -47,12 +48,12 @@ class GetGroupsListUseCase(
         }
         timetableRepositoryInterface.saveGroupList(groupsList = groupsList)
 
-        val getGroupList = mutableListOf<GetGroupListModel>()
+        val getGroupList = mutableListOf<GetSimpleListModel>()
 
         groupsList.forEach {groups ->
             getGroupList.add(
-                GetGroupListModel(
-                    groupCode = groups.groupCode,
+                GetSimpleListModel(
+                    name = groups.name,
                     href = groups.href
                 )
             )

@@ -13,7 +13,10 @@ data class DaysInTimeTableBox(
     var href: String = ""
     ) {
     lateinit var group: ToOne<GroupListBox>
+    lateinit var lecturer: ToOne<LecturersListBox>
+    lateinit var auditory: ToOne<AuditoryListBox>
 
     @Backlink(to = "day")
     lateinit var subjects: ToMany<SubjectsListBox>
+
     }
