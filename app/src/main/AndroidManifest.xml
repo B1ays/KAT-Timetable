@@ -12,7 +12,7 @@
         tools:ignore="ScopedStorage" />
 
     <application
-        android:name=".UI.App"
+        android:name=".UI.Compose.Root.App"
         android:allowBackup="false"
         android:testOnly="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -35,7 +35,7 @@
                 android:resource="@xml/provider_paths" />
         </provider>
         <activity
-            android:name="ru.blays.timetable.UI.Compose.MainActivity"
+            android:name="ru.blays.timetable.UI.Compose.Root.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

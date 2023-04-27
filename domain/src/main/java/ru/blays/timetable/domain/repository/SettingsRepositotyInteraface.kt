@@ -10,6 +10,8 @@ interface SettingsRepositoryInterface {
 
     var favorite: String
 
+    var favoriteSource: Int
+
     var firstStart: Boolean
 
     var  openFavoriteOnStart: Boolean

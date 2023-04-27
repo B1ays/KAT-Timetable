@@ -20,7 +20,6 @@ class GetLecturerListUseCase(
         return lecturersList.ifEmpty {
             try {
                 val htmlBody = webRepositoryInterface.getHTMLBody(lecturersListPageHref)
-                println("Get subtitle1 List")
                 parseLecturersList(htmlBody!!)
             } catch (_: Exception) {
                 emptyList()
@@ -59,7 +58,6 @@ class GetLecturerListUseCase(
                 )
             )
         }
-        println(getLecturersList)
         return if (lecturersList.isNotEmpty()) getLecturersList else emptyList()
     }
 }

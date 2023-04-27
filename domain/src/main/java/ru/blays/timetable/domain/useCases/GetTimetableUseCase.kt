@@ -27,21 +27,16 @@ class GetTimetableUseCase(
             timetable = try {
                 val htmlBody = webRepositoryInterface.getHTMLBody(href = href)
                 parseTimetable(htmlBody!!, href, source)
-            } catch (e : Exception) {
-                println(e)
+            } catch (_ : Exception) {
                 GetTimetableModel(success = false)
             }
         }
-
-        /*println(timetable)*/
 
         return timetable
 
     }
 
     private fun parseTimetable(doc: Document, href: String, source: Int): GetTimetableModel {
-
-        println("start parsing")
 
         timetableRepositoryInterface.deleteTimetableFromBox(href)
 
@@ -175,15 +170,12 @@ class GetTimetableUseCase(
             getDaysListModel.add(day)
         }
 
-        println("End parsing")
-
         val timetableModel = SaveTimetableModel(
             boxModel = getDaysListModel,
             href = href,
             updateTime = updateTime
         )
 
-        println(source)
         val groupCode = when(source) {
             0 -> timetableRepositoryInterface.saveDaysListForLecturer(timetableModel)
             1 -> timetableRepositoryInterface.saveDaysListForGroup(timetableModel)
@@ -191,16 +183,12 @@ class GetTimetableUseCase(
             else -> ""
         }
 
-        println(groupCode)
-
         val getModel = GetTimetableModel(href = href,
             updateDate = updateTime,
             groupCode = groupCode,
             daysWithSubjectsList = getDaysListModel,
             success = true
         )
-
-        println(getModel)
 
         return getModel
     }

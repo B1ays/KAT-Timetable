@@ -20,7 +20,7 @@ class GetGroupsListUseCase(
         return groupsList.ifEmpty {
             try {
                 val htmlBody = webRepositoryInterface.getHTMLBody(groupsListPageHref)
-                println("Get groups List")
+
                 parseGroupList(htmlBody!!)
             } catch (_: Exception) {
                 emptyList()

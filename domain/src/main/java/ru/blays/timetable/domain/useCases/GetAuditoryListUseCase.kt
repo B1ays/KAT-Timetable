@@ -20,7 +20,6 @@ class GetAuditoryListUseCase(
         return auditoryList.ifEmpty {
             try {
                 val htmlBody = webRepositoryInterface.getHTMLBody(auditoryListPageHref)
-                println("Get subtitle2 List")
                 parseLecturersList(htmlBody!!)
             } catch (_: Exception) {
                 emptyList()

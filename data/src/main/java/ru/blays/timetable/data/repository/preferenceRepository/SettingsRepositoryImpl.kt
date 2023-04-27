@@ -9,6 +9,7 @@ private const val APP_THEME_MONET = "MonetTheme"
 private const val APP_THEME_ACCENT = "AccentColor"
 private const val FIRST_START = "FirstStart"
 private const val FAVORITE_TIMETABLE = "Favorite"
+private const val FAVORITE_SOURCE = "FavoriteSource"
 private const val OPEN_FAVORITE_ON_START = "StartOnFavorite"
 
 
@@ -31,6 +32,9 @@ class SettingsRepositoryImpl(context: Context) : SettingsRepositoryInterface {
     override var favorite: String
         get() = preferences.getString(FAVORITE_TIMETABLE, "no") ?: "no"
         set(value) = preferences.edit().putString(FAVORITE_TIMETABLE, value).apply()
+    override var favoriteSource: Int
+        get() = preferences.getInt(FAVORITE_SOURCE, 1)
+        set(value) = preferences.edit().putInt(FAVORITE_SOURCE, value).apply()
 
     override var firstStart: Boolean
         get() = preferences.getBoolean(FIRST_START, false)

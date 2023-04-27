@@ -1,5 +1,6 @@
 package ru.blays.AppUpdater.web.api
 
+import android.util.Log
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okio.IOException
@@ -24,14 +25,10 @@ class HttpClient : GetDataFromApi {
                             " ${response.code} ${response.message}")
                 }
                 status = true
-                // пример получения конкретного заголовка ответа
-                println("Server: ${response.header("Server")}")
-                // вывод тела ответа
-                /*Log.d("HTTP_request_log", response.body.string())*/
                 json = response.body.string()
             }
         } catch (e: IOException) {
-            println("Ошибка подключения: $e");
+            Log.w("Update info api:","Ошибка подключения: $e");
         }
         return GetInfoResult(json, status)
     }
