@@ -83,7 +83,9 @@ import ru.blays.timetable.UI.DataClasses.DefaultPadding
         }
         val modifier = Modifier.padding(6.dp)
 
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://t.me/+cV-dnkBU_rtjYjhi"))
+        val intentTelegram = Intent(Intent.ACTION_VIEW, Uri.parse("https://t.me/+cV-dnkBU_rtjYjhi"))
+        val intentGitHub = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/B1ays/KAT-Timetable/"))
+
         val context = LocalContext.current
 
         Column {
@@ -91,7 +93,7 @@ import ru.blays.timetable.UI.DataClasses.DefaultPadding
                 modifier = Modifier
                     .padding(5.dp)
                     .fillMaxWidth(),
-                text = "О приложении ",
+                text = "О приложении",
                 textAlign = TextAlign.Center,
                 fontSize = 20.sp)
 
@@ -163,7 +165,7 @@ import ru.blays.timetable.UI.DataClasses.DefaultPadding
                         modifier = Modifier.size(32.dp),
                         colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary))
 
-                    TextButton(onClick = { context.startActivity(intent) } ) {
+                    TextButton(onClick = { context.startActivity(intentTelegram) } ) {
                         Text(
                             text = "Канал в Telegram",
                             modifier = Modifier
@@ -194,7 +196,7 @@ import ru.blays.timetable.UI.DataClasses.DefaultPadding
                         modifier = Modifier.size(32.dp),
                         colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary))
 
-                    TextButton(onClick = { context.startActivity(intent) } ) {
+                    TextButton(onClick = { context.startActivity(intentGitHub) } ) {
                         Text(
                             text = "Исходный код на GitHub",
                             modifier = Modifier
