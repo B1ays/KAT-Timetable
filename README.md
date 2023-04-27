@@ -1,3 +1,5 @@
+<img alt="GitHub release (latest by date)" src="https://img.shields.io/github/downloads/B1ays/KAT-Timetable/latest/total?style=for-the-badge"> <img alt="GitHub all releases" src="https://img.shields.io/github/downloads/B1ays/KAT-Timetable/total?style=for-the-badge"> <img alt="GitHub tag (latest by date)" src="https://img.shields.io/github/v/tag/B1ays/KAT-Timetable?label=Latest%20version&style=for-the-badge"> <img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/B1ays/KAT-Timetable?style=for-the-badge">
+
 # **КАТ - Расписание**
 
 Приложение создано для всех студентов Кировского Авиационного техникума. Оно позволяет быстро и удобно получать доступ к текущему расписанию в нативном андроид интерфейсе и без постоянного доступа к интернету.
@@ -13,6 +15,8 @@
 * Возможность добавить расписание своей группы в избранное.
 
 * Красивый и удобный интерфейс, реализующий самый современный подход к дизайну
+
+* Самообновление приложения. Как только появиться новая версия при входе в приложение вы увидите окно с информацией о новой версии и предложением её скачать.
 
 # **Скриншоты**
 
