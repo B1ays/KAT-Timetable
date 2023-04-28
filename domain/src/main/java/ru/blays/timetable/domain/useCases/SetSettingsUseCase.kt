@@ -34,8 +34,12 @@ class SetSettingsUseCase(private val settingsRepositoryInterface: SettingsReposi
             settingsRepositoryInterface.firstStart = settingsModel.firstStart
         }
 
-        if (settingsModel.openFavoriteOnStart!= null) {
+        if (settingsModel.openFavoriteOnStart != null) {
             settingsRepositoryInterface.openFavoriteOnStart = settingsModel.openFavoriteOnStart
+        }
+
+        if (settingsModel.showTimeLabel != null) {
+            settingsRepositoryInterface.showTimeLabel = settingsModel.showTimeLabel
         }
     }
 }

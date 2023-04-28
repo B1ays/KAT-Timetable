@@ -47,6 +47,11 @@ class SettingsScreenVM(
         setSettingsUseCase.execut(SettingsModel(monetTheme = isMonetTheme))
     }
 
+    fun changeTimeLabelVisibility(isTimeLabelVisible: Boolean) {
+        timeLabelVisibility = isTimeLabelVisible
+        set(SettingsModel(showTimeLabel = isTimeLabelVisible))
+    }
+
     var themeSelectionState by mutableStateOf(settings.appTheme)
 
     var accentColorIndex by mutableStateOf(settings.accentColor)
@@ -54,4 +59,6 @@ class SettingsScreenVM(
     var monetTheme by mutableStateOf(settings.monetTheme)
 
     var openFavoriteOnStart by mutableStateOf(settings.openFavoriteOnStart)
+
+    var timeLabelVisibility by mutableStateOf(settings.showTimeLabel)
 }

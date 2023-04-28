@@ -44,6 +44,7 @@ import com.ramcosta.composedestinations.annotation.Destination
 import ru.blays.timetable.R
 import ru.blays.timetable.UI.Compose.Root.MainViewModel
 import ru.blays.timetable.UI.Compose.Screens.SettingsScreen.SettingsScreenVM
+import ru.blays.timetable.UI.Compose.Screens.TimeTableScreen.TimetableScreenVM
 import ru.blays.timetable.UI.DataClasses.AccentColorItem
 import ru.blays.timetable.UI.DataClasses.AccentColorList
 import ru.blays.timetable.UI.DataClasses.Animations.ModifierWithExpandAnimation
@@ -52,7 +53,7 @@ import ru.blays.timetable.UI.DataClasses.DefaultPadding
 
 @Destination(route = "SETTINGS_SCREEN")
 @Composable
-fun SettingsScreen(settingsViewModel: SettingsScreenVM, mainViewModel: MainViewModel) {
+fun SettingsScreen(settingsViewModel: SettingsScreenVM, mainViewModel: MainViewModel, timetableViewModel: TimetableScreenVM) {
 
     mainViewModel.setParameterForScreen(
         screenType = "SETTINGS_SCREEN",
@@ -72,6 +73,10 @@ fun SettingsScreen(settingsViewModel: SettingsScreenVM, mainViewModel: MainViewM
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) MonetSettings(settingsViewModel, mainViewModel)
         AccentSelector(settingsViewModel, mainViewModel)
         FirstScreenSetting(settingsViewModel)
+        TimeLabelSetting(
+            settingsViewModel = settingsViewModel,
+            timetableViewModel = timetableViewModel
+        )
     }
 }
 
@@ -370,6 +375,53 @@ private fun FirstScreenSetting(settingsViewModel: SettingsScreenVM) {
                 checked = settingsViewModel.openFavoriteOnStart ?: false,
                 onCheckedChange = {
                     settingsViewModel.changeFirstScreen(openFavoriteOnStart = it)
+                }
+            )
+        }
+    }
+}
+
+@Composable
+private fun TimeLabelSetting(
+    settingsViewModel: SettingsScreenVM,
+    timetableViewModel: TimetableScreenVM
+) {
+    Card(
+        modifier = Modifier
+            .padding(
+                horizontal = DefaultPadding.CardHorizontalPadding,
+                vertical = DefaultPadding.CardVerticalPadding
+            )
+            .fillMaxWidth(),
+        shape = CardShape.CardStandalone,
+        elevation = CardDefaults.cardElevation(2.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .padding(vertical = 5.dp, horizontal = 12.dp)
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        )
+        {
+            Column(modifier = Modifier
+                .fillMaxWidth(0.6F)
+            ) {
+                Text(
+                    text = "Временные метки",
+                    style = MaterialTheme.typography.titleMedium
+                )
+                Text(
+                    text = "Отображение у каждого предмета в расписании времени его начала",
+                    style = MaterialTheme.typography.bodySmall
+                )
+            }
+
+            Switch(
+                checked = settingsViewModel.timeLabelVisibility ?: false,
+                onCheckedChange = {
+                    settingsViewModel.changeTimeLabelVisibility(isTimeLabelVisible = it)
+                    timetableViewModel.changeTimeLabelVisibility(it)
                 }
             )
         }

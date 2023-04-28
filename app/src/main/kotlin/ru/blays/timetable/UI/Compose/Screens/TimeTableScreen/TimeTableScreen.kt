@@ -11,14 +11,18 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,6 +30,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -34,11 +40,13 @@ import com.theapache64.rebugger.Rebugger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import ru.blays.timetable.R
 import ru.blays.timetable.UI.Compose.Root.MainViewModel
 import ru.blays.timetable.UI.Compose.Screens.TimeTableScreen.TimetableScreenVM
 import ru.blays.timetable.UI.DataClasses.CardShape
 import ru.blays.timetable.UI.DataClasses.DefaultPadding
 import ru.blays.timetable.UI.TimetableKey
+import ru.blays.timetable.UI.Utils.timeLabelGenerator
 import ru.blays.timetable.domain.models.GetDaysListModel
 import ru.blays.timetable.domain.models.GetSubjectsListModel
 
@@ -69,7 +77,7 @@ fun TimetableScreen(timetableViewModel: TimetableScreenVM, mainViewModel: MainVi
                 .fillMaxWidth()
         ) {
             items(items) { days ->
-                TimeTableCard(list = days)
+                TimeTableCard(list = days, viewModel = timetableViewModel)
             }
         }
         Rebugger(trackMap =
@@ -86,7 +94,9 @@ fun TimetableScreen(timetableViewModel: TimetableScreenVM, mainViewModel: MainVi
 
 @ExperimentalAnimationApi
 @Composable
-private fun TimeTableCard(list: GetDaysListModel) {
+private fun TimeTableCard(list: GetDaysListModel, viewModel: TimetableScreenVM) {
+
+    val map = if (viewModel.showTimeLabel == true && viewModel.currentSource == 1) timeLabelGenerator(list.subjects) else emptyMap()
 
     val visibilityState = remember {
         MutableTransitionState(false).apply {
@@ -125,7 +135,7 @@ private fun TimeTableCard(list: GetDaysListModel) {
                     fontSize = 20.sp
                 )
                 for (subject in list.subjects) {
-                    SubjectItem(subject)
+                    SubjectItem(subject, map[subject] ?: "", viewModel = viewModel)
                 }
             }
         }
@@ -133,7 +143,11 @@ private fun TimeTableCard(list: GetDaysListModel) {
 }
 
 @Composable
-private fun SubjectItem(subject: GetSubjectsListModel) {
+private fun SubjectItem(
+    subject: GetSubjectsListModel,
+    timeLabel: String,
+    viewModel: TimetableScreenVM
+) {
     Box(
         modifier = Modifier.fillMaxWidth(),
         contentAlignment = if (subject.subgroups == "1") Alignment.CenterStart else Alignment.CenterEnd,
@@ -171,10 +185,27 @@ private fun SubjectItem(subject: GetSubjectsListModel) {
                         .padding(start = 10.dp)
                 )
                 {
+                    if (viewModel.showTimeLabel == true) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                        ) {
+                            Row(
+                                modifier = Modifier
+                                    .align(Alignment.CenterEnd)
+                            ) {
+                                Text(text = timeLabel)
+                                Spacer(modifier = Modifier.width(6.dp))
+                                Icon(imageVector = ImageVector.vectorResource(id = R.drawable.round_access_time_24), contentDescription = "timeLabelIco", tint = MaterialTheme.colorScheme.primary)
+                            }
+                        }
+                        Spacer(modifier = Modifier.height(4.dp))
+                    }
                     Text(
                         modifier = Modifier.fillMaxWidth(),
                         text = subject.title,
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
+                        style = MaterialTheme.typography.titleMedium
                     )
                     Row(
                         modifier = Modifier

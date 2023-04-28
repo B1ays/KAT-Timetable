@@ -8,4 +8,5 @@ data class SettingsModel(
     val favoriteSource: Int? = null,
     val firstStart: Boolean? = null,
     val openFavoriteOnStart: Boolean? = null,
+    val showTimeLabel: Boolean? = null
 )

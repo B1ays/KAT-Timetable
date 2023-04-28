@@ -9,11 +9,21 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.blays.timetable.UI.TimetableKey
 import ru.blays.timetable.domain.models.GetTimetableModel
+import ru.blays.timetable.domain.useCases.GetSettingsUseCase
 import ru.blays.timetable.domain.useCases.GetTimetableUseCase
 
 class TimetableScreenVM(
-    private val getTimetableUseCase: GetTimetableUseCase
+    private val getTimetableUseCase: GetTimetableUseCase,
+    getSettingsUseCase: GetSettingsUseCase
 ) : ViewModel() {
+
+    val initialSettings = getSettingsUseCase.execut()
+
+    var showTimeLabel by mutableStateOf(initialSettings.showTimeLabel)
+
+    fun changeTimeLabelVisibility(visibility: Boolean) {
+        showTimeLabel = visibility
+    }
 
     var currentHref = ""
         private set

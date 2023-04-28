@@ -16,4 +16,5 @@ interface SettingsRepositoryInterface {
 
     var  openFavoriteOnStart: Boolean
 
+    var showTimeLabel: Boolean
 }

@@ -11,6 +11,7 @@ private const val FIRST_START = "FirstStart"
 private const val FAVORITE_TIMETABLE = "Favorite"
 private const val FAVORITE_SOURCE = "FavoriteSource"
 private const val OPEN_FAVORITE_ON_START = "StartOnFavorite"
+private const val SHOW_TIME_LABEL = "showTimeLabel"
 
 
 class SettingsRepositoryImpl(context: Context) : SettingsRepositoryInterface {
@@ -42,5 +43,9 @@ class SettingsRepositoryImpl(context: Context) : SettingsRepositoryInterface {
     override var openFavoriteOnStart: Boolean
         get() = preferences.getBoolean(OPEN_FAVORITE_ON_START, false)
         set(value) = preferences.edit().putBoolean(OPEN_FAVORITE_ON_START, value).apply()
+
+    override var showTimeLabel: Boolean
+        get() = preferences.getBoolean(SHOW_TIME_LABEL, false)
+        set(value) = preferences.edit().putBoolean(SHOW_TIME_LABEL, value).apply()
 
 }

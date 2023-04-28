@@ -9,8 +9,10 @@ import ru.blays.timetable.data.models.ObjectBox.Boxes.DaysInTimeTableBox
 import ru.blays.timetable.data.models.ObjectBox.Boxes.GroupListBox
 import ru.blays.timetable.data.models.ObjectBox.Boxes.LecturersListBox
 import ru.blays.timetable.data.models.ObjectBox.Boxes.SubjectsListBox
+import ru.blays.timetable.data.repository.preferenceRepository.SettingsRepositoryImpl
 import ru.blays.timetable.data.repository.timetableRepository.TimetableRepositoryImplementation
 import ru.blays.timetable.data.repository.webRepository.WebRepositoryImpl
+import ru.blays.timetable.domain.useCases.GetSettingsUseCase
 import ru.blays.timetable.domain.useCases.GetTimetableUseCase
 
 class TimetableVMFactory(
@@ -25,9 +27,11 @@ class TimetableVMFactory(
     private val lecturersListBox = objectBoxManager.boxFor(LecturersListBox::class.java)
     private val auditoryListBox = objectBoxManager.boxFor(AuditoryListBox::class.java)
 
+    private val settingsRepositoryImpl = SettingsRepositoryImpl(
+        context = context
+    )
 
-
-
+    private val getSettingsUseCase = GetSettingsUseCase(settingsRepositoryInterface = settingsRepositoryImpl)
 
     // Interface implementation //
     private val timetableRepositoryImpl = TimetableRepositoryImplementation(
@@ -47,7 +51,7 @@ class TimetableVMFactory(
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return TimetableScreenVM(getTimetableUseCase) as T
+        return TimetableScreenVM(getTimetableUseCase, getSettingsUseCase) as T
     }
 
 }
