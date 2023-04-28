@@ -1,5 +1,6 @@
 package ru.blays.timetable.UI.Screens
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.Image
@@ -74,13 +75,15 @@ import ru.blays.timetable.UI.DataClasses.DefaultPadding
 
     @Composable
     private fun HeadItem() {
-        val headText =
-            "Приложение предназначено для удобного просмотра расписания, даже без интернета." +
-                    "\nРазработано для всех студентов авиационного техникума.\nПриложение является учебным проектом с целью, как можно детальнее изучить разработку андроид приложений. Так что, если найдёте какие-то проблемы - пишите.\nПриложение будет улучшаться так быстро, как это возможно"
+        val headText = "Приложение предназначено для удобного просмотра расписания, даже без интернета." +
+            "\nРазработано для всех студентов авиационного техникума.\nПриложение является учебным проектом с целью, как можно детальнее изучить разработку андроид приложений. Так что, если найдёте какие-то проблемы - пишите.\nПриложение будет улучшаться так быстро, как это возможно"
+
         var isExpanded by remember { mutableStateOf(false) }
+
         val onExpandChange = {
             isExpanded = !isExpanded
         }
+
         val modifier = Modifier.padding(6.dp)
 
         val intentTelegram = Intent(Intent.ACTION_VIEW, Uri.parse("https://t.me/+cV-dnkBU_rtjYjhi"))
@@ -93,7 +96,7 @@ import ru.blays.timetable.UI.DataClasses.DefaultPadding
                 modifier = Modifier
                     .padding(5.dp)
                     .fillMaxWidth(),
-                text = "О приложении",
+                text = "Основная информация",
                 textAlign = TextAlign.Center,
                 fontSize = 20.sp)
 
@@ -144,67 +147,19 @@ import ru.blays.timetable.UI.DataClasses.DefaultPadding
                 }
             }
 
-            Card(
-                modifier = Modifier
-                    .padding(
-                        horizontal = DefaultPadding.CardHorizontalPadding,
-                        vertical = DefaultPadding.CardVerticalPadding
-                    )
-                    .fillMaxWidth(),
-                shape = CardShape.CardMid
-            ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                )
-                {
-                    Image(
-                        imageVector = ImageVector.vectorResource(id = R.drawable.ic_telegram), contentDescription = "Icon",
-                        modifier = Modifier.size(32.dp),
-                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary))
+            AboutCardWithIcoAndLink(
+                context = context,
+                ico = ImageVector.vectorResource(id = R.drawable.ic_telegram),
+                linkText = "Канал в Telegram",
+                intent = intentTelegram
+            )
 
-                    TextButton(onClick = { context.startActivity(intentTelegram) } ) {
-                        Text(
-                            text = "Канал в Telegram",
-                            modifier = Modifier
-                                .padding(start = 4.dp)
-                        )
-                    }
-                }
-            }
-
-            Card(
-                modifier = Modifier
-                    .padding(
-                        horizontal = DefaultPadding.CardHorizontalPadding,
-                        vertical = DefaultPadding.CardVerticalPadding
-                    )
-                    .fillMaxWidth(),
-                shape = CardShape.CardMid
-            ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                )
-                {
-                    Image(
-                        imageVector = ImageVector.vectorResource(id = R.drawable.ic_github), contentDescription = "Icon",
-                        modifier = Modifier.size(32.dp),
-                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary))
-
-                    TextButton(onClick = { context.startActivity(intentGitHub) } ) {
-                        Text(
-                            text = "Исходный код на GitHub",
-                            modifier = Modifier
-                                .padding(start = 4.dp)
-                        )
-                    }
-                }
-            }
+            AboutCardWithIcoAndLink(
+                context = context,
+                ico = ImageVector.vectorResource(id = R.drawable.ic_github),
+                linkText = "Исходный код на GitHub",
+                intent = intentGitHub
+            )
 
             Card(
                 modifier = Animations.ModifierWithExpandAnimation
@@ -312,6 +267,42 @@ import ru.blays.timetable.UI.DataClasses.DefaultPadding
             }
         }
     }
+
+@Composable
+private fun AboutCardWithIcoAndLink(context: Context, ico: ImageVector, linkText: String, intent: Intent) {
+
+    Card(
+        modifier = Modifier
+            .padding(
+                horizontal = DefaultPadding.CardHorizontalPadding,
+                vertical = DefaultPadding.CardVerticalPadding
+            )
+            .fillMaxWidth(),
+        shape = CardShape.CardMid
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        )
+        {
+            Image(
+                imageVector = ico, contentDescription = "Icon",
+                modifier = Modifier.size(32.dp),
+                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary))
+
+            TextButton(onClick = { context.startActivity(intent) } ) {
+                Text(
+                    text = linkText,
+                    modifier = Modifier
+                        .padding(start = 4.dp)
+                )
+            }
+        }
+    }
+}
+
     data class Contact(
         val iconID: Int,
         val name: String,

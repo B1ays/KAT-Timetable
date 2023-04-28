@@ -17,7 +17,7 @@ class TimetableScreenVM(
     getSettingsUseCase: GetSettingsUseCase
 ) : ViewModel() {
 
-    val initialSettings = getSettingsUseCase.execut()
+    private val initialSettings = getSettingsUseCase.execut()
 
     var showTimeLabel by mutableStateOf(initialSettings.showTimeLabel)
 
