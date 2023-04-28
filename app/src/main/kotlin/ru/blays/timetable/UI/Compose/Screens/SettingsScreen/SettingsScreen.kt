@@ -53,7 +53,11 @@ import ru.blays.timetable.UI.DataClasses.DefaultPadding
 
 @Destination(route = "SETTINGS_SCREEN")
 @Composable
-fun SettingsScreen(settingsViewModel: SettingsScreenVM, mainViewModel: MainViewModel, timetableViewModel: TimetableScreenVM) {
+fun SettingsScreen(
+    settingsViewModel: SettingsScreenVM,
+    mainViewModel: MainViewModel,
+    timetableViewModel: TimetableScreenVM
+) {
 
     mainViewModel.setParameterForScreen(
         screenType = "SETTINGS_SCREEN",
@@ -69,19 +73,106 @@ fun SettingsScreen(settingsViewModel: SettingsScreenVM, mainViewModel: MainViewM
             .verticalScroll(state = scrollState)
     )
     {
-        ThemeSettings(settingsViewModel, mainViewModel)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) MonetSettings(settingsViewModel, mainViewModel)
-        AccentSelector(settingsViewModel, mainViewModel)
+        ThemeSettings(
+            settingsViewModel,
+            mainViewModel
+        )
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) MonetSettings(
+            settingsViewModel,
+            mainViewModel
+        )
+        AccentSelector(
+            settingsViewModel,
+            mainViewModel
+        )
         FirstScreenSetting(settingsViewModel)
         TimeLabelSetting(
-            settingsViewModel = settingsViewModel,
-            timetableViewModel = timetableViewModel
+            settingsViewModel,
+            timetableViewModel
         )
     }
 }
 
 @Composable
-private fun ThemeSettings(settingsViewModel: SettingsScreenVM, mainViewModel: MainViewModel) {
+private fun ThemeSettings(
+    settingsViewModel: SettingsScreenVM,
+    mainViewModel: MainViewModel
+) {
+    SettingsExpandableCard(title = "Тема приложения") {
+
+        SettingsRadioButtonWithTitle(title = "Системная тема", state = settingsViewModel.themeSelectionState ?: 0, index = 0) {
+            settingsViewModel.changeTheme(0)
+            mainViewModel.changeTheme(0)
+        }
+
+        SettingsRadioButtonWithTitle(title = "Тёмная тема", state = settingsViewModel.themeSelectionState ?: 0, index = 1) {
+            settingsViewModel.changeTheme(1)
+            mainViewModel.changeTheme(1)
+        }
+
+        SettingsRadioButtonWithTitle(title = "Светлая тема", state = settingsViewModel.themeSelectionState?: 0, index = 2) {
+            settingsViewModel.changeTheme(2)
+            mainViewModel.changeTheme(2)
+        }
+
+    }
+}
+
+@Composable
+private fun MonetSettings(
+    settingsViewModel: SettingsScreenVM,
+    mainViewModel: MainViewModel
+) {
+    SettingsCardWithSwitch(title = "MaterialYou акцент", description = "Устанавливает источник цветовой схемы приложения", state = settingsViewModel.monetTheme ?: true) {
+        settingsViewModel.changeMonetUsage(isMonetTheme = it)
+        mainViewModel.changeMonetUsage(isMonetColors = it)
+    }
+}
+
+@Composable
+private fun AccentSelector(
+    settingsViewModel: SettingsScreenVM,
+    mainViewModel: MainViewModel
+) {
+    
+    SettingsExpandableCard(title = "Цвет акцента", subtitle = "Генерирует тему приложения на основе выбранного цвета") {
+        LazyRow(modifier = Modifier.padding(12.dp)) {
+            itemsIndexed(AccentColorList.list)
+            { index, item ->
+                ColorPickerItem(settingsViewModel, mainViewModel, item = item, index = index)
+            }
+        }
+    }
+}
+
+@Composable
+private fun FirstScreenSetting(
+    settingsViewModel: SettingsScreenVM
+) {
+    SettingsCardWithSwitch(
+        title = "Начинать с избранного",
+        description = "Сделать избранное расписание первым экраном приложения",
+        state = settingsViewModel.openFavoriteOnStart ?: false) {
+        settingsViewModel.changeFirstScreen(openFavoriteOnStart = it)
+    }
+}
+
+@Composable
+private fun TimeLabelSetting(
+    settingsViewModel: SettingsScreenVM,
+    timetableViewModel: TimetableScreenVM
+) {
+    SettingsCardWithSwitch(
+        title = "Временные метки",
+        description = "Отображение у каждого предмета в расписании времени его начала",
+        state = settingsViewModel.timeLabelVisibility ?: false) {
+        settingsViewModel.changeTimeLabelVisibility(isTimeLabelVisible = it)
+        timetableViewModel.changeTimeLabelVisibility(it)
+    }
+}
+
+@Composable
+private fun SettingsExpandableCard(title: String, subtitle: String = "", content: @Composable () -> Unit) {
 
     var isMenuExpanded by remember { mutableStateOf(false) }
 
@@ -98,8 +189,7 @@ private fun ThemeSettings(settingsViewModel: SettingsScreenVM, mainViewModel: Ma
             )
         },
         label = ""
-    )
-    { expanded ->
+    ) { expanded ->
         if (expanded) 180f else 0f
     }
 
@@ -122,100 +212,46 @@ private fun ThemeSettings(settingsViewModel: SettingsScreenVM, mainViewModel: Ma
             verticalAlignment = Alignment.CenterVertically
         )
         {
-            Text(
-                text = "Тема приложения",
-                style = MaterialTheme.typography.titleMedium
-            )
-            Icon(
+            Column(
                 modifier = Modifier
-                    .scale(1.5F)
-                    .background(
-                        color = MaterialTheme.colorScheme.background,
-                        shape = CircleShape
-                    )
-                    .rotate(rotateValue),
-                imageVector = ImageVector.vectorResource(id = R.drawable.ic_arrow_down_24dp),
-                contentDescription = "Arrow"
-            )
+                    .fillMaxWidth(0.6F)
+            ) {
+                Text(
+                    text = title,
+                    style = MaterialTheme.typography.titleMedium
+                )
+                if (subtitle != "") Text(
+                    text = subtitle,
+                    style = MaterialTheme.typography.bodySmall
+                )
+            }
+                Icon(
+                    modifier = Modifier
+                        .scale(1.5F)
+                        .background(
+                            color = MaterialTheme.colorScheme.background,
+                            shape = CircleShape
+                        )
+                        .rotate(rotateValue),
+                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_arrow_down_24dp),
+                    contentDescription = "Arrow"
+                )
+
         }
         if (isMenuExpanded) {
-            Row(
-                modifier = Modifier
-                    .padding(vertical = 2.dp, horizontal = 12.dp)
-                    .fillMaxWidth()
-                    .clickable {
-                        settingsViewModel.changeTheme(0)
-                        mainViewModel.changeTheme(0)
-                    },
-                verticalAlignment = Alignment.CenterVertically
-            )
-            {
-                RadioButton(
-                    selected = settingsViewModel.themeSelectionState == 0,
-                    onClick = {
-                        settingsViewModel.changeTheme(0)
-                        mainViewModel.changeTheme(0)
-                    }
-                )
-                Text(modifier = Modifier.padding(start = 8.dp), text = "Системная тема")
-            }
-
-            Row(
-                modifier = Modifier
-                    .padding(vertical = 2.dp, horizontal = 12.dp)
-                    .fillMaxWidth()
-                    .clickable {
-                        settingsViewModel.changeTheme(1)
-                        mainViewModel.changeTheme(1)
-                    },
-                verticalAlignment = Alignment.CenterVertically
-            )
-            {
-                RadioButton(
-                    selected = settingsViewModel.themeSelectionState == 1,
-                    onClick = {
-                        settingsViewModel.changeTheme(1)
-                        mainViewModel.changeTheme(1)
-                    }
-                )
-                Text(modifier = Modifier.padding(start = 8.dp), text = "Тёмная тема")
-            }
-
-            Row(
-                modifier = Modifier
-                    .padding(vertical = 2.dp, horizontal = 12.dp)
-                    .fillMaxWidth()
-                    .clickable {
-                        settingsViewModel.changeTheme(2)
-                        mainViewModel.changeTheme(2)
-                    },
-                verticalAlignment = Alignment.CenterVertically
-            )
-            {
-                RadioButton(
-                    selected = settingsViewModel.themeSelectionState == 2,
-                    onClick = {
-                        settingsViewModel.changeTheme(2)
-                        mainViewModel.changeTheme(2)
-                    }
-                )
-                Text(modifier = Modifier.padding(start = 8.dp), text = "Светлая тема")
-            }
+            content()
         }
     }
 }
 
 @Composable
-private fun MonetSettings(settingsViewModel: SettingsScreenVM, mainViewModel: MainViewModel) {
+private fun SettingsCardWithSwitch(title: String, description: String, state: Boolean, action: (Boolean) -> Unit) {
     Card(
         modifier = Modifier
             .padding(
                 horizontal = DefaultPadding.CardHorizontalPadding,
                 vertical = DefaultPadding.CardVerticalPadding
             )
-            .fillMaxWidth(),
-        shape = CardShape.CardStandalone,
-        elevation = CardDefaults.cardElevation(2.dp)
     ) {
         Row(
             modifier = Modifier
@@ -225,105 +261,53 @@ private fun MonetSettings(settingsViewModel: SettingsScreenVM, mainViewModel: Ma
             verticalAlignment = Alignment.CenterVertically
         )
         {
-            Column(modifier = Modifier
-                .fillMaxWidth(0.6F)
-            ) {
-                Text(
-                    text = "MaterialYou акцент",
-                    style = MaterialTheme.typography.titleMedium
-                )
-                Text(
-                    text = "Устанавливает источник цветовой схемы приложения",
-                    style = MaterialTheme.typography.bodySmall
-                )
-            }
-            Switch(
-                checked = settingsViewModel.monetTheme ?: true,
-                onCheckedChange = {
-                    settingsViewModel.changeMonetUsage(isMonetTheme = it)
-                    mainViewModel.changeMonetUsage(isMonetColors = it)
-                })
-        }
-    }
-}
-
-@Composable
-private fun AccentSelector(settingsViewModel: SettingsScreenVM, mainViewModel: MainViewModel) {
-    var isMenuExpanded by remember {
-        mutableStateOf(false)
-    }
-    val onExpandChange = {
-        isMenuExpanded = !isMenuExpanded
-    }
-
-    val transition = updateTransition(targetState = isMenuExpanded, label = null)
-    val rotateValue by transition.animateFloat(
-        transitionSpec = {
-            tween(
-                durationMillis = 300
-            )
-        },
-        label = ""
-    )
-    { expanded ->
-        if (expanded) 180f else 0f
-    }
-    Card(
-        modifier = ModifierWithExpandAnimation
-            .padding(
-                horizontal = DefaultPadding.CardHorizontalPadding,
-                vertical = DefaultPadding.CardVerticalPadding
-            )
-            .fillMaxWidth()
-            .toggleable(value = isMenuExpanded) { onExpandChange() },
-        shape = CardShape.CardStandalone,
-        elevation = CardDefaults.cardElevation(2.dp)
-    ) {
-        Row(
-            modifier = Modifier
-                .padding(12.dp)
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        )
-        {
-            Column(modifier = Modifier
-                .fillMaxWidth(0.6F)
-            ) {
-                Text(
-                    text = "Цвет акцента",
-                    style = MaterialTheme.typography.titleMedium
-                )
-                Text(
-                    text = "Генерирует тему приложения на основе выбранного цвета",
-                    style = MaterialTheme.typography.bodySmall
-                )
-            }
-            Icon(
+            Column(
                 modifier = Modifier
-                    .scale(1.5F)
-                    .background(
-                        color = MaterialTheme.colorScheme.background,
-                        shape = CircleShape
-                    )
-                    .rotate(rotateValue),
-                imageVector = ImageVector.vectorResource(id = R.drawable.ic_arrow_down_24dp),
-                contentDescription = "Arrow"
-            )
-        }
-        if (isMenuExpanded) {
-            LazyRow(modifier = Modifier.padding(12.dp)) {
-                itemsIndexed(AccentColorList.list)
-                { index, item ->
-                    ColorPickerItem(settingsViewModel, mainViewModel, item = item, index = index)
-                }
+                    .fillMaxWidth(0.6F)
+            ) {
+                Text(
+                    text = title,
+                    style = MaterialTheme.typography.titleMedium
+                )
+                Text(
+                    text = description,
+                    style = MaterialTheme.typography.bodySmall
+                )
             }
+
+            Switch(
+                checked = state,
+                onCheckedChange = action
+            )
         }
     }
 }
 
 @Composable
-private fun ColorPickerItem(settingsViewModel: SettingsScreenVM, mainViewModel: MainViewModel, item: AccentColorItem, index: Int) {
+private fun SettingsRadioButtonWithTitle(title: String, state: Int, index: Int, action: () -> Unit) {
+    Row(
+        modifier = Modifier
+            .padding(vertical = 2.dp, horizontal = 12.dp)
+            .fillMaxWidth()
+            .clickable(onClick = action),
+        verticalAlignment = Alignment.CenterVertically
+    )
+    {
+        RadioButton(
+            selected = state == index,
+            onClick = action
+        )
+        Text(modifier = Modifier.padding(start = 8.dp), text = title)
+    }
+}
+
+@Composable
+private fun ColorPickerItem(
+    settingsViewModel: SettingsScreenVM,
+    mainViewModel: MainViewModel,
+    item: AccentColorItem,
+    index: Int
+) {
     Box(
         modifier = Modifier
             .size(50.dp)
@@ -336,150 +320,3 @@ private fun ColorPickerItem(settingsViewModel: SettingsScreenVM, mainViewModel: 
             }
     )
 }
-
-
-@Composable
-private fun FirstScreenSetting(settingsViewModel: SettingsScreenVM) {
-    Card(
-        modifier = Modifier
-            .padding(
-                horizontal = DefaultPadding.CardHorizontalPadding,
-                vertical = DefaultPadding.CardVerticalPadding
-            )
-            .fillMaxWidth(),
-        shape = CardShape.CardStandalone,
-        elevation = CardDefaults.cardElevation(2.dp)
-    ) {
-        Row(
-            modifier = Modifier
-                .padding(vertical = 5.dp, horizontal = 12.dp)
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        )
-        {
-            Column(modifier = Modifier
-                .fillMaxWidth(0.6F)
-            ) {
-                Text(
-                    text = "Начинать с избранного",
-                    style = MaterialTheme.typography.titleMedium
-                )
-                Text(
-                    text = "Сделать избранное расписание первым экраном приложения",
-                    style = MaterialTheme.typography.bodySmall
-                )
-            }
-
-            Switch(
-                checked = settingsViewModel.openFavoriteOnStart ?: false,
-                onCheckedChange = {
-                    settingsViewModel.changeFirstScreen(openFavoriteOnStart = it)
-                }
-            )
-        }
-    }
-}
-
-@Composable
-private fun TimeLabelSetting(
-    settingsViewModel: SettingsScreenVM,
-    timetableViewModel: TimetableScreenVM
-) {
-    Card(
-        modifier = Modifier
-            .padding(
-                horizontal = DefaultPadding.CardHorizontalPadding,
-                vertical = DefaultPadding.CardVerticalPadding
-            )
-            .fillMaxWidth(),
-        shape = CardShape.CardStandalone,
-        elevation = CardDefaults.cardElevation(2.dp)
-    ) {
-        Row(
-            modifier = Modifier
-                .padding(vertical = 5.dp, horizontal = 12.dp)
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        )
-        {
-            Column(modifier = Modifier
-                .fillMaxWidth(0.6F)
-            ) {
-                Text(
-                    text = "Временные метки",
-                    style = MaterialTheme.typography.titleMedium
-                )
-                Text(
-                    text = "Отображение у каждого предмета в расписании времени его начала",
-                    style = MaterialTheme.typography.bodySmall
-                )
-            }
-
-            Switch(
-                checked = settingsViewModel.timeLabelVisibility ?: false,
-                onCheckedChange = {
-                    settingsViewModel.changeTimeLabelVisibility(isTimeLabelVisible = it)
-                    timetableViewModel.changeTimeLabelVisibility(it)
-                }
-            )
-        }
-    }
-}
-
-
-
-/*
-@Composable
-fun DBStateItem() {
-    Card(
-        modifier = Modifier
-            .padding(12.dp)
-            .fillMaxWidth(),
-        shape = RoundedCornerShape(10.dp),
-        elevation = CardDefaults.cardElevation(2.dp)
-    ) {
-        Column(
-            modifier = Modifier
-                .padding(6.dp)
-                .fillMaxWidth()
-        )
-        {
-            Text(
-                modifier = Modifier
-                    .padding(bottom = 6.dp)
-                    .fillMaxWidth(),
-                textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.titleMedium,
-                text = "Состояние базы данных",
-            )
-            Row(modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically) {
-                Text(
-                    textAlign = TextAlign.Center,
-                    text = "База данных в норме")
-                Icon(
-                    modifier = Modifier
-                        .size(60.dp),
-                    imageVector = androidx.compose.material.icons.Icons.Rounded.CheckCircle,
-                    contentDescription = "state icon",
-                    tint = Color.Green
-                )
-            }
-            Box(
-                modifier = Modifier.fillMaxWidth(),
-                contentAlignment = Alignment.CenterEnd) {
-                Button(modifier = Modifier
-                    .padding(top = 4.dp),
-                    onClick = { */
-/*TODO*//*
- }
-                ) {
-                    Text(text = "Пересоздать базу данных")
-                }
-            }
-        }
-    }
-}*/
