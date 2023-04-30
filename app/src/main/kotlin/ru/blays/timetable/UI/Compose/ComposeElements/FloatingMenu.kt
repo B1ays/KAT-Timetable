@@ -39,7 +39,6 @@ import androidx.navigation.NavHostController
 import com.ramcosta.composedestinations.navigation.navigate
 import ru.blays.timetable.UI.Compose.Root.MainViewModel
 import ru.blays.timetable.UI.Compose.Screens.TimeTableScreen.TimetableScreenVM
-import ru.blays.timetable.UI.ScreenList
 import ru.blays.timetable.UI.destinations.AboutScreenDestination
 import ru.blays.timetable.UI.destinations.SettingsScreenDestination
 import ru.blays.timetable.UI.destinations.TimetableScreenDestination
@@ -190,7 +189,6 @@ class FloatingMenu(
     data class FloatingMenuItemsModel(
         val title: String,
         val icon: ImageVector,
-        val destinationScreen: String,
         val action: () -> Unit
     )
 
@@ -202,15 +200,15 @@ class FloatingMenu(
     inner class FloatingMenuItems {
         private val iconPath = androidx.compose.material.icons.Icons.Rounded
         val items = listOf(
-            FloatingMenuItemsModel(title = "Настройки", iconPath.Settings, ScreenList.SETTINGS_SCREEN) {
+            FloatingMenuItemsModel(title = "Настройки", iconPath.Settings) {
                 navigation.navigate(SettingsScreenDestination)
             },
-            FloatingMenuItemsModel(title = "Избранное", iconPath.Star, ScreenList.TIMETABLE_SCREEN) {
+            FloatingMenuItemsModel(title = "Избранное", iconPath.Star) {
                 if (mainViewModel.favoriteHref != "no" && mainViewModel.favoriteHref != null && mainViewModel.favoriteSource != null) {
                     navigation.navigate(TimetableScreenDestination(href = mainViewModel.favoriteHref!!, source = mainViewModel.favoriteSource!!))
                 }
             },
-            FloatingMenuItemsModel(title = "О приложении", iconPath.Info, ScreenList.ABOUT_SCREEN) {
+            FloatingMenuItemsModel(title = "О приложении", iconPath.Info) {
                 navigation.navigate(AboutScreenDestination)
             }
         )

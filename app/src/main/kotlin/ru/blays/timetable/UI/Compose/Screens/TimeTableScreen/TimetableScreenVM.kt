@@ -7,7 +7,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import ru.blays.timetable.UI.TimetableKey
+import ru.blays.timetable.UI.DataClasses.TimetableKey
 import ru.blays.timetable.domain.models.GetTimetableModel
 import ru.blays.timetable.domain.useCases.GetSettingsUseCase
 import ru.blays.timetable.domain.useCases.GetTimetableUseCase

@@ -45,7 +45,7 @@ import ru.blays.timetable.UI.Compose.Root.MainViewModel
 import ru.blays.timetable.UI.Compose.Screens.TimeTableScreen.TimetableScreenVM
 import ru.blays.timetable.UI.DataClasses.CardShape
 import ru.blays.timetable.UI.DataClasses.DefaultPadding
-import ru.blays.timetable.UI.TimetableKey
+import ru.blays.timetable.UI.DataClasses.TimetableKey
 import ru.blays.timetable.UI.Utils.timeLabelGenerator
 import ru.blays.timetable.domain.models.GetDaysListModel
 import ru.blays.timetable.domain.models.GetSubjectsListModel

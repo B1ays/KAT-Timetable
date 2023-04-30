@@ -93,15 +93,6 @@ class SimpleListScreen(
                     )
                     .clickable {
                        navigation.navigate(TimetableScreenDestination(href= getGroupListModel.href ?: "", source = screenType))
-                        /*navigationViewModel.changeScreen(
-                            ScreenData(
-                                Screen = ScreenList.TIMETABLE_SCREEN,
-                                Key = TimetableKey(
-                                    source = screenType,
-                                    href = getGroupListModel.href ?: ""
-                                )
-                            )
-                        )*/
                     },
                 shape = CardShape.CardStandalone,
                 elevation = CardDefaults.cardElevation(4.dp)
