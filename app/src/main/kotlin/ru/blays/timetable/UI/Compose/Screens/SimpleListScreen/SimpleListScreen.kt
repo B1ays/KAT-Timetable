@@ -1,4 +1,4 @@
-package ru.blays.timetable.UI.ComposeElements
+package ru.blays.timetable.UI.Compose.Screens.SimpleListScreen
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -23,7 +23,6 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.ramcosta.composedestinations.navigation.navigate
 import com.theapache64.rebugger.Rebugger
-import ru.blays.timetable.UI.Compose.Screens.SimpleListScreen.SimpleListScreenVM
 import ru.blays.timetable.UI.DataClasses.CardShape
 import ru.blays.timetable.UI.DataClasses.DefaultPadding
 import ru.blays.timetable.UI.destinations.TimetableScreenDestination

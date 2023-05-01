@@ -1,4 +1,4 @@
-package ru.blays.timetable.UI.ComposeElements
+package ru.blays.timetable.UI.Compose.Screens.TimeTableScreen
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -42,7 +42,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ru.blays.timetable.R
 import ru.blays.timetable.UI.Compose.Root.MainViewModel
-import ru.blays.timetable.UI.Compose.Screens.TimeTableScreen.TimetableScreenVM
 import ru.blays.timetable.UI.DataClasses.CardShape
 import ru.blays.timetable.UI.DataClasses.DefaultPadding
 import ru.blays.timetable.UI.DataClasses.TimetableKey

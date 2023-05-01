@@ -118,11 +118,12 @@ fun RootElements(
         )
     }
 
-    Rebugger(trackMap = mapOf(
-        "isRefreshing" to isRefreshing,
-        "pullRefreshState" to pullRefreshState,
-        "titleText" to mainViewModel.titleText,
-
-    ))
+    Rebugger(
+        trackMap = mapOf(
+            "isRefreshing" to isRefreshing,
+            "pullRefreshState" to pullRefreshState,
+            "titleText" to mainViewModel.titleText
+        )
+    )
 
 }

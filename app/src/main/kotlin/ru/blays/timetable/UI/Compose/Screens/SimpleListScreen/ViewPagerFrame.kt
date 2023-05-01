@@ -20,7 +20,6 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.theapache64.rebugger.Rebugger
 import ru.blays.timetable.UI.Compose.Root.MainViewModel
-import ru.blays.timetable.UI.ComposeElements.SimpleListScreen
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalAnimationApi::class)
 @RootNavGraph(start = true)

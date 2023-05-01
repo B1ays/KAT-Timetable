@@ -1,4 +1,4 @@
-package ru.blays.timetable.UI.ComposeElements
+package ru.blays.timetable.UI.Compose.Screens.SettingsScreen
 
 import android.os.Build
 import androidx.compose.animation.core.animateFloat
@@ -42,7 +42,6 @@ import androidx.compose.ui.unit.dp
 import com.ramcosta.composedestinations.annotation.Destination
 import ru.blays.timetable.R
 import ru.blays.timetable.UI.Compose.Root.MainViewModel
-import ru.blays.timetable.UI.Compose.Screens.SettingsScreen.SettingsScreenVM
 import ru.blays.timetable.UI.Compose.Screens.TimeTableScreen.TimetableScreenVM
 import ru.blays.timetable.UI.DataClasses.AccentColorItem
 import ru.blays.timetable.UI.DataClasses.AccentColorList

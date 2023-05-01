@@ -34,9 +34,13 @@
 
 [Последний релиз](https://github.com/B1ays/KATTimetable/releases/tag/1.1.0_build3)
 
-# **Open source проекты используемые в приложении:**
+# **Open source проекты и библиотеки, используемые в приложении:**
 
 * [Jsoup](https://github.com/jhy/jsoup)
+
+* [OkHTTP](https://github.com/square/okhttp)
+
+* [ComposeDestinations](https://github.com/raamcosta/compose-destinations)
 
 * [ObjectBox](https://github.com/objectbox)
 

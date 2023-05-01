@@ -1,4 +1,4 @@
-package ru.blays.timetable.UI.Screens
+package ru.blays.timetable.UI.Compose.Screens.AboutScreen
 
 import android.content.Context
 import android.content.Intent
