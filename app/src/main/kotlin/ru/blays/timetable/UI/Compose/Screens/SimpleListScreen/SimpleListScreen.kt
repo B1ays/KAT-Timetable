@@ -23,9 +23,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.ramcosta.composedestinations.navigation.navigate
 import com.theapache64.rebugger.Rebugger
+import ru.blays.timetable.UI.Compose.Screens.destinations.TimetableScreenDestination
 import ru.blays.timetable.UI.DataClasses.CardShape
 import ru.blays.timetable.UI.DataClasses.DefaultPadding
-import ru.blays.timetable.UI.destinations.TimetableScreenDestination
 import ru.blays.timetable.domain.models.GetSimpleListModel
 
 

@@ -58,11 +58,10 @@ fun TimetableScreen(timetableViewModel: TimetableScreenVM, mainViewModel: MainVi
         screenType = "TIMETABLE_SCREEN",
         titleText = timetableViewModel.timetable.groupCode,
         subtitleText = timetableViewModel.timetable.updateDate,
+        statButtonVisible = source == 1,
         pullRefreshAction = { CoroutineScope(Dispatchers.IO).launch { timetableViewModel.update() }  },
         isRefreshing = timetableViewModel.isRefreshing
     )
-
-
 
     LaunchedEffect(key1 = true) {
         timetableViewModel.get(TimetableKey(source, href))

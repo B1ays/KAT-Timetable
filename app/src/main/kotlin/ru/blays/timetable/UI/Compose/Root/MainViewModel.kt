@@ -20,6 +20,7 @@ class MainViewModel(
     // collapsing app bar state
     private var _favoriteButtonChecked by mutableStateOf(false)
     private var _favoriteButtonVisible by mutableStateOf(false)
+    private var _statButtonVisible by mutableStateOf(false)
     private var _navigateBackButtonVisible by mutableStateOf(false)
     private var _titleText by mutableStateOf("Главная")
     private var _subtitleText by mutableStateOf("")
@@ -83,6 +84,12 @@ class MainViewModel(
         get() = _favoriteButtonVisible
         set(value) {
             _favoriteButtonVisible = value
+        }
+
+    var statButtonVisible: Boolean
+        get() = _statButtonVisible
+        set(value) {
+            _statButtonVisible = value
         }
 
     var navigateBackButtonVisible: Boolean
@@ -150,7 +157,14 @@ class MainViewModel(
 
     var refreshAction : () -> Unit = {}
 
-    fun setParameterForScreen(screenType: String, titleText: String, subtitleText: String = "", pullRefreshAction: () -> Unit = {}, isRefreshing: Boolean = false) {
+    fun setParameterForScreen(
+        screenType: String,
+        titleText: String,
+        subtitleText: String = "",
+        pullRefreshAction: () -> Unit = {},
+        isRefreshing: Boolean = false,
+        statButtonVisible: Boolean = false
+    ) {
         when (screenType) {
             "MAIN_SCREEN" -> {
                 _favoriteButtonVisible = false
@@ -161,6 +175,7 @@ class MainViewModel(
                 _subtitleText = subtitleText
                 refreshAction = pullRefreshAction
                 this.isRefreshing = isRefreshing
+                _statButtonVisible = statButtonVisible
             }
             "TIMETABLE_SCREEN" -> {
                 _favoriteButtonVisible = true
@@ -171,6 +186,7 @@ class MainViewModel(
                 _subtitleText = subtitleText
                 refreshAction = pullRefreshAction
                 this.isRefreshing = isRefreshing
+                _statButtonVisible = statButtonVisible
             }
             "ABOUT_SCREEN" -> {
                 _favoriteButtonVisible = false
@@ -178,6 +194,7 @@ class MainViewModel(
                 subtitleVisible = false
                 isPullRefreshAvailable = false
                 _titleText = titleText
+                _statButtonVisible = statButtonVisible
             }
             "SETTINGS_SCREEN" -> {
                 _favoriteButtonVisible = false
@@ -185,6 +202,17 @@ class MainViewModel(
                 subtitleVisible = false
                 isPullRefreshAvailable = false
                 _titleText = titleText
+                _statButtonVisible = statButtonVisible
+            }
+            "STATISTICS_SCREEN" -> {
+                _favoriteButtonVisible = false
+                _navigateBackButtonVisible = true
+                subtitleVisible = false
+                _titleText = titleText
+                isPullRefreshAvailable = true
+                this.isRefreshing = isRefreshing
+                refreshAction = pullRefreshAction
+                _statButtonVisible = statButtonVisible
             }
         }
     }

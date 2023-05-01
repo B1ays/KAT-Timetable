@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Close
+import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material.icons.rounded.Menu
 import androidx.compose.material.icons.rounded.Settings
@@ -39,9 +40,10 @@ import androidx.navigation.NavHostController
 import com.ramcosta.composedestinations.navigation.navigate
 import ru.blays.timetable.UI.Compose.Root.MainViewModel
 import ru.blays.timetable.UI.Compose.Screens.TimeTableScreen.TimetableScreenVM
-import ru.blays.timetable.UI.destinations.AboutScreenDestination
-import ru.blays.timetable.UI.destinations.SettingsScreenDestination
-import ru.blays.timetable.UI.destinations.TimetableScreenDestination
+import ru.blays.timetable.UI.Compose.Screens.destinations.AboutScreenDestination
+import ru.blays.timetable.UI.Compose.Screens.destinations.SettingsScreenDestination
+import ru.blays.timetable.UI.Compose.Screens.destinations.TimetableScreenDestination
+
 
 class FloatingMenu(
     private val mainViewModel: MainViewModel,
@@ -112,7 +114,6 @@ class FloatingMenu(
                                 .fillMaxWidth(),
                             horizontalArrangement = Arrangement.End
                         ) {
-                            /*if (navigationViewModel.currentScreen.Screen == ScreenList.TIMETABLE_SCREEN) FloatingMenuAction(item = floatingMenuActions.refresh)*/
                             FloatingMenuAction(item = floatingMenuActions.close)
                         }
                     }
@@ -217,6 +218,9 @@ class FloatingMenu(
     inner class FloatingMenuActions {
         val close = FloatingMenuActionsModel(Icons.Rounded.Close) {
             mainViewModel.isMenuExpanded = !mainViewModel.isMenuExpanded
+        }
+        val statistic = FloatingMenuActionsModel(Icons.Rounded.Edit) {
+
         }
     }
 }

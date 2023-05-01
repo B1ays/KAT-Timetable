@@ -17,6 +17,8 @@ import ru.blays.timetable.UI.Compose.Screens.SettingsScreen.SettingsScreenVM
 import ru.blays.timetable.UI.Compose.Screens.SettingsScreen.SettingsScreenVMFactory
 import ru.blays.timetable.UI.Compose.Screens.SimpleListScreen.GroupListVMFactory
 import ru.blays.timetable.UI.Compose.Screens.SimpleListScreen.SimpleListScreenVM
+import ru.blays.timetable.UI.Compose.Screens.StatisticScreen.StatisticScreenViewModel
+import ru.blays.timetable.UI.Compose.Screens.StatisticScreen.StatisticScreenViewModelFactory
 import ru.blays.timetable.UI.Compose.Screens.TimeTableScreen.TimetableScreenVM
 import ru.blays.timetable.UI.Compose.Screens.TimeTableScreen.TimetableVMFactory
 import ru.blays.timetable.UI.Compose.Theme.AviakatTimetableTheme
@@ -56,6 +58,13 @@ class MainActivity : ComponentActivity() {
         this,
         SettingsScreenVMFactory(this)
         )[SettingsScreenVM::class.java]
+    }
+
+    private val statisticScreenViewModel by lazy {
+        ViewModelProvider(
+        this,
+        StatisticScreenViewModelFactory()
+        )[StatisticScreenViewModel::class.java]
     }
 
     private val updateDialog = UpdateInfo(this)
@@ -98,6 +107,7 @@ class MainActivity : ComponentActivity() {
                     timetableViewModel = timetableViewModel,
                     groupListViewModel = groupListViewModel,
                     settingsViewModel = settingsViewModel,
+                    statisticScreenViewModel = statisticScreenViewModel,
                     updateDialog = updateDialog
                 )
             }

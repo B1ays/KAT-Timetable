@@ -22,11 +22,12 @@ import ru.blays.timetable.UI.Compose.ComposeElements.CollapsingAppBar
 import ru.blays.timetable.UI.Compose.ComposeElements.FloatingMenu
 import ru.blays.timetable.UI.Compose.ComposeElements.UpdateInfo
 import ru.blays.timetable.UI.Compose.Root.MainViewModel
+import ru.blays.timetable.UI.Compose.Screens.NavGraphs
 import ru.blays.timetable.UI.Compose.Screens.SettingsScreen.SettingsScreenVM
 import ru.blays.timetable.UI.Compose.Screens.SimpleListScreen.SimpleListScreenVM
+import ru.blays.timetable.UI.Compose.Screens.StatisticScreen.StatisticScreenViewModel
 import ru.blays.timetable.UI.Compose.Screens.TimeTableScreen.TimetableScreenVM
-import ru.blays.timetable.UI.NavGraphs
-import ru.blays.timetable.UI.destinations.TimetableScreenDestination
+import ru.blays.timetable.UI.Compose.Screens.destinations.TimetableScreenDestination
 import ru.hh.toolbar.custom_toolbar.rememberToolbarScrollBehavior
 
 @ExperimentalAnimationApi
@@ -36,9 +37,9 @@ fun RootElements(
     timetableViewModel: TimetableScreenVM,
     groupListViewModel: SimpleListScreenVM,
     settingsViewModel: SettingsScreenVM,
-    updateDialog: UpdateInfo
+    statisticScreenViewModel: StatisticScreenViewModel,
+    updateDialog: UpdateInfo,
 ) {
-
 
     val scrollBehavior = rememberToolbarScrollBehavior()
 
@@ -100,6 +101,7 @@ fun RootElements(
                         dependency(timetableViewModel)
                         dependency(groupListViewModel)
                         dependency(settingsViewModel)
+                        dependency(statisticScreenViewModel)
                     }
                 )
 
@@ -107,6 +109,7 @@ fun RootElements(
                     navigationController.navigate(TimetableScreenDestination(href = mainViewModel.favoriteHref!!, source = mainViewModel.favoriteSource!!))
                 }
                 mainViewModel.isInit = false
+
             }
 
         }

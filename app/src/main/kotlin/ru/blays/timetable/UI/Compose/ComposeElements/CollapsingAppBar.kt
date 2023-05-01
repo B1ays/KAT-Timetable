@@ -15,9 +15,11 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.navigation.NavHostController
+import com.ramcosta.composedestinations.navigation.navigate
 import ru.blays.timetable.R
 import ru.blays.timetable.UI.Compose.Root.MainViewModel
 import ru.blays.timetable.UI.Compose.Screens.TimeTableScreen.TimetableScreenVM
+import ru.blays.timetable.UI.Compose.Screens.destinations.StatisticScreenDestination
 import ru.hh.toolbar.custom_toolbar.CollapsingTitle
 import ru.hh.toolbar.custom_toolbar.CustomToolbar
 import ru.hh.toolbar.custom_toolbar.CustomToolbarScrollBehavior
@@ -45,6 +47,29 @@ class CollapsingAppBar(private val mainViewModel: MainViewModel, private val tim
                 }
             },
             actions = {
+                if (mainViewModel.statButtonVisible) {
+                    IconButton(
+                        onClick = {
+                            val hrefToStat = timetableViewModel.currentHref.replaceFirst(
+                                oldChar = 'c',
+                                newChar = 'v'
+                            )
+                            navigation.navigate(
+                                StatisticScreenDestination(
+                                    href = hrefToStat
+                                )
+                            )
+                        }
+                    ) {
+                        Icon(
+                            imageVector = ImageVector.vectorResource(
+                                id = R.drawable.round_bar_chart_24
+                            ),
+                            contentDescription = "",
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                    }
+                }
                 if (mainViewModel.favoriteButtonVisible) {
                     IconToggleButton(
                         checked = mainViewModel.favoriteButtonChecked,
