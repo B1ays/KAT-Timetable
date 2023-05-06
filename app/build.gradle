@@ -1,7 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-    id 'com.google.devtools.ksp' version '1.8.20-1.0.11'
+    id 'com.google.devtools.ksp' version '1.8.21-1.0.11'
 }
 
 android {
@@ -17,7 +17,7 @@ android {
         compileSdkPreview "UpsideDownCake"
         proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        resConfigs "ru"
+        resourceConfigurations += ['ru']
 
         vectorDrawables {
             useSupportLibrary true
@@ -63,7 +63,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion '1.4.6'
+        kotlinCompilerExtensionVersion '1.4.7'
     }
 }
 
