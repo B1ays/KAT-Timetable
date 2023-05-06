@@ -30,7 +30,7 @@ android {
             shrinkResources true
             zipAlignEnabled true
             crunchPngs true
-            versionNameSuffix '_build2'
+            versionNameSuffix '_build3'
             multiDexEnabled false
 
             ndk {
