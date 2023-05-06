@@ -52,7 +52,7 @@ fun MainScreen(
         isRefreshing = simpleListScreenVM.isRefreshing
     )
     
-    val page = SimpleListScreen(simpleListScreenVM = simpleListScreenVM, navigation = navigation)
+    val page = SimpleListScreen(simpleListScreenVM = simpleListScreenVM, navigation = navigation, mainViewModel = mainViewModel)
 
     HorizontalPager(
         modifier = Modifier

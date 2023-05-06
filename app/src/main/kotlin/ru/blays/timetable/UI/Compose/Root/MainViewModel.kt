@@ -60,7 +60,10 @@ class MainViewModel(
 
     var isPullRefreshAvailable: Boolean by mutableStateOf(false)
 
-    //
+    var screenID by mutableStateOf(0)
+
+    var _isFloatingMenuVisible by mutableStateOf(false)
+
 
     var isInit = true
 
@@ -115,6 +118,12 @@ class MainViewModel(
         get() = _subtitleVisible
         set(value) {
             _subtitleVisible = value
+        }
+
+    var isFloatingMenuVisible: Boolean
+        get() = _isFloatingMenuVisible
+        set(value) {
+            _isFloatingMenuVisible = !value
         }
 
 

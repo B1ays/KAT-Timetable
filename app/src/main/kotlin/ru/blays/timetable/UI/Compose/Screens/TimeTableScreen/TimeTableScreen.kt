@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -67,10 +68,15 @@ fun TimetableScreen(timetableViewModel: TimetableScreenVM, mainViewModel: MainVi
         timetableViewModel.get(TimetableKey(source, href))
     }
 
+    val lazyColumnState = rememberLazyListState()
+
+    mainViewModel.isFloatingMenuVisible = lazyColumnState.canScrollForward
+
     val items = timetableViewModel.timetable.daysWithSubjectsList
 
     if (!timetableViewModel.isRefreshing) {
         LazyColumn(
+            state = lazyColumnState,
             modifier = Modifier
                 .fillMaxWidth()
         ) {

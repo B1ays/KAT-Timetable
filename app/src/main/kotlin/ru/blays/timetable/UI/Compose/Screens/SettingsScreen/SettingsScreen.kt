@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Card
@@ -62,7 +63,12 @@ fun SettingsScreen(
         titleText = "Настройки"
     )
 
+    val lazyColumnState = rememberLazyListState()
+
+    mainViewModel.isFloatingMenuVisible = true
+
     LazyColumn(
+        state = lazyColumnState,
         modifier = Modifier
             .fillMaxSize()
             .padding(10.dp)

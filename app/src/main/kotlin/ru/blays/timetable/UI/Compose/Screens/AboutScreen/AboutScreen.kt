@@ -59,7 +59,9 @@ import ru.blays.timetable.UI.DataClasses.DefaultPadding
 
 
         val scrollState = rememberScrollState()
-        
+
+        mainViewModel.isFloatingMenuVisible = true
+
         Column(
             modifier = Modifier
                 .fillMaxSize()

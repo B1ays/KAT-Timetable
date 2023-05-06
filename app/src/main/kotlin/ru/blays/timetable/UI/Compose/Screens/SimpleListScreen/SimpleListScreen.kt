@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -23,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.ramcosta.composedestinations.navigation.navigate
 import com.theapache64.rebugger.Rebugger
+import ru.blays.timetable.UI.Compose.Root.MainViewModel
 import ru.blays.timetable.UI.Compose.Screens.destinations.TimetableScreenDestination
 import ru.blays.timetable.UI.DataClasses.CardShape
 import ru.blays.timetable.UI.DataClasses.DefaultPadding
@@ -31,7 +33,8 @@ import ru.blays.timetable.domain.models.GetSimpleListModel
 
 class SimpleListScreen(
     private val navigation: NavController,
-    private val simpleListScreenVM: SimpleListScreenVM
+    private val simpleListScreenVM: SimpleListScreenVM,
+    private val mainViewModel: MainViewModel
    ) {
 
     object ListDataType {
@@ -46,6 +49,10 @@ class SimpleListScreen(
 
         simpleListScreenVM.get()
 
+        val lazyColumnState = rememberLazyListState()
+
+        mainViewModel.isFloatingMenuVisible = lazyColumnState.canScrollForward
+
         val list = when (screenType) {
             ListDataType.GROUPS -> simpleListScreenVM.listGroups
             ListDataType.LECTURER -> simpleListScreenVM.listLecturer
@@ -53,9 +60,9 @@ class SimpleListScreen(
             else -> simpleListScreenVM.listGroups
         }
 
-        LazyColumn{
-            itemsIndexed(list) { _, item ->
-                SimpleCard(getGroupListModel = item, screenType = screenType)
+        LazyColumn(state = lazyColumnState) {
+            itemsIndexed(list) {index, item ->
+                SimpleCard(getGroupListModel = item, index = index, screenType = screenType)
             }
         }
         Rebugger(composableName = "SimpleListScreen",
@@ -69,7 +76,8 @@ class SimpleListScreen(
     @Composable
     private fun SimpleCard(
         getGroupListModel: GetSimpleListModel,
-        screenType: Int
+        screenType: Int,
+        index: Int
     ) {
 
         val visibilityState = remember {
@@ -91,7 +99,11 @@ class SimpleListScreen(
                         vertical = DefaultPadding.CardVerticalPadding
                     )
                     .clickable {
-                       navigation.navigate(TimetableScreenDestination(href= getGroupListModel.href ?: "", source = screenType))
+                        navigation.navigate(
+                            TimetableScreenDestination(
+                                href = getGroupListModel.href ?: "", source = screenType
+                            )
+                        )
                     },
                 shape = CardShape.CardStandalone,
                 elevation = CardDefaults.cardElevation(4.dp)
