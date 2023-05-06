@@ -1,23 +1,15 @@
 {
-  "versionName": "1.2.0_build2",
-  "versionCode": 9,
-  "changed": [
-    
-    "Оптимизация кода, уменьшение размера приложения почти в 2 раза"
-  
-  ],
+  "versionName": "1.2.0_build3",
+  "versionCode": 10,
+  "changed": [],
 
   "added": [
     
-    "Опция: отображение времени начала пары"
+    "Опция: Статистика выполнения часов предметов"
 
   ],
 
-  "deleted": [
-    
-    "Библиотеки для x86 устройств (бесполезны для 99% пользователей)"
-    
-  ],
+  "deleted": [],
   
-  "url": "https://github.com/B1ays/KAT-Timetable/releases/download/1.2.0_build2/app-release.apk"
+  "url": "https://github.com/B1ays/KAT-Timetable/releases/download/1.2.0_build3/app-release.apk"
 }
