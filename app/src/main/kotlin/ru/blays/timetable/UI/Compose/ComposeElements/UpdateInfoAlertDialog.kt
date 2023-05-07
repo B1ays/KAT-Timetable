@@ -72,8 +72,8 @@ class UpdateInfo(private val context: ComponentActivity) {
 
     fun checkUpdate() = CoroutineScope(Dispatchers.IO).launch {
         if (!isUpdateChecked) {
-            updateChecker.check()
             isUpdateChecked = true
+            updateChecker.check()
         }
     }
 
