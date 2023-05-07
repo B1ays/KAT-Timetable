@@ -70,7 +70,7 @@ fun TimetableScreen(timetableViewModel: TimetableScreenVM, mainViewModel: MainVi
 
     val lazyColumnState = rememberLazyListState()
 
-    mainViewModel.isFloatingMenuVisible = lazyColumnState.canScrollForward
+    mainViewModel.isFloatingMenuVisible = if (!lazyColumnState.canScrollBackward && !lazyColumnState.canScrollForward) true else lazyColumnState.canScrollForward
 
     val items = timetableViewModel.timetable.daysWithSubjectsList
 
@@ -91,8 +91,6 @@ fun TimetableScreen(timetableViewModel: TimetableScreenVM, mainViewModel: MainVi
             )
         )
     }
-
-
 }
 
 

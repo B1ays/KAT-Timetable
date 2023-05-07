@@ -22,7 +22,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.ramcosta.composedestinations.navigation.navigate
 import com.theapache64.rebugger.Rebugger
 import ru.blays.timetable.UI.Compose.Root.MainViewModel
 import ru.blays.timetable.UI.Compose.Screens.destinations.TimetableScreenDestination
@@ -100,9 +99,10 @@ class SimpleListScreen(
                     )
                     .clickable {
                         navigation.navigate(
-                            TimetableScreenDestination(
-                                href = getGroupListModel.href ?: "", source = screenType
-                            )
+                            route = TimetableScreenDestination(
+                                href = getGroupListModel.href ?: "",
+                                source = screenType
+                            ).route
                         )
                     },
                 shape = CardShape.CardStandalone,

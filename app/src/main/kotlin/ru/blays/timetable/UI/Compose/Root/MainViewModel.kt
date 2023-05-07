@@ -176,6 +176,7 @@ class MainViewModel(
     ) {
         when (screenType) {
             "MAIN_SCREEN" -> {
+                screenID = 0
                 _favoriteButtonVisible = false
                 _navigateBackButtonVisible = false
                 subtitleVisible = false
@@ -198,6 +199,7 @@ class MainViewModel(
                 _statButtonVisible = statButtonVisible
             }
             "ABOUT_SCREEN" -> {
+                screenID = 3
                 _favoriteButtonVisible = false
                 _navigateBackButtonVisible = true
                 subtitleVisible = false
@@ -206,6 +208,7 @@ class MainViewModel(
                 _statButtonVisible = statButtonVisible
             }
             "SETTINGS_SCREEN" -> {
+                screenID = 2
                 _favoriteButtonVisible = false
                 _navigateBackButtonVisible = true
                 subtitleVisible = false

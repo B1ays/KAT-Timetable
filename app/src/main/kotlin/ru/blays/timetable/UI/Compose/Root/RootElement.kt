@@ -101,11 +101,10 @@ fun RootElements(
             mainViewModel.screenID = 1
             if (mainViewModel.favoriteHref != "no" && mainViewModel.favoriteHref != null && mainViewModel.favoriteSource != null) {
                 navigationController.navigate(
-                    direction = TimetableScreenDestination(
+                    route = TimetableScreenDestination(
                         href = mainViewModel.favoriteHref!!,
                         source = mainViewModel.favoriteSource!!
-                    ),
-                    navOptionsBuilder = navOptions
+                    ).route
                 )
             }
         },
@@ -151,17 +150,15 @@ fun RootElements(
                     modifier = Modifier.offset {
                     IntOffset(
                         0,
-                        navOffset
-                            .toPx()
-                            .toInt()
+                        navOffset.toPx().toInt()
                     )
                 }) {}
             }, contentWindowInsets = emptyWindowInsets
-        )
-        {
+        ) { padding ->
+
             Surface(
                 modifier = Modifier
-                    .padding(top = it.calculateTopPadding()),
+                    .padding(top = padding.calculateTopPadding()),
                 color = MaterialTheme.colorScheme.background
             ) {
 
@@ -183,12 +180,16 @@ fun RootElements(
                 )
 
                 if (mainViewModel.isInit && mainViewModel.openFavoriteOnAppStart && mainViewModel.favoriteHref != null && mainViewModel.favoriteHref != "no") {
-                    navigationController.navigate(TimetableScreenDestination(href = mainViewModel.favoriteHref!!, source = mainViewModel.favoriteSource!!))
+                    navigationController.navigate(
+                        route = TimetableScreenDestination(
+                            href = mainViewModel.favoriteHref!!,
+                            source = mainViewModel.favoriteSource!!
+                        ).route
+                    )
+                    mainViewModel.screenID = 1
+                    mainViewModel.isInit = false
                 }
-                mainViewModel.isInit = false
-
             }
-
         }
         PullRefreshIndicator(
             isRefreshing,
@@ -206,5 +207,4 @@ fun RootElements(
             "FloatingMenuVisibility" to mainViewModel.isFloatingMenuVisible
         )
     )
-
 }
