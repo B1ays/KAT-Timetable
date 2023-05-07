@@ -7,6 +7,9 @@ import okio.IOException
 import ru.blays.AppUpdater.dataClasses.GetInfoResult
 
 class HttpClient : GetDataFromApi {
+
+    private val updateInfoJsonUrl = "https://raw.githubusercontent.com/B1ays/KAT-Timetable/Stable/update.json"
+
     override suspend fun get(): GetInfoResult {
 
         var status = false
@@ -15,14 +18,16 @@ class HttpClient : GetDataFromApi {
         val client = OkHttpClient()
 
         val request = Request.Builder()
-            .url("https://raw.githubusercontent.com/B1ays/KAT-Timetable/Stable/update.json")
+            .url(updateInfoJsonUrl)
             .build()
 
         try {
             client.newCall(request).execute().use { response ->
                 if (!response.isSuccessful) {
-                    throw IOException("Запрос к серверу не был успешен:" +
-                            " ${response.code} ${response.message}")
+                    throw IOException(
+                        "Запрос к серверу не был успешен:" +
+                        " ${response.code} ${response.message}"
+                    )
                 }
                 status = true
                 json = response.body.string()

@@ -30,13 +30,11 @@ class UpdateChecker(private val context: ComponentActivity, private val versionC
         result = httpClient.get()
 
         if (result.status) {
-           /* Log.d("AppUpdater", result.json.toString())*/
+
             try {
                 val jsonSerializer = JsonSerializer()
                 val jsonSerializerResult = jsonSerializer.fromJsonToClass(result.json ?: "")
-                Log.d("serializationLog1", jsonSerializerResult.toString())
                 updateInfo.postValue(jsonSerializerResult)
-                /*Log.d("serializationLog2", updateInfo.value.toString())*/
 
                 if (jsonSerializerResult.versionCode > versionCode) {
                     isUpdateAvailable.postValue(true)
@@ -49,15 +47,16 @@ class UpdateChecker(private val context: ComponentActivity, private val versionC
     }
 
     fun downloadUpdate() {
-        val okHttpDownloader = OkHttpDownloader(context = context)
 
-        /*Log.d("OkHttpDownloader", "Start")*/
+        val fileName = "КАТ-Расписание_${updateInfo.value!!.versionName}(${updateInfo.value!!.versionCode})"
+
+        val okHttpDownloader = OkHttpDownloader(context = context)
 
         downloadProgress = okHttpDownloader.progressLiveData
 
         status = okHttpDownloader.status
 
-        okHttpDownloader.downloadFile(updateInfo.value!!.url, fileName = "КАТ-Расписание_${updateInfo.value!!.versionName}(${updateInfo.value!!.versionCode})")
+        okHttpDownloader.downloadFile(updateInfo.value!!.url, fileName = fileName)
 
     }
 }

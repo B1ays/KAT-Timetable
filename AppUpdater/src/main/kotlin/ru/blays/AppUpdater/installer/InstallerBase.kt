@@ -43,12 +43,4 @@ abstract class InstallerBase(protected var context: Context) : IInstaller {
 
         context.startActivity(intent)
     }
-
-    /*open fun getUri(file: File): Uri {
-        return FileProvider.getUriForFile(
-            context,
-            "${BuildConfig.APPLICATION_ID}.fileProvider",
-            file
-        )
-    }*/
 }
