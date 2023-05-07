@@ -1,15 +1,15 @@
 {
-  "versionName": "1.2.0_build3",
-  "versionCode": 10,
-  "changed": [],
-
-  "added": [
-    
-    "Опция: Статистика выполнения часов предметов"
-
+  "versionName": "1.2.0_build4",
+  "versionCode": 11,
+  "changed": [
+  
+    "FloatingMenu заменено на FloatingNavBar"
+  
   ],
+
+  "added": [],
 
   "deleted": [],
   
-  "url": "https://github.com/B1ays/KAT-Timetable/releases/download/1.2.0_build3/app-release.apk"
+  "url": "https://github.com/B1ays/KAT-Timetable/releases/download/1.2.0_build4/app-release.apk"
 }
