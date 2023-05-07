@@ -12,7 +12,7 @@ android {
         applicationId "ru.blays.timetable"
         minSdk 24
         targetSdk 33
-        versionCode 10
+        versionCode 11
         versionName "1.2.0"
         compileSdkPreview "UpsideDownCake"
         proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -30,7 +30,7 @@ android {
             shrinkResources true
             zipAlignEnabled true
             crunchPngs true
-            versionNameSuffix '_build3'
+            versionNameSuffix '_build4'
             multiDexEnabled false
 
             ndk {
